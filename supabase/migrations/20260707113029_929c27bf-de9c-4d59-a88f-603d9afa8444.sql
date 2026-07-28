@@ -1,0 +1,1 @@
+ALTER VIEW public.campaign_gift_prizes_public SET (security_invoker = true);

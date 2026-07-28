@@ -1,0 +1,1 @@
+GRANT SELECT ON public.tickets_public TO anon, authenticated;

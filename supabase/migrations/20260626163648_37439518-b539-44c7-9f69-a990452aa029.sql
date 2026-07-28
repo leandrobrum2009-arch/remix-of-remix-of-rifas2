@@ -1,0 +1,1 @@
+INSERT INTO public.site_settings (key, value) VALUES ('home_show_games_combo', 'true') ON CONFLICT (key) DO NOTHING;

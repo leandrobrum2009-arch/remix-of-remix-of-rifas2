@@ -1,0 +1,1 @@
+ALTER TABLE public.winners ADD COLUMN IF NOT EXISTS avatar_url TEXT;

@@ -1,0 +1,4 @@
+ALTER TABLE public.campaigns 
+ADD COLUMN IF NOT EXISTS roulette_spin_cost NUMERIC(10,2) DEFAULT 5.00,
+ADD COLUMN IF NOT EXISTS roulette_free_tickets INTEGER DEFAULT 1,
+ADD COLUMN IF NOT EXISTS roulette_multiplier_max INTEGER DEFAULT 5;

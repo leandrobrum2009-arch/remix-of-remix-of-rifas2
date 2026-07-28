@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS public.reserve_tickets(uuid, uuid, integer, text[]);

@@ -1,0 +1,1 @@
+DELETE FROM public.tenant_settings WHERE key IN ('primary_color','title_shimmer_primary');

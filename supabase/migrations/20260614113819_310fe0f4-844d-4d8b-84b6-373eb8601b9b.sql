@@ -1,0 +1,1 @@
+INSERT INTO public.site_settings (key, value) VALUES ('layout_mode', 'default') ON CONFLICT (key) DO NOTHING;

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>Plataforma de Rifas Online — Sorteios e Prêmios Garantidos</title>
+    <link rel="canonical" href="/" />
+    <script>
+      (function() {
+        const host = window.location.hostname;
+        const p = 'cached::' + host + '::';
+        const cachedColor =
+          localStorage.getItem(p + 'primary_color') ||
+          localStorage.getItem('cached_primary_color');
+        let cachedName =
+          localStorage.getItem(p + 'site_name') ||
+          localStorage.getItem(p + 'site_title') ||
+          localStorage.getItem('cached_site_name') ||
+          localStorage.getItem('cached_site_title');
+        
+        // Prevent old branding from appearing
+        if (cachedName && (cachedName.toLowerCase().includes('rifa pro') || cachedName.toLowerCase().includes('rifapro'))) {
+          cachedName = null;
+        }
+        
+        if (cachedColor) {
+          const hexToHsl = (hex) => {
+            hex = hex.replace(/^#/, '');
+            let r = 0, g = 0, b = 0;
+            if (hex.length === 3) {
+              r = parseInt(hex[0] + hex[0], 16);
+              g = parseInt(hex[1] + hex[1], 16);
+              b = parseInt(hex[2] + hex[2], 16);
+            } else if (hex.length === 6) {
+              r = parseInt(hex.substring(0, 2), 16);
+              g = parseInt(hex.substring(2, 4), 16);
+              b = parseInt(hex.substring(4, 6), 16);
+            } else return null;
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h = 0, s, l = (max + min) / 2;
+            if (max === min) { h = s = 0; } else {
+              const d = max - min;
+              s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+              switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+              }
+              h /= 6;
+            }
+            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+          };
+          const hsl = hexToHsl(cachedColor);
+          if (hsl) {
+            document.documentElement.style.setProperty('--primary', `${hsl.h} ${hsl.s}% ${hsl.l}%`);
+            document.documentElement.style.setProperty('--ring', `${hsl.h} ${hsl.s}% ${hsl.l}%`);
+          }
+        }
+        if (cachedName) {
+          document.title = cachedName;
+        }
+      })();
+    </script>
+    <meta name="description" content="Participe das melhores rifas online com pagamento via PIX, sorteios pela Loteria Federal e prêmios entregues com total segurança e transparência.">
+    <meta name="keywords" content="rifas online, sorteios, prêmios, pix, loteria federal, ações entre amigos">
+    <meta name="author" content="Plataforma de Rifas" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Plataforma de Rifas Online — Sorteios e Prêmios Garantidos">
+    <meta property="og:description" content="Participe das melhores rifas online com pagamento via PIX, sorteios pela Loteria Federal e prêmios entregues com total segurança e transparência.">
+    <meta property="og:image" content="">
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Plataforma de Rifas Online — Sorteios e Prêmios Garantidos">
+    <meta name="twitter:description" content="Participe das melhores rifas online com pagamento via PIX, sorteios pela Loteria Federal e prêmios entregues com total segurança e transparência.">
+    <meta name="twitter:image" content="">
+
+    <!-- ===== RASTREAMENTO LUCK SKINS - SITE PRINCIPAL ===== -->
+    <!-- 1. Meta Pixel -->
+    <script>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init','2191087365021800');
+      fbq('track','PageView');
+    </script>
+    <!-- 2. Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JWS8M3DZJ4"></script>
+    <script>
+      window.dataLayer=window.dataLayer||[];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config','G-JWS8M3DZJ4');
+    </script>
+    <!-- 3. Microsoft Clarity -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","xjghoo2r02");
+    </script>
+    <!-- 4. SPA + Eventos (um clique alimenta Meta e GA4) -->
+    <script>
+      (function(){
+        var last=location.pathname;
+        function pv(){
+          if(location.pathname!==last){
+            last=location.pathname;
+            if(window.fbq) fbq('track','PageView');
+            if(window.gtag) gtag('event','page_view',{page_path:location.pathname});
+          }
+        }
+        ['pushState','replaceState'].forEach(function(t){var o=history[t];history[t]=function(){var r=o.apply(this,arguments);pv();return r;};});
+        window.addEventListener('popstate',pv);
+      })();
+      document.addEventListener('DOMContentLoaded', function () {
+        var PADRAO=['Lead','InitiateCheckout','AddToCart','Contact','ViewContent','CompleteRegistration','AddPaymentInfo','Purchase','Search','Subscribe'];
+        var GA_MAP={Lead:'generate_lead',InitiateCheckout:'begin_checkout',AddToCart:'add_to_cart',Contact:'contact',ViewContent:'view_item',CompleteRegistration:'sign_up',AddPaymentInfo:'add_payment_info',Purchase:'purchase'};
+        function uuid(){return (window.crypto&&crypto.randomUUID)?crypto.randomUUID():'e-'+Date.now()+'-'+Math.floor(Math.random()*1e6);}
+        function dispara(ev,nome){
+          if(window.fbq) fbq((PADRAO.indexOf(ev)>=0)?'track':'trackCustom',ev,{content_name:nome||''},{eventID:uuid()});
+          if(window.gtag) gtag('event', GA_MAP[ev]||('click_'+(nome||ev)), {label:nome||ev});
+        }
+        function bindAll(){
+          document.querySelectorAll('[data-fb-event]').forEach(function(el){
+            if(el.dataset.bound)return;
+            el.dataset.bound='1';
+            el.addEventListener('click',function(){dispara(el.getAttribute('data-fb-event'),el.getAttribute('data-fb-name'));});
+          });
+        }
+        bindAll();
+        new MutationObserver(bindAll).observe(document.body,{childList:true,subtree:true});
+        window.lsDispara = dispara;
+      });
+    </script>
+    <!-- ===== FIM ===== -->
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+# Plataforma de Rifas Online
+
+> Plataforma brasileira de rifas online com pagamento via PIX, sorteios oficiais pela Loteria Federal e prêmios entregues com transparência.
+
+## Pages
+
+- [Início](/): Campanhas ativas, prêmios em destaque e como participar.
+- [Ganhadores](/ganhadores): Histórico de ganhadores das campanhas já sorteadas.
+- [Resultado Federal](/resultado-federal): Resultados oficiais da Loteria Federal usados nos sorteios.
+- [Comunicados](/comunicados): Avisos e novidades da plataforma.
+- [Programa de Afiliados](/afiliados): Como divulgar campanhas e ganhar comissão por indicações.
+- [Roleta Premiada](/roleta-premiada): Mecânica de roleta com prêmios instantâneos.
+- [Raspadinha da Sorte](/raspadinha-da-sorte): Raspadinhas digitais com prêmios na hora.
+- [Caixa Misteriosa de Prêmios](/caixa-misteriosa-de-premios): Caixas surpresa com prêmios variados.
+- [Suporte](/contato): Canais de atendimento ao cliente.
+- [Termos de Uso](/termos-de-uso): Regras e termos da plataforma.
+
+## Optional
+
+- [Entrar](/entrar): Login de usuários cadastrados.
+- [Cadastrar](/cadastrar): Criação de conta para participar das campanhas.

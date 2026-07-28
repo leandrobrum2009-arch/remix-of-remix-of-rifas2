@@ -1,0 +1,1 @@
+INSERT INTO public.site_settings (key, value) VALUES ('site_theme', 'dark') ON CONFLICT (key) DO NOTHING;

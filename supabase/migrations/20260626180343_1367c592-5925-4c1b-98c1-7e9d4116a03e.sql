@@ -1,0 +1,1 @@
+INSERT INTO public.site_settings (key, value) VALUES ('whatsapp_group_link', 'https://chat.whatsapp.com/EuxB0t6FQbZJCoWrlsk55X?mode=gi_t') ON CONFLICT (key) DO NOTHING; INSERT INTO public.site_settings (key, value) VALUES ('whatsapp_group_enabled', 'true') ON CONFLICT (key) DO NOTHING;

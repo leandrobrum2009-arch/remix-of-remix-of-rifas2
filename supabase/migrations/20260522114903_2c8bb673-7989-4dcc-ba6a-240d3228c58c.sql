@@ -1,0 +1,1 @@
+ALTER TABLE mystery_boxes ADD COLUMN IF NOT EXISTS rarity TEXT DEFAULT 'Comum';

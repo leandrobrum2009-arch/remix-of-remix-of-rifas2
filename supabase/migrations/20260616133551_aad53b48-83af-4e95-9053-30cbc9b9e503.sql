@@ -1,0 +1,1 @@
+ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS image_overlay_enabled boolean NOT NULL DEFAULT true;

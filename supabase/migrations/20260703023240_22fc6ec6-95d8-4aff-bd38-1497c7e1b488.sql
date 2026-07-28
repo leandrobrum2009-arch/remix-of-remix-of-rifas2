@@ -1,0 +1,1 @@
+-- Ver /tmp/mig_public.sql — arquivo grande (~460KB), aplicado via ferramenta.

@@ -1,0 +1,31 @@
+{
+  "name": "Plataforma de Rifas",
+  "short_name": "Rifas",
+  "description": "Sistema Profissional de Rifas Online",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/placeholder.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "entertainment"],
+  "shortcuts": [
+    {
+      "name": "Início",
+      "url": "/",
+      "icons": [{ "src": "/favicon.ico", "sizes": "192x192" }]
+    }
+  ]
+}

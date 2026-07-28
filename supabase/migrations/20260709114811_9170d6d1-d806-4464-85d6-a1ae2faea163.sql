@@ -1,0 +1,1 @@
+DELETE FROM public.tenant_settings WHERE key LIKE 'menu\_%\_enabled' OR key = 'header_register_button_enabled';
