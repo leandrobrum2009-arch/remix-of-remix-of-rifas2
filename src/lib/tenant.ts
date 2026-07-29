@@ -7,7 +7,7 @@
  * non-hook code can read it without prop-drilling.
  *
  * Callers must tolerate a `null` return on the very first visit (before
- * the resolve-tenant edge function replies) — the affected queries just
+ * o tenant ser resolvido no banco) — the affected queries just
  * skip the tenant filter that turn; RLS (Fase 7) is the hard boundary.
  */
 
