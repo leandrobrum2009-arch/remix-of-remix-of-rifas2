@@ -164,8 +164,12 @@ export default function AdminSettings() {
     });
   };
 
-  const getSetting = (key: string, fallbackValue = 'true') =>
-    settings.find(s => s.key === key) || { key, value: fallbackValue };
+  const getSetting = (key: string, fallbackValue?: string) =>
+    settings.find(s => s.key === key) || {
+      key,
+      value: fallbackValue ?? DEFAULT_SETTING_VALUES[key] ?? '',
+    };
+
 
   const handleUpload = async (key: string, file: File) => {
     setUploading(key);
