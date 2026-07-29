@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+import { DB_URL, DB_SERVICE_KEY, DB_ANON_KEY } from "../_shared/db.ts"
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -18,9 +19,9 @@ serve(async (req) => {
   }
 
   try {
-    const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? ""
-    const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-    const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") ?? ""
+    const SUPABASE_URL = DB_URL
+    const SERVICE_ROLE = DB_SERVICE_KEY
+    const ANON_KEY = DB_ANON_KEY
     const QUEUE_SECRET = Deno.env.get("QUEUE_SECRET") ?? ""
 
     const supabaseClient = createClient(SUPABASE_URL, SERVICE_ROLE)

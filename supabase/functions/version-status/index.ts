@@ -1,4 +1,5 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
+import { DB_URL, DB_SERVICE_KEY, DB_ANON_KEY } from "../_shared/db.ts"
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors'
 
 // Code version served by this deployment. Keep in sync with src/lib/version.ts
@@ -19,8 +20,8 @@ Deno.serve(async (req) => {
     }
 
     const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_ANON_KEY')!,
+      DB_URL,
+      DB_ANON_KEY,
       { global: { headers: { Authorization: authHeader } } }
     )
 

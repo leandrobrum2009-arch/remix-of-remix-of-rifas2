@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts"
 import Stripe from 'https://esm.sh/stripe@14.21.0'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
+import { DB_URL, DB_SERVICE_KEY, DB_ANON_KEY } from "../_shared/db.ts"
 import { logWebhookEvent, markAsProcessed, markAsFailed } from "../_shared/webhook-handler.ts"
 
 const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
@@ -21,7 +22,7 @@ serve(async (req) => {
   try {
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      DB_SERVICE_KEY,
     )
 
     const url = new URL(req.url)
