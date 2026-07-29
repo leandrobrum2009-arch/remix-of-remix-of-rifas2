@@ -29,6 +29,116 @@ const HOME_GAME_SETTING_KEYS = [
   'home_show_cta',
 ];
 
+/**
+ * Valores padrão usados quando a chave ainda não existe em `site_settings`.
+ * Garante que TODAS as seções do painel apareçam mesmo em banco recém-criado.
+ */
+export const DEFAULT_SETTING_VALUES: Record<string, string> = {
+  // Identidade / Visual
+  site_name: 'Minha Plataforma',
+  site_title: 'Minha Plataforma',
+  site_logo_url: '',
+  site_logo_height: '48',
+  site_logo_height_mobile: '36',
+  site_favicon_url: '',
+  site_theme: 'dark',
+  primary_color: '#22c55e',
+  title_shimmer_primary: '#facc15',
+  title_shimmer_secondary: '#0f1729',
+  title_shimmer_secondary_light: '#ffffff',
+  border_shimmer_opacity: '0.4',
+  button_glow_speed: '3000',
+  button_glow_intensity: '0.5',
+  button_hover_effect: 'scale',
+  title_shimmer_speed: '3000',
+  hero_transition_speed: '5000',
+  hero_transition_type: 'fade',
+  home_hero_style: 'model1',
+  animation_easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  layout_mode: 'default',
+  inline_testimonials_count: '6',
+  inline_show_finished_raffles: 'true',
+
+  // Mercado Pago / Pagamentos
+  active_payment_provider: 'mercadopago',
+  mercadopago_public_key: '',
+  mercadopago_access_token: '',
+  paggue_client_key: '',
+  paggue_client_secret: '',
+  pay2m_client_key: '',
+  pay2m_client_secret: '',
+  pay2m_enabled: 'false',
+
+  // PIX manual
+  manual_payment_enabled: 'false',
+  manual_payment_pix_key: '',
+  manual_payment_pix_name: '',
+
+  // Financeiro
+  cashback_percent: '0',
+  affiliate_commission_percent: '10',
+  min_withdrawal_amount: '20',
+  deposit_bonus_tiers: '[]',
+
+  // Contato / Empresa
+  support_whatsapp: '',
+  company_name: '',
+  company_cnpj: '',
+  company_address: '',
+  company_phone: '',
+  company_email: '',
+  whatsapp_group_link: '',
+  whatsapp_group_enabled: 'false',
+
+  // SEO / Scripts
+  site_description: '',
+  site_keywords: '',
+  facebook_pixel_id: '',
+  google_analytics_id: '',
+  google_tag_manager_id: '',
+  custom_header_scripts: '',
+  custom_body_scripts: '',
+
+  // App / PWA
+  enable_download_app: 'false',
+  app_download_link: '',
+
+  // Home
+  home_marquee_enabled: 'false',
+  home_marquee_text: '',
+  home_show_testimonials: 'true',
+  home_show_hall_fame: 'true',
+  home_show_live_activity: 'true',
+  home_testimonials_json: '',
+  home_hall_fame_json: '',
+  home_show_games_combo: 'true',
+  home_show_game_roleta: 'true',
+  home_show_game_raspadinha: 'true',
+  home_show_game_caixa: 'true',
+  home_show_game_ranking: 'true',
+  home_show_game_afiliados: 'true',
+  home_show_how_it_works: 'true',
+  home_show_faq: 'true',
+  home_show_trust_badges: 'true',
+  home_show_cta: 'true',
+
+  // Menu
+  menu_campanhas_enabled: 'true',
+  menu_ganhadores_enabled: 'true',
+  menu_federal_enabled: 'true',
+  menu_comunicados_enabled: 'true',
+  menu_suporte_enabled: 'true',
+  menu_minha_conta_enabled: 'true',
+  header_register_button_enabled: 'true',
+
+  // Página de vendas
+  show_sales_page: 'false',
+  sales_page_keywords: '',
+  sales_page_type: 'rifas',
+  sales_page_whatsapp: '',
+};
+
+
 export default function AdminSettings() {
   const queryClient = useQueryClient();
   const [settings, setSettings] = useState<any[]>([]);
