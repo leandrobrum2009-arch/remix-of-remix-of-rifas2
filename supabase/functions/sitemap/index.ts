@@ -11,7 +11,7 @@ const corsHeaders = {
 serve(async (req) => {
   const supabase = createClient(
     DB_URL,
-    DB_SERVICE_KEYno.env.get("SUPABASE_ANON_KEY") ?? ""
+    DB_SERVICE_KEY || DB_ANON_KEY
   );
 
   // Resolve tenant by hostname (x-forwarded-host or Host header)
