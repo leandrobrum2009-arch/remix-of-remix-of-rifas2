@@ -1004,7 +1004,7 @@ export default function AdminSettings() {
                 {['cashback_percent', 'affiliate_commission_percent', 'min_withdrawal_amount', 'support_whatsapp'].map(key => (
                    <div key={key} className="bg-secondary/30 p-4 rounded-2xl border border-border/50 hover:border-primary/20 transition-colors">
                       <SettingField 
-                        s={settings.find(s => s.key === key)} 
+                        s={getSetting(key)} 
                         onUpdate={handleUpdate} 
                         label={settingNames[key]}
                         getIcon={getIcon}
@@ -1066,7 +1066,7 @@ export default function AdminSettings() {
                 {['menu_campanhas_enabled','menu_ganhadores_enabled','menu_federal_enabled','menu_comunicados_enabled','menu_suporte_enabled','menu_minha_conta_enabled','header_register_button_enabled'].map(key => (
                   <div key={key} className="bg-secondary/30 p-4 rounded-2xl border border-border/50">
                     <SettingField
-                      s={settings.find(s => s.key === key)}
+                      s={getSetting(key)}
                       onUpdate={handleUpdate}
                       label={settingNames[key]}
                       getIcon={getIcon}
