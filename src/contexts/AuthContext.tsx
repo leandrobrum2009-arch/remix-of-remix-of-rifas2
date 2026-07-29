@@ -91,12 +91,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       options: { data: { name, cpf, phone } },
     });
     
-    if (!error && (cpf || phone)) {
+    if (!error) {
       const { data: { user: newUser } } = await supabase.auth.getUser();
       if (newUser) {
-        await supabase.from("profiles").update({ cpf, phone }).eq("user_id", newUser.id);
+        const { data: existing } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("user_id", newUser.id)
+          .maybeSingle();
+
+        if (existing) {
+          if (cpf || phone) {
+            await supabase.from("profiles").update({ cpf, phone }).eq("user_id", newUser.id);
+          }
+        } else {
+          await supabase.from("profiles").insert({
+            user_id: newUser.id,
+            name,
+            email,
+            cpf,
+            phone,
+          });
+        }
       }
     }
+
     
     return { error: error as Error | null };
   };
