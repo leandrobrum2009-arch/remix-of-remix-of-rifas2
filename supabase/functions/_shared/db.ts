@@ -12,3 +12,9 @@ export const DB_SERVICE_KEY =
 
 /** URL pública das próprias Edge Functions (para webhooks). */
 export const FUNCTIONS_BASE_URL = `${Deno.env.get("SUPABASE_URL") ?? ""}/functions/v1`;
+
+/** Anon/publishable key do banco usado (externo quando configurado). */
+export const DB_ANON_KEY =
+  Deno.env.get("EXTERNAL_SUPABASE_ANON_KEY") ??
+  Deno.env.get("SUPABASE_ANON_KEY") ??
+  "";
