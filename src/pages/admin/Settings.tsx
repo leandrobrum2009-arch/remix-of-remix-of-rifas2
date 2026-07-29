@@ -29,6 +29,116 @@ const HOME_GAME_SETTING_KEYS = [
   'home_show_cta',
 ];
 
+/**
+ * Valores padrão usados quando a chave ainda não existe em `site_settings`.
+ * Garante que TODAS as seções do painel apareçam mesmo em banco recém-criado.
+ */
+export const DEFAULT_SETTING_VALUES: Record<string, string> = {
+  // Identidade / Visual
+  site_name: 'Minha Plataforma',
+  site_title: 'Minha Plataforma',
+  site_logo_url: '',
+  site_logo_height: '48',
+  site_logo_height_mobile: '36',
+  site_favicon_url: '',
+  site_theme: 'dark',
+  primary_color: '#22c55e',
+  title_shimmer_primary: '#facc15',
+  title_shimmer_secondary: '#0f1729',
+  title_shimmer_secondary_light: '#ffffff',
+  border_shimmer_opacity: '0.4',
+  button_glow_speed: '3000',
+  button_glow_intensity: '0.5',
+  button_hover_effect: 'scale',
+  title_shimmer_speed: '3000',
+  hero_transition_speed: '5000',
+  hero_transition_type: 'fade',
+  home_hero_style: 'model1',
+  animation_easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  layout_mode: 'default',
+  inline_testimonials_count: '6',
+  inline_show_finished_raffles: 'true',
+
+  // Mercado Pago / Pagamentos
+  active_payment_provider: 'mercadopago',
+  mercadopago_public_key: '',
+  mercadopago_access_token: '',
+  paggue_client_key: '',
+  paggue_client_secret: '',
+  pay2m_client_key: '',
+  pay2m_client_secret: '',
+  pay2m_enabled: 'false',
+
+  // PIX manual
+  manual_payment_enabled: 'false',
+  manual_payment_pix_key: '',
+  manual_payment_pix_name: '',
+
+  // Financeiro
+  cashback_percent: '0',
+  affiliate_commission_percent: '10',
+  min_withdrawal_amount: '20',
+  deposit_bonus_tiers: '[]',
+
+  // Contato / Empresa
+  support_whatsapp: '',
+  company_name: '',
+  company_cnpj: '',
+  company_address: '',
+  company_phone: '',
+  company_email: '',
+  whatsapp_group_link: '',
+  whatsapp_group_enabled: 'false',
+
+  // SEO / Scripts
+  site_description: '',
+  site_keywords: '',
+  facebook_pixel_id: '',
+  google_analytics_id: '',
+  google_tag_manager_id: '',
+  custom_header_scripts: '',
+  custom_body_scripts: '',
+
+  // App / PWA
+  enable_download_app: 'false',
+  app_download_link: '',
+
+  // Home
+  home_marquee_enabled: 'false',
+  home_marquee_text: '',
+  home_show_testimonials: 'true',
+  home_show_hall_fame: 'true',
+  home_show_live_activity: 'true',
+  home_testimonials_json: '',
+  home_hall_fame_json: '',
+  home_show_games_combo: 'true',
+  home_show_game_roleta: 'true',
+  home_show_game_raspadinha: 'true',
+  home_show_game_caixa: 'true',
+  home_show_game_ranking: 'true',
+  home_show_game_afiliados: 'true',
+  home_show_how_it_works: 'true',
+  home_show_faq: 'true',
+  home_show_trust_badges: 'true',
+  home_show_cta: 'true',
+
+  // Menu
+  menu_campanhas_enabled: 'true',
+  menu_ganhadores_enabled: 'true',
+  menu_federal_enabled: 'true',
+  menu_comunicados_enabled: 'true',
+  menu_suporte_enabled: 'true',
+  menu_minha_conta_enabled: 'true',
+  header_register_button_enabled: 'true',
+
+  // Página de vendas
+  show_sales_page: 'false',
+  sales_page_keywords: '',
+  sales_page_type: 'rifas',
+  sales_page_whatsapp: '',
+};
+
+
 export default function AdminSettings() {
   const queryClient = useQueryClient();
   const [settings, setSettings] = useState<any[]>([]);
@@ -164,8 +274,12 @@ export default function AdminSettings() {
     });
   };
 
-  const getSetting = (key: string, fallbackValue = 'true') =>
-    settings.find(s => s.key === key) || { key, value: fallbackValue };
+  const getSetting = (key: string, fallbackValue?: string) =>
+    settings.find(s => s.key === key) || {
+      key,
+      value: fallbackValue ?? DEFAULT_SETTING_VALUES[key] ?? '',
+    };
+
 
   const handleUpload = async (key: string, file: File) => {
     setUploading(key);
@@ -320,14 +434,14 @@ export default function AdminSettings() {
               </CardHeader>
               <CardContent className="space-y-6 pt-6">
                 <SettingField 
-                  s={settings.find(s => s.key === 'site_name')} 
+                  s={getSetting('site_name')} 
                   onUpdate={handleUpdate} 
                   label={settingNames['site_name']}
                   getIcon={getIcon}
                 />
                 <div className="pt-2">
                   <SettingField 
-                    s={settings.find(s => s.key === 'site_logo_url')} 
+                    s={getSetting('site_logo_url')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['site_logo_url']}
                     getIcon={getIcon}
@@ -337,14 +451,14 @@ export default function AdminSettings() {
                 </div>
                 <div className="grid grid-cols-2 gap-4 pt-2">
                   <SettingField 
-                    s={settings.find(s => s.key === 'site_logo_height')} 
+                    s={getSetting('site_logo_height')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['site_logo_height']}
                     getIcon={getIcon}
                     type="number"
                   />
                   <SettingField 
-                    s={settings.find(s => s.key === 'site_logo_height_mobile')} 
+                    s={getSetting('site_logo_height_mobile')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['site_logo_height_mobile']}
                     getIcon={getIcon}
@@ -394,20 +508,20 @@ export default function AdminSettings() {
               </CardHeader>
               <CardContent className="space-y-6 pt-6">
                 <SettingField 
-                  s={settings.find(s => s.key === 'primary_color')} 
+                  s={getSetting('primary_color')} 
                   onUpdate={handleUpdate} 
                   label={settingNames['primary_color']}
                   getIcon={getIcon}
                 />
                 <div className="grid grid-cols-2 gap-4">
                   <SettingField 
-                    s={settings.find(s => s.key === 'title_shimmer_primary')} 
+                    s={getSetting('title_shimmer_primary')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['title_shimmer_primary']}
                     getIcon={getIcon}
                   />
                   <SettingField 
-                    s={settings.find(s => s.key === 'title_shimmer_secondary')} 
+                    s={getSetting('title_shimmer_secondary')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['title_shimmer_secondary']}
                     getIcon={getIcon}
@@ -429,7 +543,7 @@ export default function AdminSettings() {
               <CardContent className="pt-6">
                 <div className="grid gap-8 md:grid-cols-3">
                   <SettingField 
-                    s={settings.find(s => s.key === 'layout_mode')} 
+                    s={getSetting('layout_mode')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['layout_mode']}
                     getIcon={getIcon}
@@ -440,7 +554,7 @@ export default function AdminSettings() {
                     ]}
                   />
                   <SettingField 
-                    s={settings.find(s => s.key === 'site_theme')} 
+                    s={getSetting('site_theme')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['site_theme']}
                     getIcon={getIcon}
@@ -452,7 +566,7 @@ export default function AdminSettings() {
                     ]}
                   />
                   <SettingField 
-                    s={settings.find(s => s.key === 'inline_testimonials_count')} 
+                    s={getSetting('inline_testimonials_count')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['inline_testimonials_count']}
                     getIcon={getIcon}
@@ -460,13 +574,13 @@ export default function AdminSettings() {
                     placeholder="3"
                   />
                   <SettingField 
-                    s={settings.find(s => s.key === 'inline_show_finished_raffles')} 
+                    s={getSetting('inline_show_finished_raffles')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['inline_show_finished_raffles']}
                     getIcon={getIcon}
                   />
                   <SettingField 
-                    s={settings.find(s => s.key === 'home_hero_style')} 
+                    s={getSetting('home_hero_style')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['home_hero_style']}
                     getIcon={getIcon}
@@ -478,7 +592,7 @@ export default function AdminSettings() {
                     ]}
                   />
                   <SettingField 
-                    s={settings.find(s => s.key === 'hero_transition_type')} 
+                    s={getSetting('hero_transition_type')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['hero_transition_type']}
                     getIcon={getIcon}
@@ -490,7 +604,7 @@ export default function AdminSettings() {
                     ]}
                   />
                   <SettingField 
-                    s={settings.find(s => s.key === 'hero_transition_speed')} 
+                    s={getSetting('hero_transition_speed')} 
                     onUpdate={handleUpdate} 
                     label={settingNames['hero_transition_speed']}
                     getIcon={getIcon}
@@ -498,7 +612,7 @@ export default function AdminSettings() {
                   
                   <div className="md:col-span-1">
                     <SettingField 
-                      s={settings.find(s => s.key === 'home_marquee_enabled')} 
+                      s={getSetting('home_marquee_enabled')} 
                       onUpdate={handleUpdate} 
                       label={settingNames['home_marquee_enabled']}
                       getIcon={getIcon}
@@ -506,7 +620,7 @@ export default function AdminSettings() {
                   </div>
                   <div className="md:col-span-2">
                     <SettingField 
-                      s={settings.find(s => s.key === 'home_marquee_text')} 
+                      s={getSetting('home_marquee_text')} 
                       onUpdate={handleUpdate} 
                       label={settingNames['home_marquee_text']}
                       getIcon={getIcon}
@@ -515,19 +629,19 @@ export default function AdminSettings() {
 
                   <div className="md:col-span-3 grid gap-6 md:grid-cols-3 pt-2 border-t border-border/50">
                     <SettingField 
-                      s={settings.find(s => s.key === 'home_show_testimonials')} 
+                      s={getSetting('home_show_testimonials')} 
                       onUpdate={handleUpdate} 
                       label={settingNames['home_show_testimonials']}
                       getIcon={getIcon}
                     />
                     <SettingField 
-                      s={settings.find(s => s.key === 'home_show_hall_fame')} 
+                      s={getSetting('home_show_hall_fame')} 
                       onUpdate={handleUpdate} 
                       label={settingNames['home_show_hall_fame']}
                       getIcon={getIcon}
                     />
                     <SettingField 
-                      s={settings.find(s => s.key === 'home_show_live_activity')} 
+                      s={getSetting('home_show_live_activity')} 
                       onUpdate={handleUpdate} 
                       label={settingNames['home_show_live_activity']}
                       getIcon={getIcon}
@@ -551,7 +665,7 @@ export default function AdminSettings() {
 
                   <div className="md:col-span-3">
                     <SettingField 
-                      s={settings.find(s => s.key === 'home_testimonials_json')} 
+                      s={getSetting('home_testimonials_json')} 
                       onUpdate={handleUpdate} 
                       label={settingNames['home_testimonials_json']}
                       getIcon={getIcon}
@@ -563,7 +677,7 @@ export default function AdminSettings() {
 
                   <div className="md:col-span-3">
                     <SettingField 
-                      s={settings.find(s => s.key === 'home_hall_fame_json')} 
+                      s={getSetting('home_hall_fame_json')} 
                       onUpdate={handleUpdate} 
                       label={settingNames['home_hall_fame_json']}
                       getIcon={getIcon}
@@ -575,7 +689,7 @@ export default function AdminSettings() {
                   
                   <div className="md:col-span-1">
                      <SettingField 
-                      s={settings.find(s => s.key === 'animation_easing')} 
+                      s={getSetting('animation_easing')} 
                       onUpdate={handleUpdate} 
                       label={settingNames['animation_easing']}
                       getIcon={getIcon}
@@ -606,7 +720,7 @@ export default function AdminSettings() {
             <CardContent className="space-y-6 pt-6">
               <div className="grid gap-6">
                 <SettingField 
-                  s={settings.find(s => s.key === 'enable_download_app')} 
+                  s={getSetting('enable_download_app')} 
                   onUpdate={handleUpdate} 
                   label="Habilitar Banner de Download do App"
                   getIcon={getIcon}
@@ -617,7 +731,7 @@ export default function AdminSettings() {
                   ]}
                 />
                 <SettingField 
-                  s={settings.find(s => s.key === 'app_download_link')} 
+                  s={getSetting('app_download_link')} 
                   onUpdate={handleUpdate} 
                   label="Link Direto para o App (Opcional)"
                   getIcon={getIcon}
@@ -661,13 +775,13 @@ export default function AdminSettings() {
             <CardContent className="space-y-6 pt-6">
               <div className="grid gap-6">
                 <SettingField 
-                  s={settings.find(s => s.key === 'site_title')} 
+                  s={getSetting('site_title')} 
                   onUpdate={handleUpdate} 
                   label="Título da Página (Aparece na aba do navegador)"
                   getIcon={getIcon}
                 />
                 <SettingField 
-                  s={settings.find(s => s.key === 'site_favicon_url')} 
+                  s={getSetting('site_favicon_url')} 
                   onUpdate={handleUpdate} 
                   label="Favicon (Ícone da Aba - 32x32 ou 64x64)"
                   getIcon={getIcon}
@@ -675,13 +789,13 @@ export default function AdminSettings() {
                   uploading={uploading === 'site_favicon_url'}
                 />
                 <SettingField 
-                  s={settings.find(s => s.key === 'site_keywords')} 
+                  s={getSetting('site_keywords')} 
                   onUpdate={handleUpdate} 
                   label="Palavras-chave (SEO)"
                   getIcon={() => <Search className="h-4 w-4" />}
                 />
                 <SettingField 
-                  s={settings.find(s => s.key === 'site_description')} 
+                  s={getSetting('site_description')} 
                   onUpdate={handleUpdate} 
                   label="Descrição para o Google"
                   getIcon={() => <FileText className="h-4 w-4" />}
@@ -706,21 +820,21 @@ export default function AdminSettings() {
             <CardContent className="space-y-6 pt-6">
               <div className="grid gap-6">
                 <SettingField 
-                  s={settings.find(s => s.key === 'facebook_pixel_id')} 
+                  s={getSetting('facebook_pixel_id')} 
                   onUpdate={handleUpdate} 
                   label="Facebook Pixel ID"
                   getIcon={getIcon}
                   placeholder="Apenas os números do ID"
                 />
                 <SettingField 
-                  s={settings.find(s => s.key === 'google_analytics_id')} 
+                  s={getSetting('google_analytics_id')} 
                   onUpdate={handleUpdate} 
                   label="Google Analytics ID (GA4)"
                   getIcon={getIcon}
                   placeholder="Ex: G-XXXXXXXX"
                 />
                 <SettingField 
-                  s={settings.find(s => s.key === 'google_tag_manager_id')} 
+                  s={getSetting('google_tag_manager_id')} 
                   onUpdate={handleUpdate} 
                   label="Google Tag Manager ID (GTM)"
                   getIcon={getIcon}
@@ -730,14 +844,14 @@ export default function AdminSettings() {
                 <Separator className="my-2" />
                 
                 <SettingField 
-                  s={settings.find(s => s.key === 'custom_header_scripts')} 
+                  s={getSetting('custom_header_scripts')} 
                   onUpdate={handleUpdate} 
                   label="Scripts Adicionais no Header (<head>)"
                   getIcon={getIcon}
                   type="textarea"
                 />
                 <SettingField 
-                  s={settings.find(s => s.key === 'custom_body_scripts')} 
+                  s={getSetting('custom_body_scripts')} 
                   onUpdate={handleUpdate} 
                   label="Scripts Adicionais no Body (Final do <body>)"
                   getIcon={getIcon}
@@ -764,7 +878,7 @@ export default function AdminSettings() {
                   </div>
                   <div className="w-full md:w-80">
                      <SettingField 
-                      s={settings.find(s => s.key === 'active_payment_provider')} 
+                      s={getSetting('active_payment_provider')} 
                       onUpdate={handleUpdate} 
                       label=""
                       getIcon={() => null}
@@ -784,7 +898,7 @@ export default function AdminSettings() {
                 <div className="grid gap-8 lg:grid-cols-3">
                   {/* Mercado Pago */}
                   <div className={`space-y-5 p-6 rounded-3xl transition-all duration-300 border-2 ${
-                    settings.find(s => s.key === 'active_payment_provider')?.value === 'mercadopago' 
+                    getSetting('active_payment_provider')?.value === 'mercadopago' 
                     ? 'bg-primary/5 border-primary shadow-xl shadow-primary/5' 
                     : 'bg-secondary/20 border-border/50 opacity-60 grayscale-[0.5]'
                   }`}>
@@ -801,7 +915,7 @@ export default function AdminSettings() {
                           </div>
                         </div>
                       </div>
-                      {settings.find(s => s.key === 'active_payment_provider')?.value === 'mercadopago' && (
+                      {getSetting('active_payment_provider')?.value === 'mercadopago' && (
                         <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg">
                           <Check className="h-5 w-5 stroke-[3px]" />
                         </div>
@@ -810,13 +924,13 @@ export default function AdminSettings() {
                     
                     <div className="space-y-4 pt-2">
                       <SettingField 
-                        s={settings.find(s => s.key === 'mercadopago_public_key')} 
+                        s={getSetting('mercadopago_public_key')} 
                         onUpdate={handleUpdate} 
                         label="Public Key (APP_USR-...)"
                         getIcon={getIcon}
                       />
                       <SettingField 
-                        s={settings.find(s => s.key === 'mercadopago_access_token')} 
+                        s={getSetting('mercadopago_access_token')} 
                         onUpdate={handleUpdate} 
                         label="Access Token (TEST-... ou APP_USR-...)"
                         getIcon={getIcon}
@@ -827,7 +941,7 @@ export default function AdminSettings() {
 
                   {/* Paggue */}
                   <div className={`space-y-5 p-6 rounded-3xl transition-all duration-300 border-2 ${
-                    settings.find(s => s.key === 'active_payment_provider')?.value === 'paggue' 
+                    getSetting('active_payment_provider')?.value === 'paggue' 
                     ? 'bg-primary/5 border-primary shadow-xl shadow-primary/5' 
                     : 'bg-secondary/20 border-border/50 opacity-60 grayscale-[0.5]'
                   }`}>
@@ -844,7 +958,7 @@ export default function AdminSettings() {
                           </div>
                         </div>
                       </div>
-                      {settings.find(s => s.key === 'active_payment_provider')?.value === 'paggue' && (
+                      {getSetting('active_payment_provider')?.value === 'paggue' && (
                         <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg">
                           <Check className="h-5 w-5 stroke-[3px]" />
                         </div>
@@ -853,13 +967,13 @@ export default function AdminSettings() {
 
                     <div className="space-y-4 pt-2">
                       <SettingField 
-                        s={settings.find(s => s.key === 'paggue_client_key')} 
+                        s={getSetting('paggue_client_key')} 
                         onUpdate={handleUpdate} 
                         label="Client Key"
                         getIcon={getIcon}
                       />
                       <SettingField 
-                        s={settings.find(s => s.key === 'paggue_client_secret')} 
+                        s={getSetting('paggue_client_secret')} 
                         onUpdate={handleUpdate} 
                         label="Client Secret"
                         getIcon={getIcon}
@@ -870,7 +984,7 @@ export default function AdminSettings() {
 
                   {/* Pay2m */}
                   <div className={`space-y-5 p-6 rounded-3xl transition-all duration-300 border-2 ${
-                    settings.find(s => s.key === 'active_payment_provider')?.value === 'pay2m' 
+                    getSetting('active_payment_provider')?.value === 'pay2m' 
                     ? 'bg-primary/5 border-primary shadow-xl shadow-primary/5' 
                     : 'bg-secondary/20 border-border/50 opacity-60 grayscale-[0.5]'
                   }`}>
@@ -887,7 +1001,7 @@ export default function AdminSettings() {
                           </div>
                         </div>
                       </div>
-                      {settings.find(s => s.key === 'active_payment_provider')?.value === 'pay2m' && (
+                      {getSetting('active_payment_provider')?.value === 'pay2m' && (
                         <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg">
                           <Check className="h-5 w-5 stroke-[3px]" />
                         </div>
@@ -896,13 +1010,13 @@ export default function AdminSettings() {
 
                     <div className="space-y-4 pt-2">
                       <SettingField 
-                        s={settings.find(s => s.key === 'pay2m_client_key')} 
+                        s={getSetting('pay2m_client_key')} 
                         onUpdate={handleUpdate} 
                         label="Client Key"
                         getIcon={getIcon}
                       />
                       <SettingField 
-                        s={settings.find(s => s.key === 'pay2m_client_secret')} 
+                        s={getSetting('pay2m_client_secret')} 
                         onUpdate={handleUpdate} 
                         label="Client Secret"
                         getIcon={getIcon}
@@ -913,7 +1027,7 @@ export default function AdminSettings() {
 
                   {/* Manual */}
                   <div className={`space-y-5 p-6 rounded-3xl transition-all duration-300 border-2 ${
-                    settings.find(s => s.key === 'active_payment_provider')?.value === 'manual' 
+                    getSetting('active_payment_provider')?.value === 'manual' 
                     ? 'bg-primary/5 border-primary shadow-xl shadow-primary/5' 
                     : 'bg-secondary/20 border-border/50 opacity-60 grayscale-[0.5]'
                   }`}>
@@ -930,7 +1044,7 @@ export default function AdminSettings() {
                           </div>
                         </div>
                       </div>
-                      {settings.find(s => s.key === 'active_payment_provider')?.value === 'manual' && (
+                      {getSetting('active_payment_provider')?.value === 'manual' && (
                         <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg">
                           <Check className="h-5 w-5 stroke-[3px]" />
                         </div>
@@ -939,13 +1053,13 @@ export default function AdminSettings() {
 
                     <div className="space-y-4 pt-2">
                       <SettingField 
-                        s={settings.find(s => s.key === 'manual_payment_pix_key')} 
+                        s={getSetting('manual_payment_pix_key')} 
                         onUpdate={handleUpdate} 
                         label="Chave PIX para Recebimento"
                         getIcon={getIcon}
                       />
                       <SettingField 
-                        s={settings.find(s => s.key === 'manual_payment_pix_name')} 
+                        s={getSetting('manual_payment_pix_name')} 
                         onUpdate={handleUpdate} 
                         label="Nome do Titular da Conta"
                         getIcon={getIcon}
@@ -973,13 +1087,13 @@ export default function AdminSettings() {
                       
                       <div className="grid gap-6 md:grid-cols-2">
                         <SettingField 
-                          s={settings.find(s => s.key === 'supabase_url')} 
+                          s={getSetting('supabase_url')} 
                           onUpdate={handleUpdate} 
                           label="Supabase URL"
                           getIcon={getIcon}
                         />
                         <SettingField 
-                          s={settings.find(s => s.key === 'supabase_service_role_key')} 
+                          s={getSetting('supabase_service_role_key')} 
                           onUpdate={handleUpdate} 
                           label="Service Role Key"
                           getIcon={getIcon}
@@ -1004,7 +1118,7 @@ export default function AdminSettings() {
                 {['cashback_percent', 'affiliate_commission_percent', 'min_withdrawal_amount', 'support_whatsapp'].map(key => (
                    <div key={key} className="bg-secondary/30 p-4 rounded-2xl border border-border/50 hover:border-primary/20 transition-colors">
                       <SettingField 
-                        s={settings.find(s => s.key === key)} 
+                        s={getSetting(key)} 
                         onUpdate={handleUpdate} 
                         label={settingNames[key]}
                         getIcon={getIcon}
@@ -1066,7 +1180,7 @@ export default function AdminSettings() {
                 {['menu_campanhas_enabled','menu_ganhadores_enabled','menu_federal_enabled','menu_comunicados_enabled','menu_suporte_enabled','menu_minha_conta_enabled','header_register_button_enabled'].map(key => (
                   <div key={key} className="bg-secondary/30 p-4 rounded-2xl border border-border/50">
                     <SettingField
-                      s={settings.find(s => s.key === key)}
+                      s={getSetting(key)}
                       onUpdate={handleUpdate}
                       label={settingNames[key]}
                       getIcon={getIcon}
@@ -1117,20 +1231,20 @@ export default function AdminSettings() {
                     <p className="text-sm text-muted-foreground">Quando ativo, a home será substituída pela página de vendas da plataforma.</p>
                   </div>
                   <Switch 
-                    checked={settings.find(s => s.key === 'show_sales_page')?.value === 'true'}
+                    checked={getSetting('show_sales_page')?.value === 'true'}
                     onCheckedChange={(checked) => handleUpdate('show_sales_page', checked ? 'true' : 'false')}
                   />
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <SettingField 
-                    s={settings.find(s => s.key === 'sales_page_type')} 
+                    s={getSetting('sales_page_type')} 
                     onUpdate={handleUpdate} 
                     label="Tipo da Plataforma (ex: ações, leilões)"
                     getIcon={getIcon}
                   />
                   <SettingField 
-                    s={settings.find(s => s.key === 'sales_page_whatsapp')} 
+                    s={getSetting('sales_page_whatsapp')} 
                     onUpdate={handleUpdate} 
                     label="WhatsApp de Vendas (Opcional)"
                     getIcon={getIcon}
@@ -1143,7 +1257,7 @@ export default function AdminSettings() {
                     Palavras-chave SEO da Página de Vendas
                   </Label>
                   <Input 
-                    value={settings.find(s => s.key === 'sales_page_keywords')?.value || ''}
+                    value={getSetting('sales_page_keywords')?.value || ''}
                     onChange={(e) => handleUpdate('sales_page_keywords', e.target.value)}
                     placeholder="Ex: sistema para ações online, script para ações online..."
                     className="rounded-xl border-2 h-12"
