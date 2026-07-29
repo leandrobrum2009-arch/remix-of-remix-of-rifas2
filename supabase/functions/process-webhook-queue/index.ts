@@ -3,8 +3,14 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-queue-secret",
 }
+
+const json = (body: unknown, status: number) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  })
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -12,10 +18,46 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseClient = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-    )
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? ""
+    const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") ?? ""
+    const QUEUE_SECRET = Deno.env.get("QUEUE_SECRET") ?? ""
+
+    const supabaseClient = createClient(SUPABASE_URL, SERVICE_ROLE)
+
+    // ---- Authorization: cron shared secret OR authenticated admin/master ----
+    let authorized = false
+
+    const providedSecret = req.headers.get("x-queue-secret") ?? ""
+    if (QUEUE_SECRET && providedSecret === QUEUE_SECRET) {
+      authorized = true
+    }
+
+    if (!authorized) {
+      const authHeader = req.headers.get("Authorization") ?? ""
+      if (authHeader) {
+        const userClient = createClient(SUPABASE_URL, ANON_KEY, {
+          global: { headers: { Authorization: authHeader } },
+        })
+        const { data: userData } = await userClient.auth.getUser()
+        const callerId = userData?.user?.id
+        if (callerId) {
+          const { data: callerRoles } = await supabaseClient
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", callerId)
+          const roles = (callerRoles || []).map((r: any) => r.role)
+          authorized = roles.some((r: string) =>
+            ["master", "admin", "client_admin"].includes(r)
+          )
+        }
+      }
+    }
+
+    if (!authorized) {
+      return json({ error: "Unauthorized" }, 401)
+    }
+
 
     // Fetch pending or failed events with less than 5 attempts
     const { data: events, error: fetchError } = await supabaseClient
