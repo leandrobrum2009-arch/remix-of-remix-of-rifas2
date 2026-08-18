@@ -1,0 +1,44 @@
+name: Deploy to Hostinger (rayllarifas.site)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      # Gera dist/ (site estático). O public/.htaccess do projeto já cuida do
+      # roteamento SPA e é copiado automaticamente para dist/ pelo Vite.
+
+      - name: Deploy via FTP para Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          local-dir: ./dist/
+          # ATENCAO: confirme o diretorio raiz real dessa conta FTP antes do
+          # primeiro deploy (conecte com FileZilla/WinSCP e veja em que pasta
+          # ela cai). Ajuste esse valor se nao for ./public_html/
+          server-dir: ./public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.env
