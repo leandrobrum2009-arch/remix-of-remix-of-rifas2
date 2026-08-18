@@ -34,10 +34,9 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           local-dir: ./dist/
-          # ATENCAO: confirme o diretorio raiz real dessa conta FTP antes do
-          # primeiro deploy (conecte com FileZilla/WinSCP e veja em que pasta
-          # ela cai). Ajuste esse valor se nao for ./public_html/
-          server-dir: ./public_html/
+          # Confirmado: esta conta FTP (u386043061.rayllarifas.site) ja abre
+          # direto na raiz publica do dominio (nao tem subpasta public_html).
+          server-dir: ./
           exclude: |
             **/.git*
             **/.git*/**
