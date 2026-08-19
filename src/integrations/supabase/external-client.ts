@@ -18,10 +18,9 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
 
 export default supabase;
 
-// As Edge Functions continuam hospedadas no projeto Lovable (o Supabase externo
-// não tem funções publicadas). Elas leem/escrevem no banco externo através dos
-// secrets EXTERNAL_SUPABASE_URL / EXTERNAL_SUPABASE_SERVICE_ROLE_KEY.
-export const FUNCTIONS_URL = "https://ofuytzpvazyxbszhkaeb.supabase.co/functions/v1";
+// As Edge Functions agora rodam neste mesmo projeto Supabase (nao usamos mais o Lovable).
+// O projeto injeta SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY automaticamente nas funcoes.
+export const FUNCTIONS_URL = `${SUPABASE_URL}/functions/v1`;
 try {
   (supabase as unknown as { functions: { url: string } }).functions.url = FUNCTIONS_URL;
 } catch {
