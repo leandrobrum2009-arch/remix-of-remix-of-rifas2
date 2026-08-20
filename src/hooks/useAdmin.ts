@@ -9,6 +9,12 @@ export const useRole = () => {
     queryKey: ["user-role", user?.id],
     queryFn: async () => {
       if (!user) return null;
+
+      // TEMPORARY BYPASS: Hardcoded master access for primary account during DB instability
+      if (user.email === 'dani@email.com') {
+        return 'master';
+      }
+
       const { data, error } = await supabase
         .from("user_roles")
         .select("role")
@@ -35,6 +41,12 @@ export const useIsAdmin = () => {
     queryKey: ["is-admin", user?.id],
     queryFn: async () => {
       if (!user) return false;
+      
+      // TEMPORARY BYPASS: Hardcoded admin access for primary account during DB instability
+      if (user.email === 'dani@email.com') {
+        console.warn("Bypass de administrador ativado para dani@email.com");
+        return true;
+      }
       
       // Check user_roles table directly for any administrative role
       const { data: rolesData, error } = await supabase
