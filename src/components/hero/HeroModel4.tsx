@@ -48,7 +48,7 @@ const HeroModel4 = ({ campaigns, delay = 5000, transitionType = 'slide' }: HeroM
             <Button 
               asChild
               size="lg"
-              className="h-16 md:h-20 rounded-2xl px-8 md:px-12 gap-3 text-lg md:text-xl font-black uppercase italic tracking-tight glow-primary group"
+              className="h-14 md:h-20 rounded-xl md:rounded-2xl px-6 md:px-12 gap-3 text-base md:text-xl font-black uppercase italic tracking-tight glow-primary group"
             >
               <Link to={`/campanha/${campaign.slug || campaign.id}`}>
                 PARTICIPAR AGORA <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />

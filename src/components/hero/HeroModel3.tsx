@@ -103,12 +103,12 @@ const CampaignSlide = ({ campaign }: { campaign: Campaign }) => {
 
           <div className="flex gap-4 pt-4">
             <Link to={`/campanha/${campaign.slug || campaign.id}`} className="flex-1">
-              <Button size="lg" className="w-full h-14 md:h-16 rounded-2xl font-black uppercase italic tracking-widest gap-2 glow-primary border-light-path border-light-always text-sm md:text-base border-[#22c55e]/30 relative z-10">
-                COMPRAR AGORA <Zap className="h-5 w-5 fill-current" />
+              <Button size="lg" className="w-full h-12 md:h-16 rounded-xl md:rounded-2xl font-black uppercase italic tracking-widest gap-2 glow-primary border-light-path border-light-always text-[10px] md:text-base border-[#22c55e]/30 relative z-10">
+                COMPRAR AGORA <Zap className="h-4 w-4 md:h-5 md:w-5 fill-current" />
               </Button>
             </Link>
-            <Button variant="outline" size="icon" className="h-14 w-14 md:h-16 md:w-16 rounded-2xl border-white/10 hover:bg-primary/10 group">
-               <Trophy className="h-5 w-5 md:h-6 md:w-6 text-primary group-hover:scale-110 transition-transform" />
+            <Button variant="outline" size="icon" className="h-12 w-12 md:h-16 md:w-16 rounded-xl md:rounded-2xl border-white/10 hover:bg-primary/10 group">
+               <Trophy className="h-4 w-4 md:h-6 md:w-6 text-primary group-hover:scale-110 transition-transform" />
             </Button>
           </div>
         </div>
