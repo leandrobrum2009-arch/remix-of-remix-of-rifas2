@@ -394,23 +394,6 @@ const Index = () => {
 
            {/* Active Campaigns Sections */}
            <section className="container py-12 md:py-20 space-y-20">
-             {/* Featured Campaigns */}
-             {featuredCampaigns.length > 0 && (
-               <div className="space-y-8">
-                 <SectionHeading 
-                   icon={Star} 
-                   title="Campanhas em Destaque" 
-                   subtitle="As melhores oportunidades selecionadas para você"
-                   badge="VIP"
-                 />
-                 <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                   {featuredCampaigns.map((campaign, i) => (
-                     <CampaignCard key={campaign.id} campaign={campaign} index={i} />
-                   ))}
-                 </div>
-               </div>
-             )}
-
              {/* Normal Active Campaigns */}
              <div className="space-y-8">
                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">

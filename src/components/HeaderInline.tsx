@@ -75,7 +75,7 @@ const HeaderInline = () => {
             <Link
               to="/minha-conta"
               aria-label="Minha conta"
-              className="flex h-9 max-w-[32vw] sm:max-w-[140px] shrink-0 self-center items-center gap-1 rounded-full pl-2 pr-2.5 bg-primary/15 text-primary ring-1 ring-primary/30 font-black uppercase tracking-widest text-[9px] leading-none"
+              className="flex h-9 max-w-[32vw] sm:max-w-[140px] shrink-0 self-center items-center justify-center gap-1 rounded-full pl-2 pr-2.5 bg-primary/15 text-primary ring-1 ring-primary/30 font-black uppercase tracking-widest text-[9px] leading-none"
             >
               <User className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate min-w-0">
@@ -86,7 +86,7 @@ const HeaderInline = () => {
             <button
               onClick={() => navigate("/cadastrar")}
               aria-label="Cadastre-se grátis"
-              className="flex h-9 shrink-0 self-center items-center gap-1 rounded-full px-3 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-black font-black uppercase tracking-widest text-[9px] leading-none shadow-md ring-2 ring-yellow-300/60 animate-pulse"
+              className="flex h-9 shrink-0 self-center items-center justify-center gap-1 rounded-full px-3 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-black font-black uppercase tracking-widest text-[9px] leading-none shadow-md ring-2 ring-yellow-300/60 animate-pulse"
             >
               Cadastre-se
             </button>

@@ -223,14 +223,14 @@ const Header = () => {
                   <div className="flex items-center gap-2">
                     {isAdmin && (
                       <Link to="/admin" className="flex items-center">
-                        <Button size="sm" variant="outline" className="h-10 rounded-full gap-2 border-primary/50 bg-primary/5 hover:bg-primary/10 font-black uppercase tracking-widest text-[10px] px-4 italic group inline-flex items-center leading-none">
+                        <Button size="sm" variant="outline" className="h-10 rounded-full gap-2 border-primary/50 bg-primary/5 hover:bg-primary/10 font-black uppercase tracking-widest text-[10px] px-4 italic group inline-flex items-center justify-center leading-none">
                           <Settings className="h-4 w-4 shrink-0 text-primary group-hover:rotate-90 transition-transform duration-500" />
                           <span className="hidden sm:inline leading-none translate-y-[0.5px]">Painel</span>
                         </Button>
                       </Link>
                     )}
                     <Link to="/minha-conta">
-                      <Button size="sm" variant="outline" className="h-10 rounded-full gap-2 border-border bg-card hover:bg-secondary font-black uppercase tracking-widest text-[10px] px-4 italic text-foreground shadow-sm inline-flex items-center leading-none">
+                      <Button size="sm" variant="outline" className="h-10 rounded-full gap-2 border-border bg-card hover:bg-secondary font-black uppercase tracking-widest text-[10px] px-4 italic text-foreground shadow-sm inline-flex items-center justify-center leading-none">
                         <User className="h-4 w-4 shrink-0 text-primary" />
                         <span className="hidden lg:inline leading-none translate-y-[0.5px]">{profile?.name?.split(' ')[0] || user.user_metadata?.name?.split(' ')[0] || user?.email?.split('@')[0] || "Perfil"}</span>
                       </Button>
