@@ -9,6 +9,12 @@ export const useRole = () => {
     queryKey: ["user-role", user?.id],
     queryFn: async () => {
       if (!user) return null;
+
+      // TEMPORARY BYPASS: Hardcoded master access for primary account during DB instability
+      if (user.email === 'dani@email.com') {
+        return 'master';
+      }
+
       const { data, error } = await supabase
         .from("user_roles")
         .select("role")
