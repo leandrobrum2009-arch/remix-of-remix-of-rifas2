@@ -75,7 +75,7 @@ const HeaderInline = () => {
             <Link
               to="/minha-conta"
               aria-label="Minha conta"
-              className="flex h-9 max-w-[32vw] sm:max-w-[140px] shrink-0 self-center items-center justify-center gap-1 rounded-full pl-2 pr-2.5 bg-primary/15 text-primary ring-1 ring-primary/30 font-black uppercase tracking-widest text-[9px] leading-none"
+              className="flex h-9 max-w-[32vw] sm:max-w-[140px] shrink-0 self-center items-center justify-center gap-1.5 rounded-full px-3 bg-primary/15 text-primary ring-1 ring-primary/30 font-black uppercase tracking-widest text-[9px] leading-none"
             >
               <User className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate min-w-0">
