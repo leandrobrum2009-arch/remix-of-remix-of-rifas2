@@ -68,13 +68,38 @@ export const DepositModal = ({ isOpen, onOpenChange, onSuccess }: DepositModalPr
       if (!user) throw new Error("Usuário não autenticado");
 
       // Create a deposit order
-      // Using the special campaign ID 00000000-0000-0000-0000-000000000001
+      // We first try to find the technical campaign, if it doesn't exist (e.g. timeout on creation)
+      // we use the first active campaign found to avoid foreign key violation.
+      let campaignId = '00000000-0000-0000-0000-000000000001';
+      
+      const { data: campaignCheck } = await supabase
+        .from("campaigns")
+        .select("id")
+        .eq("id", campaignId)
+        .maybeSingle();
+
+      if (!campaignCheck) {
+        console.warn('Technical campaign not found, fetching fallback...');
+        const { data: fallback } = await supabase
+          .from("campaigns")
+          .select("id")
+          .eq("status", "active")
+          .limit(1)
+          .maybeSingle();
+        
+        if (fallback) {
+          campaignId = fallback.id;
+        } else {
+          throw new Error("Não foi possível processar o depósito: nenhuma campanha ativa encontrada para vinculação.");
+        }
+      }
+
       const { data: order, error: orderError } = await supabase
         .from("orders")
         .insert({
           user_id: user.id,
-          campaign_id: '00000000-0000-0000-0000-000000000001',
-          quantity: Math.floor(numAmount), // Since ticket_price is 1, quantity = amount
+          campaign_id: campaignId,
+          quantity: Math.max(1, Math.floor(numAmount)),
           total_amount: numAmount,
           payment_status: 'pending'
         })
