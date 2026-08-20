@@ -49,33 +49,35 @@ const HeroModel1 = ({ campaigns, delay = 5000, transitionType = 'slide' }: HeroM
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="max-w-2xl space-y-6"
+                  className="max-w-2xl space-y-4 md:space-y-6"
                 >
                   <div className="flex items-center gap-3">
-                    <Badge className="bg-primary text-primary-foreground font-black italic px-3 py-1">
+                    <Badge className="bg-primary text-primary-foreground font-black italic px-3 py-1 text-[10px] md:text-xs">
                       🔥 DESTAQUE
                     </Badge>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-3 md:space-y-4">
                     {campaign.draw_date && (
-                      <CountdownTimer targetDate={campaign.draw_date} className="scale-110 origin-left" />
+                      <div className="mb-2 md:mb-0">
+                        <CountdownTimer targetDate={campaign.draw_date} className="scale-90 md:scale-110 origin-left" />
+                      </div>
                     )}
-                    <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-black uppercase italic leading-[1] sm:leading-[1.1] tracking-tighter text-foreground filter drop-shadow-2xl md:pr-8 py-2">
+                    <h2 className="text-xl sm:text-3xl md:text-5xl lg:text-7xl font-black uppercase italic leading-[1] sm:leading-[1.1] tracking-tighter text-foreground filter drop-shadow-2xl md:pr-8 py-1 md:py-2">
                       <span className="block mb-1 sm:mb-2">{campaign.title.split(' ')[0]}</span>
                       <span className="text-animate-gradient inline-block md:pr-8 pb-1">
                         {campaign.title.split(' ').slice(1).join(' ')}
                       </span>
                     </h2>
-                    <p className="text-sm md:text-lg text-foreground/80 font-bold max-w-xl leading-relaxed">
+                    <p className="text-xs md:text-lg text-foreground/80 font-bold max-w-xl leading-relaxed line-clamp-2 md:line-clamp-none">
                       {campaign.subtitle || campaign.description?.slice(0, 120)}
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-4 pt-4">
+                  <div className="flex items-center gap-4 pt-2 md:pt-4">
                     <Link to={`/campanha/${campaign.slug || campaign.id}`}>
-                      <Button size="lg" className="h-12 md:h-16 rounded-xl md:rounded-2xl px-6 md:px-10 font-black uppercase italic tracking-widest gap-2 glow-primary text-sm md:text-lg border-light-path border-light-always border-[#22c55e]/30 relative z-10">
-                        PARTICIPAR AGORA <Zap className="h-6 w-6 fill-current" />
+                      <Button size="lg" className="h-10 md:h-16 rounded-xl md:rounded-2xl px-5 md:px-10 font-black uppercase italic tracking-widest gap-2 glow-primary text-[10px] md:text-lg border-light-path border-light-always border-[#22c55e]/30 relative z-10">
+                        PARTICIPAR AGORA <Zap className="h-4 w-4 md:h-6 md:w-6 fill-current" />
                       </Button>
                     </Link>
                   </div>

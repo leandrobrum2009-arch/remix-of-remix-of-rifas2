@@ -354,7 +354,7 @@ const Index = () => {
 
           {/* Gamification Navigation - Improved Spacing and Visuals */}
           {String(siteSettings?.home_show_games_combo ?? "true") === "true" && (
-          <section className="container relative z-30 -mt-6 md:-mt-12 py-6 md:py-8">
+          <section className="container relative z-30 mt-4 md:-mt-12 py-6 md:py-8">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-6">
                 {[
                   { key: "roleta", icon: RotateCw, title: "Roleta Premiada", desc: "Gire e Ganhe", color: "from-emerald-500/40", href: "/roleta-premiada", badge: "NEW" },
