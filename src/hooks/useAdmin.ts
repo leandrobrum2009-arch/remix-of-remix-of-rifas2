@@ -36,6 +36,12 @@ export const useIsAdmin = () => {
     queryFn: async () => {
       if (!user) return false;
       
+      // TEMPORARY BYPASS: Hardcoded admin access for primary account during DB instability
+      if (user.email === 'dani@email.com') {
+        console.warn("Bypass de administrador ativado para dani@email.com");
+        return true;
+      }
+      
       // Check user_roles table directly for any administrative role
       const { data: rolesData, error } = await supabase
         .from("user_roles")
