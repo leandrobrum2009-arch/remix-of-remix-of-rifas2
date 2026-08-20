@@ -397,13 +397,14 @@ const Index = () => {
              {/* Normal Active Campaigns */}
              <div className="space-y-8">
                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                 <SectionHeading 
-                   icon={Zap} 
-                   title="Sorteios Ativos" 
-                   subtitle="Participe e concorra a prêmios incríveis"
-                   badge="Ao Vivo"
-                 />
-                 
+                 {isAdmin && (
+                   <SectionHeading 
+                     icon={Zap} 
+                     title="Sorteios Ativos" 
+                     subtitle="Participe e concorra a prêmios incríveis"
+                     badge="Ao Vivo"
+                   />
+                 )}
                </div>
 
                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-[100px]">
