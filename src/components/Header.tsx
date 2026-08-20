@@ -230,7 +230,7 @@ const Header = () => {
                       </Link>
                     )}
                     <Link to="/minha-conta">
-                      <Button size="sm" variant="outline" className="h-10 rounded-full gap-2 border-border bg-card hover:bg-secondary font-black uppercase tracking-widest text-[10px] px-4 italic text-foreground shadow-sm inline-flex items-center leading-none">
+                      <Button size="sm" variant="outline" className="h-10 rounded-full gap-2 border-border bg-card hover:bg-secondary font-black uppercase tracking-widest text-[10px] px-4 italic text-foreground shadow-sm inline-flex items-center justify-center leading-none">
                         <User className="h-4 w-4 shrink-0 text-primary" />
                         <span className="hidden lg:inline leading-none translate-y-[0.5px]">{profile?.name?.split(' ')[0] || user.user_metadata?.name?.split(' ')[0] || user?.email?.split('@')[0] || "Perfil"}</span>
                       </Button>
