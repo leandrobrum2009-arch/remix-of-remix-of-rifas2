@@ -406,9 +406,12 @@ const Index = () => {
                </div>
 
                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-[100px]">
+                 {featuredCampaigns.map((campaign, i) => (
+                   <CampaignCard key={campaign.id} campaign={campaign} index={i} />
+                 ))}
                  {paginatedCampaigns.length > 0 ? (
                    paginatedCampaigns.map((campaign, i) => (
-                     <CampaignCard key={campaign.id} campaign={campaign} index={i} />
+                     <CampaignCard key={campaign.id} campaign={campaign} index={i + featuredCampaigns.length} />
                    ))
                   ) : searchTerm ? (
                     <div className="col-span-full py-20 px-6 rounded-3xl border border-dashed border-border bg-card/50 flex flex-col items-center text-center gap-6 animate-fade-in">
