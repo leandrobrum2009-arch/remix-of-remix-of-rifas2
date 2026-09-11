@@ -31,29 +31,11 @@ const Footer = () => {
           {/* Brand Info */}
           <div className="space-y-6">
             <a href="/" className="flex items-center gap-3">
-              {siteSettings?.site_logo_url ? (
-                <img 
-                  src={siteSettings.site_logo_url} 
-                  alt={siteSettings?.site_name || "Logo"} 
-                  className="h-10 w-auto object-contain" 
-                />
-              ) : (
-                <>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary shadow-lg shadow-primary/20">
-                    <Ticket className="h-5 w-5 text-primary-foreground" />
-                  </div>
-                  <span className="font-display text-2xl font-black italic uppercase tracking-tighter">
-                    {siteSettings?.site_name ? (
-                      <>
-                        {siteSettings.site_name.split(' ')[0]}
-                        <span className="text-primary neon-text-primary">{siteSettings.site_name.split(' ').slice(1).join(' ')}</span>
-                      </>
-                    ) : (
-                      <span className="opacity-0">Plataforma</span>
-                    )}
-                  </span>
-                </>
-              )}
+              <img 
+                src={resolveSiteLogo(siteSettings?.site_logo_url)} 
+                alt={resolveSiteName(siteSettings?.site_name)} 
+                className="h-10 w-auto object-contain" 
+              />
             </a>
             <p className="max-w-xs text-xs font-bold leading-relaxed text-foreground uppercase tracking-widest opacity-80">
               A maior e mais segura plataforma de ações online. Prêmios instantâneos e sorteios garantidos.
