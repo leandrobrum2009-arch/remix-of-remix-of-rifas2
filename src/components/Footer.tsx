@@ -1,6 +1,7 @@
 import { Ticket, Instagram, Youtube, MessageCircle, ShieldCheck, Mail, Phone, MapPin } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useSiteSettings } from "@/hooks/useData";
+import { resolveSiteLogo, resolveSiteName } from "@/lib/branding";
 
 
 const footerLinks = [
