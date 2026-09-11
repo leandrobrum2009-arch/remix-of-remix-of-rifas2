@@ -177,6 +177,8 @@ $$;
 CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON public.profiles FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 CREATE TRIGGER update_campaigns_updated_at BEFORE UPDATE ON public.campaigns FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
+;
+
 -- ===== 20260517142921_f7eafca6-fab9-413d-8a8a-2ecbbce8ce46.sql =====
 -- Add gamification and balance fields to profiles
 ALTER TABLE public.profiles 
@@ -308,6 +310,8 @@ EXECUTE FUNCTION public.process_paid_order();
 -- Add referral column to orders
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS affiliate_id UUID REFERENCES public.affiliates(id);
 
+;
+
 -- ===== 20260517144818_f6829281-44f9-4b34-8bef-3de0cfebdbe9.sql =====
 -- Add new columns to campaigns
 ALTER TABLE public.campaigns 
@@ -338,6 +342,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+;
+
 -- ===== 20260517145250_562bbf78-c071-4d3b-b8eb-6fbc091b6dbc.sql =====
 CREATE TABLE public.roulette_spins (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -361,6 +367,8 @@ CREATE POLICY "Users can insert their own spins" ON public.roulette_spins
 
 -- Create index for performance
 CREATE INDEX idx_roulette_spins_created_at ON public.roulette_spins (created_at DESC);
+
+;
 
 -- ===== 20260517145329_b408eef8-b723-45d5-b42c-02ecfb5e9065.sql =====
 DROP TABLE IF EXISTS public.roulette_spins;
@@ -388,6 +396,8 @@ CREATE POLICY "Users can insert their own spins" ON public.roulette_spins
 -- Create index for performance
 CREATE INDEX idx_roulette_spins_created_at ON public.roulette_spins (created_at DESC);
 
+;
+
 -- ===== 20260517145517_98312614-a1b4-4599-91ef-eb1191ba2160.sql =====
 CREATE TABLE public.mystery_box_wins (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -413,6 +423,8 @@ CREATE POLICY "Users can insert their own wins" ON public.mystery_box_wins
 
 -- Create index
 CREATE INDEX idx_mystery_box_wins_created_at ON public.mystery_box_wins (created_at DESC);
+
+;
 
 -- ===== 20260517145700_26ba0b9a-e276-41de-9d77-1c32f69dbb41.sql =====
 -- Function to notify user on mystery box win
@@ -456,6 +468,8 @@ CREATE TRIGGER roulette_notification_trigger
 AFTER INSERT ON public.roulette_spins
 FOR EACH ROW
 EXECUTE FUNCTION public.create_roulette_notification();
+
+;
 
 -- ===== 20260517145818_d8669422-c86b-4d00-b455-fd72206edaf0.sql =====
 -- Add sales_goal to campaigns
@@ -559,8 +573,12 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+;
+
 -- ===== 20260517161804_34322728-d565-4aa2-a436-689d3d2b8d40.sql =====
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS pix_qr_code_base64 TEXT;
+;
+
 -- ===== 20260517161833_7a265c3a-8b3e-491f-a0a4-eeddd69b5728.sql =====
 CREATE OR REPLACE FUNCTION public.handle_order_payment(p_order_id UUID)
 RETURNS VOID AS $$
@@ -582,6 +600,8 @@ BEGIN
     WHERE id = (SELECT campaign_id FROM public.orders WHERE id = p_order_id);
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+;
+
 -- ===== 20260517163932_ed0a85b4-17bc-441f-b4dd-8a6c9ec185bd.sql =====
 -- Table for Federal Lottery Results
 CREATE TABLE IF NOT EXISTS public.federal_lottery_results (
@@ -603,6 +623,8 @@ CREATE POLICY "Service role can manage federal results" ON public.federal_lotter
 
 -- Add stripe_session_id to orders
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS stripe_session_id TEXT;
+
+;
 
 -- ===== 20260517164812_a4a531d2-1521-45fe-a1e9-dedbc5828d4b.sql =====
 -- Enable extensions
@@ -637,6 +659,8 @@ BEGIN
     END IF;
 END $$;
 
+;
+
 -- ===== 20260517164827_c1cd3327-36c6-4295-8003-da3bddba5646.sql =====
 CREATE OR REPLACE FUNCTION public.sync_federal_lottery()
 RETURNS void
@@ -653,6 +677,8 @@ BEGIN
 END;
 $$;
 
+;
+
 -- ===== 20260517165701_92baf9dc-6cef-4ee0-950d-8d520f437fc1.sql =====
 -- Permite que administradores gerenciem resultados da Loteria Federal
 CREATE POLICY "Admins can manage federal results"
@@ -666,11 +692,15 @@ ON public.profiles
 FOR SELECT
 USING (has_role(auth.uid(), 'admin'::app_role));
 
+;
+
 -- ===== 20260517181617_cee81834-eced-4fa4-87d3-f5fb7eaf17b3.sql =====
 ALTER TABLE public.campaigns 
 ADD COLUMN IF NOT EXISTS roulette_spin_cost NUMERIC(10,2) DEFAULT 5.00,
 ADD COLUMN IF NOT EXISTS roulette_free_tickets INTEGER DEFAULT 1,
 ADD COLUMN IF NOT EXISTS roulette_multiplier_max INTEGER DEFAULT 5;
+;
+
 -- ===== 20260517181721_33ea044f-5c61-4515-944d-21bc186fabc5.sql =====
 CREATE OR REPLACE FUNCTION public.increment_balance(amount numeric, user_uuid uuid)
 RETURNS void AS $$
@@ -680,6 +710,8 @@ BEGIN
   WHERE user_id = user_uuid;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+;
+
 -- ===== 20260517182902_568636c8-18ca-4fd3-a0c1-47c7df86e1a7.sql =====
 -- Create Enum for Rarity
 DO $$ BEGIN
@@ -748,6 +780,8 @@ BEGIN
         ON CONFLICT DO NOTHING;
     END IF;
 END $$;
+
+;
 
 -- ===== 20260517183957_e4150849-127e-4b4d-9b6c-6de0e92ef1d9.sql =====
 -- Create banners table
@@ -842,6 +876,8 @@ INSERT INTO public.site_settings (key, value, description) VALUES
 ('min_withdrawal_amount', '50', 'Valor mínimo para saque'),
 ('support_whatsapp', '+5500000000000', 'Número do WhatsApp de suporte');
 
+;
+
 -- ===== 20260517194227_f0a59016-187c-4147-8b76-0433658a786e.sql =====
 -- Create wallet_transactions table
 CREATE TABLE IF NOT EXISTS public.wallet_transactions (
@@ -892,6 +928,8 @@ BEFORE UPDATE ON public.wallet_transactions
 FOR EACH ROW
 EXECUTE FUNCTION public.update_updated_at_column();
 
+;
+
 -- ===== 20260518110729_5bd1f967-b0cc-4518-a618-5e63de5a2e09.sql =====
 CREATE OR REPLACE FUNCTION public.on_order_paid_notification()
 RETURNS TRIGGER AS $$
@@ -913,6 +951,8 @@ CREATE TRIGGER tr_on_order_paid_notification
 AFTER UPDATE ON public.orders
 FOR EACH ROW
 EXECUTE FUNCTION public.on_order_paid_notification();
+;
+
 -- ===== 20260518110804_842d56cb-b828-4d5a-8b41-ae663f1105f6.sql =====
 CREATE OR REPLACE FUNCTION public.on_profile_created_notification()
 RETURNS TRIGGER AS $$
@@ -932,9 +972,13 @@ CREATE TRIGGER tr_on_profile_created_notification
 AFTER INSERT ON public.profiles
 FOR EACH ROW
 EXECUTE FUNCTION public.on_profile_created_notification();
+;
+
 -- ===== 20260518111757_1bf61745-4981-40c8-b549-5a1508ec6670.sql =====
 ALTER TABLE public.profiles ADD COLUMN referred_by_code TEXT;
 CREATE INDEX idx_profiles_referred_by_code ON public.profiles(referred_by_code);
+;
+
 -- ===== 20260518115528_e3f5db03-a764-4c26-908b-19a44766d753.sql =====
 -- Add new columns to campaigns table
 ALTER TABLE public.campaigns 
@@ -948,6 +992,8 @@ ADD COLUMN IF NOT EXISTS main_prizes JSONB DEFAULT '[]'::jsonb;
 COMMENT ON COLUMN public.campaigns.ticket_generation_type IS 'manual or auto';
 COMMENT ON COLUMN public.campaigns.roulette_payout_rate IS 'Percentage chance of winning on roulette';
 COMMENT ON COLUMN public.campaigns.main_prizes IS 'Array of prizes for 1st to 5th place';
+;
+
 -- ===== 20260518115807_79a705ae-2e2e-4363-a364-0551ac27c811.sql =====
 CREATE OR REPLACE FUNCTION public.reserve_tickets(
     p_campaign_id UUID,
@@ -1023,6 +1069,8 @@ BEGIN
     RETURN v_order_id;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+;
+
 -- ===== 20260518121502_15e4b4d0-0fcc-40ed-9821-dc3f656664bf.sql =====
 -- Add is_free column to roulette_spins
 ALTER TABLE public.roulette_spins ADD COLUMN IF NOT EXISTS is_free BOOLEAN DEFAULT FALSE;
@@ -1207,6 +1255,8 @@ EXECUTE FUNCTION public.protect_profile_fields();
 -- Remove direct insert on roulette_spins for users (only let the function do it)
 DROP POLICY IF EXISTS "Users can insert their own spins" ON public.roulette_spins;
 
+;
+
 -- ===== 20260518121618_f0959579-2a28-45a5-a4a4-96b953e91de2.sql =====
 CREATE OR REPLACE FUNCTION public.process_roulette_spin(
   p_campaign_id UUID,
@@ -1342,6 +1392,8 @@ BEGIN
 END;
 $$;
 
+;
+
 -- ===== 20260518125633_b94caedf-9184-4ae8-b6a1-cca3f3b3a19d.sql =====
 -- Create a bucket for campaigns
 INSERT INTO storage.buckets (id, name, public) 
@@ -1366,6 +1418,8 @@ USING (bucket_id = 'campaigns' AND auth.role() = 'authenticated');
 CREATE POLICY "Authenticated Delete" 
 ON storage.objects FOR DELETE 
 USING (bucket_id = 'campaigns' AND auth.role() = 'authenticated');
+;
+
 -- ===== 20260518143534_e0c30291-dce5-4b7d-9fa0-be540cf33750.sql =====
 -- Fix function search paths
 ALTER FUNCTION public.process_paid_order() SET search_path = public;
@@ -1393,6 +1447,8 @@ COMMENT ON TABLE public.mystery_box_configs IS '@graphql({"enabled": false})';
 COMMENT ON TABLE public.mystery_boxes IS '@graphql({"enabled": false})';
 COMMENT ON TABLE public.site_settings IS '@graphql({"enabled": false})';
 
+;
+
 -- ===== 20260518144745_062bd67c-92d0-4894-87ba-b594cfaa126d.sql =====
 -- Add missing foreign keys to orders
 ALTER TABLE public.orders
@@ -1419,6 +1475,8 @@ ADD COLUMN IF NOT EXISTS email TEXT;
 CREATE INDEX IF NOT EXISTS idx_orders_user_id ON public.orders(user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_campaign_id ON public.orders(campaign_id);
 CREATE INDEX IF NOT EXISTS idx_winners_campaign_id ON public.winners(campaign_id);
+;
+
 -- ===== 20260519105729_0a45f394-4661-402f-85ad-18aa214573ec.sql =====
 -- Add roulette_rules column to campaigns
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS roulette_rules JSONB DEFAULT '[]'::jsonb;
@@ -1572,6 +1630,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260519105827_4aabdd02-c6c4-47d9-aa03-d0f2355a4172.sql =====
 CREATE OR REPLACE FUNCTION public.process_roulette_spin(p_campaign_id uuid, p_multiplier integer)
  RETURNS jsonb
@@ -1723,6 +1783,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260519110940_8c7659c3-cb90-4938-8e92-2610326e1de8.sql =====
 CREATE OR REPLACE FUNCTION public.handle_order_payment(p_order_id uuid)
  RETURNS void
@@ -1808,6 +1870,8 @@ BEGIN
     END IF;
 END;
 $function$;
+;
+
 -- ===== 20260519111100_c1d61a0a-ec1b-49cf-902c-95f298069c57.sql =====
 CREATE OR REPLACE FUNCTION public.handle_order_payment(p_order_id uuid)
  RETURNS void
@@ -1897,6 +1961,8 @@ BEGIN
     END IF;
 END;
 $function$;
+
+;
 
 -- ===== 20260519111144_2e95d33c-ab14-4caa-92a0-e00056c9b757.sql =====
 -- Allow NULLs in roulette_spins for prize info
@@ -2073,6 +2139,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260519111231_de8d049d-4554-4f62-9fb0-e7d4531c016e.sql =====
 CREATE OR REPLACE FUNCTION public.create_roulette_notification()
  RETURNS trigger
@@ -2101,6 +2169,8 @@ DROP TRIGGER IF EXISTS roulette_notification_trigger ON public.roulette_spins;
 CREATE TRIGGER roulette_notification_trigger
 AFTER INSERT OR UPDATE ON public.roulette_spins
 FOR EACH ROW EXECUTE FUNCTION create_roulette_notification();
+
+;
 
 -- ===== 20260519111854_41f21290-37fa-4841-800d-60716a16b19b.sql =====
 CREATE OR REPLACE FUNCTION public.handle_order_payment(p_order_id uuid)
@@ -2184,6 +2254,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260519113307_071551b6-4135-48ef-a44e-3e99707b8ad8.sql =====
 -- Create extensions schema if not exists
 CREATE SCHEMA IF NOT EXISTS extensions;
@@ -2240,6 +2312,8 @@ GRANT SELECT ON public.banners TO anon;
 GRANT SELECT ON public.federal_lottery_results TO anon;
 GRANT SELECT ON public.site_settings TO anon;
 
+;
+
 -- ===== 20260519123449_7a49ceb3-debd-46d5-b55c-4011f8133ffa.sql =====
 -- Create a table for avatars if not already exists (buckets are managed via storage schema)
 INSERT INTO storage.buckets (id, name, public) 
@@ -2262,8 +2336,12 @@ USING (bucket_id = 'avatars' AND auth.uid()::text = (storage.foldername(name))[1
 CREATE POLICY "Users can delete their own avatar" 
 ON storage.objects FOR DELETE 
 USING (bucket_id = 'avatars' AND auth.uid()::text = (storage.foldername(name))[1]);
+;
+
 -- ===== 20260519131610_6bc80e0a-8dd7-4882-95e3-504198b200b6.sql =====
 ALTER TABLE public.winners ADD COLUMN IF NOT EXISTS avatar_url TEXT;
+;
+
 -- ===== 20260519184031_253a51e9-df45-4b7c-a017-6aaeaa5436e5.sql =====
 ALTER TABLE public.campaigns 
 ADD COLUMN IF NOT EXISTS show_timer BOOLEAN DEFAULT false,
@@ -2272,11 +2350,15 @@ ADD COLUMN IF NOT EXISTS timer_end_date TIMESTAMP WITH TIME ZONE;
 
 -- Add a comment explaining the sections_order
 COMMENT ON COLUMN public.campaigns.sections_order IS 'Order of sections on the campaign detail page: gallery, header, progress, purchase, description, prizes, winners, ranking';
+;
+
 -- ===== 20260519191304_1138a26f-c158-4a65-90f1-0a82494b9197.sql =====
 ALTER TABLE public.winners ADD COLUMN winner_type TEXT DEFAULT 'raffle';
 
 -- Update RLS policies to allow reading the new column (should be automatic but good to check)
 COMMENT ON COLUMN public.winners.winner_type IS 'Type of win: raffle, roulette, scratchcard, lucky_number';
+;
+
 -- ===== 20260519220125_2d0b801c-7871-4aa9-8588-c7e32345c15c.sql =====
 -- Create scratch_card_prizes table
 CREATE TABLE public.scratch_card_prizes (
@@ -2349,6 +2431,8 @@ CREATE TRIGGER update_scratch_card_prizes_updated_at
 BEFORE UPDATE ON public.scratch_card_prizes
 FOR EACH ROW
 EXECUTE FUNCTION public.update_updated_at_column();
+
+;
 
 -- ===== 20260519220238_8396f8c9-1bf8-4206-bcca-5778d9ce51dd.sql =====
 CREATE OR REPLACE FUNCTION public.process_scratch_card_play(
@@ -2446,6 +2530,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+;
+
 -- ===== 20260519224945_f461b593-101e-4807-b494-2e5625a0c11b.sql =====
 -- Inserir novas configurações na tabela site_settings
 INSERT INTO public.site_settings (key, value, description)
@@ -2457,25 +2543,35 @@ VALUES
   ('border_shimmer_opacity', '0.8', 'Opacidade do brilho na borda dos botões e cards (0 a 1).')
 ON CONFLICT (key) DO NOTHING;
 
+;
+
 -- ===== 20260519225101_8076095a-0e2e-4fa9-9a64-1fbf45eafc38.sql =====
 INSERT INTO public.site_settings (key, value, description)
 VALUES ('primary_color', '#16a34a', 'Cor primária do site em formato Hex (ex: #16a34a). Altera a cor principal de botões, destaques e elementos interativos.')
 ON CONFLICT (key) DO NOTHING;
+
+;
 
 -- ===== 20260519225333_25fe1628-abf2-4eaa-9463-ff0fc3d8ce34.sql =====
 INSERT INTO public.site_settings (key, value, description)
 VALUES ('hero_transition_type', 'slide', 'Tipo de transição entre os slides (ex: slide, fade).')
 ON CONFLICT (key) DO NOTHING;
 
+;
+
 -- ===== 20260519225517_4fa0a522-4aa9-4102-b548-c5fd7c5084f7.sql =====
 INSERT INTO public.site_settings (key, value, description)
 VALUES ('animation_easing', 'cubic-bezier(0.4, 0, 0.2, 1)', 'Tipo de curva de suavização (easing) para todas as animações do site (ex: ease, linear, cubic-bezier).')
 ON CONFLICT (key) DO NOTHING;
 
+;
+
 -- ===== 20260519225655_a0fe2e33-37e0-46b7-aeb7-f3da187d5450.sql =====
 INSERT INTO public.site_settings (key, value, description)
 VALUES ('button_glow_intensity', '0.2', 'Intensidade do efeito de brilho (glow) ao redor dos botões (0 a 1).')
 ON CONFLICT (key) DO NOTHING;
+
+;
 
 -- ===== 20260519225752_9bcfbb99-bb6f-4343-9adc-b7308903f787.sql =====
 INSERT INTO public.site_settings (key, value, description)
@@ -2484,6 +2580,8 @@ VALUES
   ('title_shimmer_secondary', '#ffffff', 'Cor base do brilho nos títulos (bordas) para o tema escuro.'),
   ('title_shimmer_secondary_light', '#000000', 'Cor base do brilho nos títulos (bordas) para o tema claro.')
 ON CONFLICT (key) DO NOTHING;
+
+;
 
 -- ===== 20260519231350_ceaa8f85-c8a9-4096-94c6-d11e988b9503.sql =====
 -- Create custom_presets table
@@ -2508,6 +2606,8 @@ CREATE TRIGGER update_custom_presets_updated_at
 BEFORE UPDATE ON public.custom_presets
 FOR EACH ROW
 EXECUTE FUNCTION public.update_updated_at_column();
+;
+
 -- ===== 20260520102827_bbea2804-1b5a-4643-8266-b296426a1bd7.sql =====
 INSERT INTO site_settings (key, value, description) VALUES
 ('company_name', '', 'Razão Social ou Nome Fantasia da empresa.'),
@@ -2516,6 +2616,8 @@ INSERT INTO site_settings (key, value, description) VALUES
 ('company_phone', '', 'Telefone de contato corporativo.'),
 ('company_email', '', 'E-mail oficial de contato da empresa.')
 ON CONFLICT (key) DO NOTHING;
+;
+
 -- ===== 20260520103045_0abd07c5-f42d-4006-83da-218df816a460.sql =====
 -- 1. Update tickets status check constraint
 ALTER TABLE public.tickets DROP CONSTRAINT tickets_status_check;
@@ -2600,6 +2702,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260520103141_c955bbf4-db91-4cf5-81b6-03948371caec.sql =====
 CREATE OR REPLACE FUNCTION public.process_paid_order()
  RETURNS trigger
@@ -2670,6 +2774,8 @@ AS $function$
  END;
  $function$;
 
+;
+
 -- ===== 20260520103516_a6a4a0cb-04bf-400a-9a0a-31bb32d0b67d.sql =====
 CREATE OR REPLACE FUNCTION public.manual_perform_draw(p_campaign_id uuid, p_ticket_number text)
  RETURNS uuid
@@ -2710,15 +2816,21 @@ AS $function$
  END;
  $function$;
 
+;
+
 -- ===== 20260520103806_dc2ad70d-5209-42af-bf9f-b67b6009f7b6.sql =====
 INSERT INTO site_settings (key, value, description) VALUES
 ('home_marquee_enabled', 'true', 'Habilita ou desabilita a faixa de texto corrido no banner da página inicial.'),
 ('home_marquee_text', 'ÚLTIMAS COTAS DISPONÍVEIS • PRÊMIOS INSTANTÂNEOS NO PIX • SORTEIO 100% GARANTIDO', 'Texto que será exibido na faixa do banner (use • para separar frases).')
 ON CONFLICT (key) DO NOTHING;
+;
+
 -- ===== 20260521094444_6a24a55d-7faf-4317-a8c9-859ee7e38a5c.sql =====
 ALTER TABLE campaigns ADD COLUMN IF NOT EXISTS scratch_cards_enabled BOOLEAN DEFAULT false;
 ALTER TABLE campaigns ADD COLUMN IF NOT EXISTS scratch_card_cost NUMERIC(10,2) DEFAULT 0;
 ALTER TABLE campaigns ADD COLUMN IF NOT EXISTS scratch_card_rules JSONB DEFAULT '[]'::jsonb;
+;
+
 -- ===== 20260521095920_f9195124-324a-4ec3-94d0-f075abc586ea.sql =====
 CREATE OR REPLACE FUNCTION pay_with_balance(p_order_id UUID, p_user_id UUID)
 RETURNS JSONB AS $$
@@ -2765,6 +2877,8 @@ BEGIN
     RETURN jsonb_build_object('success', true, 'message', 'Pagamento realizado com sucesso');
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+;
+
 -- ===== 20260521100102_b5619ab0-a91f-4ac7-b6c8-e430346163ec.sql =====
 CREATE OR REPLACE FUNCTION pay_with_balance(p_order_id UUID, p_user_id UUID)
 RETURNS JSONB AS $$
@@ -2805,6 +2919,8 @@ BEGIN
     RETURN jsonb_build_object('success', true, 'message', 'Pagamento realizado com sucesso via saldo!');
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+;
+
 -- ===== 20260521103609_ad37c45c-06f3-42ab-9bb3-55c058a78601.sql =====
 -- Update protect_profile_fields to allow system updates
 CREATE OR REPLACE FUNCTION public.protect_profile_fields()
@@ -2934,6 +3050,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260522114627_fdf80e28-eb01-4de0-8b58-95ddadd29243.sql =====
 INSERT INTO site_settings (key, value, description) VALUES
 ('mercadopago_access_token', '', 'Access Token do Mercado Pago para processamento de pagamentos.'),
@@ -2944,8 +3062,12 @@ INSERT INTO site_settings (key, value, description) VALUES
 ('paggue_client_key', '', 'Client Key da Paggue (opcional).'),
 ('paggue_client_secret', '', 'Client Secret da Paggue (opcional).');
 
+;
+
 -- ===== 20260522114903_2c8bb673-7989-4dcc-ba6a-240d3228c58c.sql =====
 ALTER TABLE mystery_boxes ADD COLUMN IF NOT EXISTS rarity TEXT DEFAULT 'Comum';
+
+;
 
 -- ===== 20260522120648_f16e283a-f1b2-4a8c-96f0-5e994b304190.sql =====
 ALTER TABLE public.campaigns 
@@ -2955,6 +3077,8 @@ ADD COLUMN IF NOT EXISTS upsell_video_url TEXT,
 ADD COLUMN IF NOT EXISTS upsell_offer_text TEXT,
 ADD COLUMN IF NOT EXISTS upsell_enabled BOOLEAN DEFAULT false,
 ADD COLUMN IF NOT EXISTS upsell_probability TEXT DEFAULT '98%';
+;
+
 -- ===== 20260522124115_c6133038-5cbc-473b-8723-ed333d8b26b9.sql =====
 -- Set search_path for public functions with correct signatures
 ALTER FUNCTION public.on_order_paid_notification() SET search_path = public;
@@ -2997,12 +3121,18 @@ BEGIN
     END LOOP;
 END $$;
 
+;
+
 -- ===== 20260522133402_b9dbd0c9-e33a-4191-a19a-16b4fcf581b7.sql =====
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS ranking_prizes JSONB DEFAULT '[]'::jsonb;
+;
+
 -- ===== 20260522150244_340d960d-bf53-49c5-a4e8-2c4535d521db.sql =====
 INSERT INTO public.site_settings (key, value, description)
 VALUES ('active_payment_provider', 'mercadopago', 'Provedor de pagamento ativo (mercadopago, paggue, ou manual)')
 ON CONFLICT (key) DO NOTHING;
+;
+
 -- ===== 20260522150413_32a17a6b-5787-4dad-ab66-7f5563d48bce.sql =====
 -- Revoke public select from site_settings
 DROP POLICY IF EXISTS "Site settings are publicly readable" ON public.site_settings;
@@ -3036,6 +3166,8 @@ WITH CHECK (
     WHERE user_id = auth.uid() AND role = 'admin'
   )
 );
+;
+
 -- ===== 20260522152547_9dad0ddf-5bd7-486e-83b2-ec21a0eee0c8.sql =====
 -- Create the site-assets bucket if it doesn't exist
 INSERT INTO storage.buckets (id, name, public)
@@ -3059,6 +3191,8 @@ CREATE POLICY "Site Assets Authenticated Delete"
 ON storage.objects FOR DELETE
 USING (bucket_id = 'site-assets' AND auth.role() = 'authenticated');
 
+;
+
 -- ===== 20260522152655_730bf636-d6de-4dd9-87a5-a2c96690ec43.sql =====
 -- Drop the old overly restrictive policy
 DROP POLICY IF EXISTS "Public can view non-sensitive settings" ON public.site_settings;
@@ -3077,6 +3211,8 @@ USING (
     key ILIKE '%client_key%'
   )
 );
+
+;
 
 -- ===== 20260522171107_78d26613-2ca0-4f0e-89ba-54a6011ec939.sql =====
 -- 1. Melhorar a função de captura de novo usuário
@@ -3136,6 +3272,8 @@ BEGIN
     END IF;
 END $$;
 
+;
+
 -- ===== 20260522171705_bae251ec-2b0d-4bee-9779-ec5bda03dc1d.sql =====
 -- 1. Garantir que as permissões de SELECT existam para anon e authenticated
 GRANT SELECT ON public.site_settings TO anon, authenticated;
@@ -3148,6 +3286,8 @@ UPDATE storage.buckets SET public = true WHERE id = 'site-assets';
 UPDATE public.site_settings 
 SET value = 'Rifas Pro' 
 WHERE key = 'site_name' AND (value IS NULL OR value = '');
+
+;
 
 -- ===== 20260522172907_5ca6ff61-cf35-4d83-8a56-cf8d7dae2220.sql =====
 
@@ -3223,12 +3363,16 @@ CREATE POLICY "Admins can delete site assets"
 ON storage.objects FOR DELETE
 USING (bucket_id = 'site-assets' AND public.has_role(auth.uid(), 'admin'));
 
+;
+
 -- ===== 20260522173021_fe62a8c8-6023-4f10-b822-600b8e63ee62.sql =====
 INSERT INTO public.site_settings (key, value)
 VALUES 
   ('site_logo_height', '44'),
   ('site_logo_height_mobile', '36')
 ON CONFLICT (key) DO NOTHING;
+;
+
 -- ===== 20260522225424_b8342166-c430-4e9c-a4c8-9da92b5b4c91.sql =====
 -- Update perform_draw to look for 'confirmed' tickets
 CREATE OR REPLACE FUNCTION public.perform_draw(p_campaign_id uuid)
@@ -3319,6 +3463,8 @@ ALTER FUNCTION public.has_role(uuid, app_role) SET search_path = public;
 -- Let's just make sure the owner of user_roles is postgres.
 ALTER TABLE public.user_roles OWNER TO postgres;
 
+;
+
 -- ===== 20260522230013_67e86a2c-a116-4484-b2b2-f47c8bb58e81.sql =====
 CREATE OR REPLACE FUNCTION public.duplicate_campaign(p_campaign_id UUID)
 RETURNS UUID
@@ -3397,12 +3543,18 @@ BEGIN
 END;
 $$;
 
+;
+
 -- ===== 20260522230528_b2fdc33d-7185-48e5-89eb-98a84ccab91e.sql =====
 -- Remove the redundant foreign key constraint
 ALTER TABLE public.winners DROP CONSTRAINT IF EXISTS winners_campaign_id_fkey;
 
+;
+
 -- ===== 20260522230716_60de3d86-1ec3-44ce-94a3-451fbf2a88cd.sql =====
 ALTER TABLE public.orders DROP CONSTRAINT IF EXISTS orders_campaign_id_fkey;
+
+;
 
 -- ===== 20260522232131_00c46729-346d-4302-982a-30e7f67cd297.sql =====
 -- Update perform_draw to include 'paid' status
@@ -3485,6 +3637,8 @@ BEGIN
     RETURN v_winner_id;
 END;
 $function$;
+;
+
 -- ===== 20260522232358_848ed7dc-cb13-4794-a9f6-ab8ac513c5d5.sql =====
 -- Improve process_paid_order to handle batch inserts and status transitions
 CREATE OR REPLACE FUNCTION public.process_paid_order()
@@ -3630,6 +3784,8 @@ AS $function$
      RETURN v_order_id;
  END;
  $function$;
+;
+
 -- ===== 20260522232602_c7e41eab-5e8b-49ae-ad06-4e0c917684eb.sql =====
 CREATE OR REPLACE FUNCTION public.handle_order_payment(p_order_id uuid)
  RETURNS void
@@ -3684,6 +3840,8 @@ BEGIN
     END IF;
 END;
 $function$;
+;
+
 -- ===== 20260523113919_36c21bfc-097f-465b-a927-41b4e99ecfdf.sql =====
 -- Ensure RLS is enabled
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
@@ -3733,6 +3891,8 @@ FOR SELECT USING (
 
 -- Ensure anon and authenticated roles have SELECT access
 GRANT SELECT ON public.site_settings TO anon, authenticated;
+
+;
 
 -- ===== 20260523114639_0f966745-f235-4cd0-8900-8a22d2522c25.sql =====
 -- Grant SELECT on user_roles to public so RLS policies on other tables can check roles without erroring
@@ -3785,6 +3945,8 @@ WITH CHECK (
     WHERE user_id = auth.uid() AND role = 'admin'
   )
 );
+
+;
 
 -- ===== 20260523125433_ab5980e3-c257-449d-be73-7040cbc6baa5.sql =====
 -- Função para reparar um pedido específico
@@ -3866,6 +4028,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+;
+
 -- ===== 20260523125607_f723d40a-87a2-4ae1-a1ab-4bcf5d9c9e94.sql =====
 CREATE OR REPLACE FUNCTION public.get_order_inconsistencies()
 RETURNS TABLE (
@@ -3891,6 +4055,8 @@ BEGIN
     HAVING COUNT(t.id) != o.quantity;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+;
 
 -- ===== 20260523125711_17e02e37-5278-419f-b2d2-7cafb9a3f6ed.sql =====
 CREATE TABLE IF NOT EXISTS public.draw_logs (
@@ -3954,6 +4120,8 @@ BEGIN
     RETURN v_winner_id;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+;
 
 -- ===== 20260523130441_d7e51605-5aa0-4b43-bfd2-19813962eba8.sql =====
 -- Atualizando a função de trigger para lidar com cancelamentos
@@ -4035,6 +4203,8 @@ RETURNS TRIGGER AS $$
  END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+;
+
 -- ===== 20260523130608_22c64961-14cf-4e7c-8d20-76894f646a6b.sql =====
 CREATE OR REPLACE FUNCTION public.repair_order(p_order_id UUID)
 RETURNS JSONB AS $$
@@ -4099,6 +4269,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+;
+
 -- ===== 20260523153721_73eacd0d-0999-470d-8e3e-86406a2efa6a.sql =====
 -- Allow admins to manage all orders
 DROP POLICY IF EXISTS "Admins can view all orders" ON public.orders;
@@ -4126,6 +4298,8 @@ ON public.wallet_transactions
 FOR ALL 
 USING (has_role(auth.uid(), 'admin'::app_role));
 
+;
+
 -- ===== 20260523220655_8c5bad4a-8a14-48bf-91f7-05f3d3e9e45e.sql =====
 -- Create a table to track processed webhooks
 CREATE TABLE public.processed_webhooks (
@@ -4139,6 +4313,8 @@ ALTER TABLE public.processed_webhooks ENABLE ROW LEVEL SECURITY;
 
 -- Note: No policies needed for now as it's only used by service_role in edge functions
 -- If we ever need to view these from the UI, we can add a policy for admin.
+;
+
 -- ===== 20260523220843_1390a8b7-f5b1-49bb-89f8-3c28b5741383.sql =====
 -- Create table for webhook event processing
 CREATE TABLE public.webhook_events (
@@ -4162,6 +4338,8 @@ ALTER TABLE public.webhook_events ENABLE ROW LEVEL SECURITY;
 -- Index for queue processing
 CREATE INDEX idx_webhook_events_status_attempts ON public.webhook_events (status, attempts) WHERE status != 'processed';
 
+;
+
 -- ===== 20260523220945_5dde6602-7eea-443c-8a26-24a13bc3409b.sql =====
 -- Enable pg_cron extension
 CREATE EXTENSION IF NOT EXISTS pg_cron;
@@ -4183,6 +4361,8 @@ $$);
 
 -- Note: site_settings needs to have these keys for this specific cron implementation to work.
 -- If not, the user can configure it via Supabase dashboard crons.
+
+;
 
 -- ===== 20260523221114_3a2826e6-2ef5-4a43-b8ca-5ee0b2e9100d.sql =====
 -- Add audit columns to orders
@@ -4250,6 +4430,8 @@ BEGIN
     END IF;
 END;
 $function$;
+
+;
 
 -- ===== 20260523221401_a5372d79-dd7d-48d3-89b6-1eb693241998.sql =====
 -- Fix release_expired_tickets to actually free up the numbers
@@ -4333,6 +4515,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260523222111_798cbeb5-052f-46c3-aacb-d0de6f915a3a.sql =====
 -- Create bucket for payment proofs
 INSERT INTO storage.buckets (id, name, public) VALUES ('payment-proofs', 'payment-proofs', true)
@@ -4353,8 +4537,12 @@ CREATE POLICY "Admins manage proofs"
 ON storage.objects FOR ALL
 USING (bucket_id = 'payment-proofs' AND has_role(auth.uid(), 'admin'::app_role));
 
+;
+
 -- ===== 20260523222129_b413d682-1f76-4ba3-aa16-db49e7b4ad03.sql =====
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS proof_url TEXT;
+
+;
 
 -- ===== 20260524130832_5076c290-4c35-4244-a57c-1b84197b8066.sql =====
 -- Add default SEO settings if they don't exist
@@ -4364,6 +4552,8 @@ VALUES
   ('site_description', 'A melhor e mais segura plataforma de rifas online do Brasil. Participe e ganhe prêmios incríveis!', 'Descrição global do site para SEO')
 ON CONFLICT (key) DO NOTHING;
 
+;
+
 -- ===== 20260524141014_3267ce98-788f-4bfc-85a6-e2eef2c9b660.sql =====
 INSERT INTO public.site_settings (key, value, description) VALUES 
 ('show_sales_page', 'false', 'Habilitar página de vendas como página inicial'),
@@ -4371,6 +4561,8 @@ INSERT INTO public.site_settings (key, value, description) VALUES
 ('sales_page_type', 'rifas', 'Tipo da plataforma (rifas, leilões, etc)'),
 ('sales_page_whatsapp', '', 'WhatsApp específico para vendas da plataforma (deixe vazio para usar o padrão)')
 ON CONFLICT (key) DO NOTHING;
+;
+
 -- ===== 20260524183556_1b392882-862a-4c1f-8451-175712c7fb8c.sql =====
 -- Add direct foreign key relationships to allow PostgREST joins with profiles
 -- Note: profiles.user_id is unique, so we can reference it.
@@ -4434,6 +4626,8 @@ ON public.webhook_events
 FOR ALL 
 USING (has_role(auth.uid(), 'admin'::app_role));
 
+;
+
 -- ===== 20260524184038_8a331e0f-641c-40e5-9baf-20de957bfbd1.sql =====
 -- Drop the redundant 1-argument version of handle_order_payment to resolve ambiguity
 DROP FUNCTION IF EXISTS public.handle_order_payment(uuid);
@@ -4455,6 +4649,8 @@ CREATE POLICY "Users can delete their own orders"
 ON public.orders 
 FOR DELETE 
 USING (auth.uid() = user_id);
+
+;
 
 -- ===== 20260524184126_40b6c38f-c743-4d34-abd4-457f07b35fc1.sql =====
 -- Update pay_with_balance to set payment_provider and be more robust
@@ -4505,6 +4701,8 @@ $function$;
 
 -- Refresh schema cache
 NOTIFY pgrst, 'reload schema';
+
+;
 
 -- ===== 20260524215808_6586e4ab-8e53-4816-90ae-ff92eb6a4ead.sql =====
 -- Improve handle_order_payment to be more robust and include scratch cards
@@ -4620,6 +4818,8 @@ BEGIN
     RETURN jsonb_build_object('success', true, 'message', 'Prêmios reprocessados com sucesso');
 END;
 $$;
+;
+
 -- ===== 20260525114151_61c1aff0-2eeb-40c8-be94-da5695ce9c09.sql =====
 -- Fix process_scratch_card_play to use user_id and handle empty prizes
 CREATE OR REPLACE FUNCTION public.process_scratch_card_play(p_campaign_id uuid DEFAULT NULL::uuid, p_cost numeric DEFAULT 0)
@@ -4820,6 +5020,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260525114241_4d956b4c-abfe-4fc1-89f0-c85ce9c75914.sql =====
 CREATE OR REPLACE FUNCTION public.process_roulette_spin(p_campaign_id uuid, p_multiplier integer)
  RETURNS jsonb
@@ -4928,6 +5130,8 @@ BEGIN
   );
 END;
 $function$;
+
+;
 
 -- ===== 20260525115138_e48ce0d1-41b3-47d6-a505-85a7612cbf77.sql =====
 -- Redefine process_roulette_spin with better loss handling
@@ -5046,6 +5250,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260525121546_b621f3d7-1d00-4c93-997f-67c2a981dc61.sql =====
 -- Add INSERT policy for notifications
 CREATE POLICY "Users can insert their own notifications" 
@@ -5065,6 +5271,8 @@ BEGIN
         CREATE POLICY "Users can insert their own roulette spins" ON public.roulette_spins FOR INSERT WITH CHECK (auth.uid() = user_id);
     END IF;
 END $$;
+
+;
 
 -- ===== 20260525134431_b0e6fc6f-1162-4d91-9226-5dd28ddccfa2.sql =====
 -- Atualiza a função perform_draw para salvar o número sorteado
@@ -5157,6 +5365,8 @@ AS $function$
      RETURN v_winner_id;
  END;
  $function$;
+;
+
 -- ===== 20260525134841_1a19f872-c274-4e2a-907f-84e80a940922.sql =====
 -- Fix foreign key constraint on scratch_card_scratches
 ALTER TABLE public.scratch_card_scratches DROP CONSTRAINT IF EXISTS "scratch_card_scratches_user_id_fkey";
@@ -5332,6 +5542,8 @@ AS $function$
      );
  END;
  $function$;
+;
+
 -- ===== 20260525140838_b5387526-cf9b-4da9-b448-a5eff4495a19.sql =====
 
 -- 1. Affiliates: admin management policy
@@ -5399,6 +5611,8 @@ USING (
 -- 6. Remove client INSERT on game outcome tables — writes must go through SECURITY DEFINER RPCs
 DROP POLICY IF EXISTS "Users can insert their own roulette spins" ON public.roulette_spins;
 DROP POLICY IF EXISTS "Users can insert their own scratches" ON public.scratch_card_scratches;
+
+;
 
 -- ===== 20260525171826_44da6417-4bd4-49db-b7a5-6221c1f6c255.sql =====
 -- Add description to scratch_card_scratches if it doesn't exist
@@ -5623,6 +5837,8 @@ AS $function$
  END;
  $function$;
 
+;
+
 -- ===== 20260526120441_0c40f1be-a9d7-48cf-b112-b33bb7ff57bc.sql =====
 -- Allow public read access to paid orders for ranking
 CREATE POLICY "Public can view paid orders for ranking"
@@ -5635,6 +5851,8 @@ CREATE POLICY "Public can view confirmed/paid tickets for stats"
 ON public.tickets
 FOR SELECT
 USING (status IN ('confirmed', 'paid'));
+;
+
 -- ===== 20260526140125_4197095c-da49-4a66-99d2-efb0bcab7074.sql =====
 -- Update constraint to allow 'hidden' status
 ALTER TABLE public.campaigns DROP CONSTRAINT IF EXISTS campaigns_status_check;
@@ -5709,6 +5927,8 @@ RETURNS void AS $$
   END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+;
+
 -- ===== 20260526140349_44a1e0bc-fb0b-427e-b26f-b745c0a0aea7.sql =====
 -- First, drop both possible overloads to start fresh
 DROP FUNCTION IF EXISTS public.perform_draw(p_campaign_id uuid);
@@ -5782,6 +6002,8 @@ $function$;
 GRANT EXECUTE ON FUNCTION public.perform_draw(uuid, uuid) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.perform_draw(uuid, uuid) TO service_role;
 
+;
+
 -- ===== 20260526140705_e53d79ab-c45f-49c4-9c65-d32554469083.sql =====
 -- Add live_stream_url to campaigns
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS live_stream_url TEXT;
@@ -5824,6 +6046,8 @@ AFTER INSERT OR UPDATE ON public.federal_lottery_results
 FOR EACH ROW
 EXECUTE FUNCTION public.process_lottery_draw_auto();
 
+;
+
 -- ===== 20260526140731_c23316e9-e99c-46e9-ba1c-60f8c9e2925a.sql =====
 CREATE OR REPLACE FUNCTION public.process_lottery_draw_auto()
 RETURNS TRIGGER AS $$
@@ -5858,6 +6082,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+;
+
 -- ===== 20260526140823_83067310-1fee-49de-92cd-e3610a34e150.sql =====
 CREATE OR REPLACE FUNCTION public.notify_campaign_draw(p_campaign_id uuid)
 RETURNS void AS $$
@@ -5876,6 +6102,8 @@ BEGIN
     WHERE campaign_id = p_campaign_id;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+;
 
 -- ===== 20260526165639_75aed9d1-6bc6-4cd0-8878-15bc8d6869a4.sql =====
 -- Adicionar colunas para múltiplos prêmios na tabela de ganhadores
@@ -6073,6 +6301,8 @@ GRANT EXECUTE ON FUNCTION public.perform_draw(uuid, uuid, integer, boolean) TO a
 GRANT EXECUTE ON FUNCTION public.perform_draw(uuid, uuid, integer, boolean) TO service_role;
 GRANT EXECUTE ON FUNCTION public.manual_perform_draw(uuid, text, integer) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.manual_perform_draw(uuid, text, integer) TO service_role;
+;
+
 -- ===== 20260526165821_d286fdb3-ac9e-4821-8d7d-f96e1ba0f799.sql =====
 -- Atualizar a função perform_draw para evitar duplicatas por prize_index
 CREATE OR REPLACE FUNCTION public.perform_draw(
@@ -6269,6 +6499,8 @@ BEGIN
     RETURN v_winner_id;
 END;
 $function$;
+;
+
 -- ===== 20260526165846_33320fee-db06-4caa-b765-8fe8b86bd5d4.sql =====
 -- Atualizar o processamento automático da loteria federal para até 5 prêmios
 CREATE OR REPLACE FUNCTION public.process_lottery_draw_auto()
@@ -6301,10 +6533,14 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+;
+
 -- ===== 20260526223656_3bfda7d9-4cb3-4463-b339-d6727d6dfb82.sql =====
 -- Add new roles to app_role enum
 ALTER TYPE public.app_role ADD VALUE IF NOT EXISTS 'master';
 ALTER TYPE public.app_role ADD VALUE IF NOT EXISTS 'client_admin';
+
+;
 
 -- ===== 20260526223726_d73556b7-7125-4715-ac0f-977058435888.sql =====
 -- Create table for admin feature permissions
@@ -6363,6 +6599,8 @@ BEGIN
         END IF;
     END IF;
 END $$;
+
+;
 
 -- ===== 20260526230042_1f98e4b9-aad7-4247-a488-feb8d18889a5.sql =====
 -- Update profiles policies to isolate master users
@@ -6465,6 +6703,8 @@ USING ((SELECT role FROM public.user_roles WHERE user_id = auth.uid()) = 'master
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.admin_features_config TO authenticated;
 GRANT ALL ON public.admin_features_config TO service_role;
 
+;
+
 -- ===== 20260526230124_5b22aeef-9be0-41c4-8258-311b04881818.sql =====
 -- Enable RLS on draw_logs if not already enabled
 ALTER TABLE public.draw_logs ENABLE ROW LEVEL SECURITY;
@@ -6490,6 +6730,8 @@ USING (
     AND public.user_roles.role = 'master'
   )
 );
+
+;
 
 -- ===== 20260526231835_dc421322-e7dc-443b-98e1-d27fc3aab87a.sql =====
 -- Drop problematic recursive policies
@@ -6521,6 +6763,8 @@ USING (
 
 -- Ensure site_settings is accessible to client_admin but maybe not some fields
 -- Actually RLS on site_settings is usually simpler. Let's check it.
+
+;
 
 -- ===== 20260526232408_5b6aaeb5-e352-4927-87d0-bfd2e9066e48.sql =====
 -- Drop existing policies to recreate them
@@ -6647,6 +6891,8 @@ WITH CHECK (
   )
 );
 
+;
+
 -- ===== 20260526233034_1bf04973-82fc-405d-a837-273ff2c7bf42.sql =====
 -- Redefine has_role to handle hierarchy
 CREATE OR REPLACE FUNCTION public.has_role(_user_id uuid, _role app_role)
@@ -6693,6 +6939,8 @@ $$ LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path = public;
 GRANT EXECUTE ON FUNCTION public.is_admin(uuid) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.is_admin(uuid) TO service_role;
 
+;
+
 -- ===== 20260526233158_d8d8b78e-a43e-4e62-8bfa-35f86d2a3a75.sql =====
 -- Drop old problematic policies
 DROP POLICY IF EXISTS "Master full access to user_roles" ON public.user_roles;
@@ -6733,6 +6981,8 @@ WITH CHECK (
 -- Actually, a more direct way without functions (if they fail):
 -- CREATE POLICY "Master full access" ON public.user_roles FOR ALL USING ( (auth.jwt()->>'role' = 'authenticated') AND ... )
 -- But since I have the functions, I'll use them.
+
+;
 
 -- ===== 20260527111417_9376eb9b-9904-43f9-a687-744c8e6be294.sql =====
 -- 1. Redefine functions with SECURITY DEFINER to bypass RLS recursion
@@ -6902,6 +7152,8 @@ GRANT SELECT, UPDATE ON public.profiles TO authenticated;
 GRANT SELECT ON public.profiles TO anon;
 GRANT ALL ON public.profiles TO service_role;
 
+;
+
 -- ===== 20260527111555_57b2914c-1ec7-4190-9c08-7412e299ea89.sql =====
 -- Update the trigger function to include email
 CREATE OR REPLACE FUNCTION public.handle_new_user()
@@ -6924,6 +7176,8 @@ BEGIN
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+;
 
 -- ===== 20260527111955_dcef72c3-2898-4ea2-85bc-2649ddae0550.sql =====
 -- 1. Ensure functions are SECURITY DEFINER (bypass RLS for internal checks)
@@ -7040,6 +7294,8 @@ CREATE POLICY "Admins can view all orders" ON public.orders FOR SELECT TO authen
 CREATE POLICY "Admins can update orders" ON public.orders FOR UPDATE TO authenticated USING (is_admin(auth.uid()));
 CREATE POLICY "Admins have full access to orders" ON public.orders FOR ALL TO authenticated USING (is_admin(auth.uid())) WITH CHECK (is_admin(auth.uid()));
 
+;
+
 -- ===== 20260527112044_3f22d27d-3e7a-4346-a249-9e2dc1459e67.sql =====
 -- Populate email column for existing users from auth.users
 UPDATE public.profiles p
@@ -7061,6 +7317,8 @@ ON public.site_settings FOR ALL
 TO authenticated 
 USING (check_is_master(auth.uid()))
 WITH CHECK (check_is_master(auth.uid()));
+
+;
 
 -- ===== 20260527112253_a21ab001-6ac9-4279-8ab7-23806840d56e.sql =====
 CREATE OR REPLACE FUNCTION public.diagnose_table_permissions()
@@ -7088,6 +7346,8 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 GRANT EXECUTE ON FUNCTION public.diagnose_table_permissions() TO authenticated;
+
+;
 
 -- ===== 20260527112707_54211cc4-d66e-44f0-ad95-f94b4354aeef.sql =====
 -- Create auth_audit_logs table
@@ -7126,6 +7386,8 @@ WITH CHECK (true);
 CREATE INDEX idx_auth_audit_logs_user_id ON public.auth_audit_logs(user_id);
 CREATE INDEX idx_auth_audit_logs_event ON public.auth_audit_logs(event);
 CREATE INDEX idx_auth_audit_logs_created_at ON public.auth_audit_logs(created_at DESC);
+
+;
 
 -- ===== 20260527112942_3f8cc2f1-25a4-42c5-8d1c-a0634fbb53b4.sql =====
 -- Drop existing table if it exists to recreate with better FK
@@ -7167,6 +7429,8 @@ WITH CHECK (true);
 CREATE INDEX idx_auth_audit_logs_user_id ON public.auth_audit_logs(user_id);
 CREATE INDEX idx_auth_audit_logs_event ON public.auth_audit_logs(event);
 CREATE INDEX idx_auth_audit_logs_created_at ON public.auth_audit_logs(created_at DESC);
+
+;
 
 -- ===== 20260527113257_423c89e2-16fc-4eae-92c0-3490dc3213df.sql =====
 -- Update check_is_master without changing parameter name
@@ -7216,6 +7480,8 @@ BEGIN
   END IF;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+;
 
 -- ===== 20260527113821_92fc0f81-ee37-42fe-8f6d-9a1f23973e87.sql =====
 -- 1. Remove user INSERT on mystery_box_wins (must go through SECURITY DEFINER RPC)
@@ -7289,6 +7555,8 @@ WITH CHECK (
   )
 );
 
+;
+
 -- ===== 20260527114747_25be9227-5ed9-4826-8707-cf7692c45f1a.sql =====
 -- Grant access to authenticated and anon roles for all public tables
 -- This is required for PostgREST to access the tables before RLS is applied
@@ -7319,6 +7587,8 @@ END $$;
 
 -- Grant access to sequences (if any)
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO authenticated, anon;
+
+;
 
 -- ===== 20260527161743_1edbdfd3-05c7-4bab-bd98-95ead9c33adf.sql =====
 
@@ -7361,6 +7631,8 @@ BEGIN
   ON CONFLICT (user_id, role) DO NOTHING;
 END $$;
 
+;
+
 -- ===== 20260528112125_9f0dde60-2a4f-405b-905b-9dedb2f90e4f.sql =====
 ALTER TABLE public.admin_features_config 
 ADD COLUMN IF NOT EXISTS campaigns_management_enabled BOOLEAN DEFAULT true,
@@ -7377,6 +7649,8 @@ SET
   users_management_enabled = COALESCE(users_management_enabled, true),
   affiliates_management_enabled = COALESCE(affiliates_management_enabled, true),
   settings_management_enabled = COALESCE(settings_management_enabled, false);
+
+;
 
 -- ===== 20260528112722_8e917f01-67e9-487d-bdf0-31c2012cb277.sql =====
 -- Add type and active status to affiliates
@@ -7426,6 +7700,8 @@ CREATE POLICY "Affiliates can view their own commissions" ON public.affiliate_co
 
 -- Policy for affiliates to see their own profile
 CREATE POLICY "Affiliates can view their own profile" ON public.affiliates FOR SELECT USING (user_id = auth.uid());
+
+;
 
 -- ===== 20260528112955_789d2b6d-0caa-4c25-8b91-f4ebff530f43.sql =====
 -- Function to handle affiliate commission calculation
@@ -7484,6 +7760,8 @@ CREATE TRIGGER on_order_paid_affiliate
     AFTER UPDATE ON public.orders
     FOR EACH ROW
     EXECUTE FUNCTION public.handle_affiliate_commission();
+
+;
 
 -- ===== 20260528113023_bec1ee31-b02f-4ec8-8aa2-c3135a35c66d.sql =====
 CREATE OR REPLACE FUNCTION public.reserve_tickets(
@@ -7552,6 +7830,8 @@ BEGIN
     RETURN v_order_id;
 END;
 $function$;
+
+;
 
 -- ===== 20260528125321_75a91144-b00b-4fd3-b1d5-4d385ebb45bd.sql =====
 -- Update handle_order_payment to include affiliate commission logic
@@ -7678,6 +7958,8 @@ FOR SELECT
 TO authenticated
 USING (has_role(auth.uid(), 'admin'::app_role) OR has_role(auth.uid(), 'client_admin'::app_role));
 
+;
+
 -- ===== 20260528125515_07e43773-bc06-419d-aa4e-c3033e0669bb.sql =====
 -- Add foreign key from affiliates to profiles
 ALTER TABLE public.affiliates
@@ -7685,8 +7967,12 @@ ADD CONSTRAINT affiliates_user_id_profiles_fkey
 FOREIGN KEY (user_id) REFERENCES public.profiles(user_id)
 ON DELETE CASCADE;
 
+;
+
 -- ===== 20260611114805_0d2ca12e-8b0e-4bdf-aaa3-009586b018b6.sql =====
 DROP FUNCTION IF EXISTS public.reserve_tickets(uuid, uuid, integer, text[]);
+;
+
 -- ===== 20260611115301_9c7ae671-e59b-4a52-9d15-07ec54d820b5.sql =====
 CREATE OR REPLACE FUNCTION public.reserve_tickets(p_campaign_id uuid, p_user_id uuid, p_quantity integer, p_numbers text[] DEFAULT NULL::text[], p_affiliate_id uuid DEFAULT NULL::uuid)
  RETURNS uuid
@@ -7772,6 +8058,8 @@ BEGIN
     RETURN v_order_id;
 END;
 $function$
+
+;
 
 -- ===== 20260611121022_1923e622-c189-43cd-97aa-6af7eb6733c5.sql =====
 -- Create purchase_logs table
@@ -7907,6 +8195,8 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260611124610_2ccd1f93-8c4e-4b71-95ae-907a32e08432.sql =====
 -- Adicionar índices para otimizar consultas comuns
 CREATE INDEX IF NOT EXISTS idx_campaigns_status ON public.campaigns(status);
@@ -7926,6 +8216,8 @@ GRANT ALL ON public.campaigns TO service_role;
 GRANT ALL ON public.orders TO service_role;
 GRANT ALL ON public.tickets TO service_role;
 GRANT ALL ON public.mystery_box_configs TO service_role;
+;
+
 -- ===== 20260611131026_cca96c9a-7371-4e40-b3ce-f3f82d8d0b8c.sql =====
 CREATE OR REPLACE FUNCTION public.reserve_tickets(
     p_campaign_id UUID,
@@ -8032,6 +8324,8 @@ BEGIN
     RETURN v_order_id;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+;
+
 -- ===== 20260611131250_831d1e5c-637c-4c6c-8258-9773220a5ae1.sql =====
 CREATE TABLE IF NOT EXISTS public.payment_failures (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -8054,6 +8348,8 @@ CREATE POLICY "Users can view their own payment failures" ON public.payment_fail
 
 CREATE POLICY "Users can insert their own payment failures" ON public.payment_failures
     FOR INSERT WITH CHECK (auth.uid() = user_id);
+;
+
 -- ===== 20260611133203_b874b3d4-dec6-4d75-a0bf-0e84295d283e.sql =====
 INSERT INTO public.site_settings (key, value)
 VALUES 
@@ -8061,6 +8357,8 @@ VALUES
   ('pay2m_client_secret', ''),
   ('pay2m_enabled', 'false')
 ON CONFLICT (key) DO NOTHING;
+
+;
 
 -- ===== 20260611153604_a57a837a-3464-482d-9634-24b8be5b0710.sql =====
 
@@ -8113,6 +8411,8 @@ WITH CHECK (
   )
 );
 
+;
+
 -- ===== 20260611153635_166ee8bc-cee5-4016-b3dd-2354b92729d9.sql =====
 
 -- Recreate orders_public_ranking as security_invoker view
@@ -8153,6 +8453,8 @@ REVOKE SELECT ON public.tickets FROM anon;
 GRANT SELECT (id, number, status, campaign_id, created_at, is_lucky)
   ON public.tickets TO anon;
 
+;
+
 -- ===== 20260611182246_c47b5fd1-63cd-45cf-ad99-1216cb005c6c.sql =====
 CREATE TABLE public.lucky_hours (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -8182,10 +8484,14 @@ CREATE POLICY "Authenticated users can manage lucky hours" ON public.lucky_hours
 CREATE TRIGGER update_lucky_hours_updated_at 
   BEFORE UPDATE ON public.lucky_hours 
   FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+;
+
 -- ===== 20260611182633_a848003c-383b-4bba-8ae4-bb239aadc393.sql =====
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS prize_rules JSONB DEFAULT '[]';
 
 COMMENT ON COLUMN public.campaigns.prize_rules IS 'Stores automated prize rules, e.g., [{"type": "greater_smaller", "label": "Greater/Smaller Ticket", "prize_greater": "Prize A", "prize_smaller": "Prize B"}]';
+;
+
 -- ===== 20260611182827_4d62d4c5-9b0f-4dbf-871b-e976d29ca731.sql =====
 ALTER TABLE public.lucky_hours ADD COLUMN IF NOT EXISTS audit_log JSONB DEFAULT '[]';
 
@@ -8194,6 +8500,8 @@ COMMENT ON COLUMN public.lucky_hours.audit_log IS 'Stores history of changes and
 -- Ensure we have a trigger to track who changed what if needed, 
 -- but for now we rely on the application layer to populate audit_log 
 -- and the existing auth_audit_logs table for system-wide auditing.
+
+;
 
 -- ===== 20260611183126_0bbeb35f-bba1-4153-8ec4-460decd02b58.sql =====
 -- Drop existing overly permissive policy
@@ -8215,6 +8523,8 @@ GRANT SELECT ON public.lucky_hours TO anon, authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.lucky_hours TO authenticated;
 GRANT ALL ON public.lucky_hours TO service_role;
 
+;
+
 -- ===== 20260611183331_3b44b46d-7fa1-4342-9883-e28ad2007216.sql =====
 ALTER TABLE public.lucky_hours ADD COLUMN IF NOT EXISTS draw_type TEXT DEFAULT 'hourly' CHECK (draw_type IN ('hourly', 'greater_smaller'));
 ALTER TABLE public.lucky_hours ADD COLUMN IF NOT EXISTS rule_id TEXT; -- Optional link to prize_rules JSON index or ID
@@ -8222,6 +8532,8 @@ ALTER TABLE public.lucky_hours ADD COLUMN IF NOT EXISTS rule_id TEXT; -- Optiona
 COMMENT ON COLUMN public.lucky_hours.draw_type IS 'Distinguishes between traditional Hourly Prize and Greater/Smaller Ticket draws.';
 
 CREATE INDEX IF NOT EXISTS idx_lucky_hours_campaign_type ON public.lucky_hours(campaign_id, draw_type);
+
+;
 
 -- ===== 20260611183545_562fe5d3-0b60-4986-a24b-aedb46aa48b1.sql =====
 ALTER TABLE public.lucky_hours ADD COLUMN IF NOT EXISTS is_approved BOOLEAN DEFAULT FALSE;
@@ -8238,6 +8550,8 @@ CREATE POLICY "Masters can approve lucky hours" ON public.lucky_hours
   USING (public.has_role(auth.uid(), 'master'))
   WITH CHECK (public.has_role(auth.uid(), 'master'));
 
+;
+
 -- ===== 20260611184333_47ea3099-5215-4eb8-9d60-0469521d9b64.sql =====
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS fake_progress_percentage INTEGER DEFAULT 0;
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS fake_progress_enabled BOOLEAN DEFAULT false;
@@ -8247,8 +8561,12 @@ GRANT ALL ON public.campaigns TO service_role;
 GRANT SELECT, UPDATE ON public.campaigns TO authenticated;
 GRANT SELECT ON public.campaigns TO anon;
 
+;
+
 -- ===== 20260611184642_eb842fa7-b760-449d-8b43-37f3f28862ce.sql =====
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS progress_text TEXT;
+
+;
 
 -- ===== 20260611191954_1608a104-c160-4010-bf1d-5a380fddf5ec.sql =====
 -- Function to automatically identify a winner for a lucky hour event
@@ -8367,6 +8685,8 @@ $$;
 GRANT EXECUTE ON FUNCTION public.run_lucky_hour_draw(UUID) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.run_lucky_hour_draw(UUID) TO service_role;
 
+;
+
 -- ===== 20260611192035_f87707f5-4bc9-4148-a026-8e4e1fdaa84e.sql =====
 -- Function to process all overdue lucky hours
 CREATE OR REPLACE FUNCTION public.process_overdue_lucky_hours()
@@ -8400,6 +8720,8 @@ SELECT cron.schedule(
 );
 
 GRANT EXECUTE ON FUNCTION public.process_overdue_lucky_hours() TO service_role;
+
+;
 
 -- ===== 20260611235836_af8d4a29-082c-4ebf-9dfb-b8ed6b1d5a9e.sql =====
 -- Function to sync auth.users metadata to public.profiles
@@ -8446,6 +8768,8 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_new_user();
+;
+
 -- ===== 20260612113142_b4c78488-2551-48eb-8561-539ab8061666.sql =====
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS live_stream_url TEXT;
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS live_stream_enabled BOOLEAN DEFAULT FALSE;
@@ -8454,6 +8778,8 @@ ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS live_stream_enabled BOOLEA
 GRANT SELECT, UPDATE ON public.campaigns TO authenticated;
 GRANT SELECT ON public.campaigns TO anon;
 GRANT ALL ON public.campaigns TO service_role;
+;
+
 -- ===== 20260612114628_dcd64f5f-9163-4c05-8a70-aaa6c2119a24.sql =====
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS mystery_box_available_count INTEGER DEFAULT 0;
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS roulette_available_count INTEGER DEFAULT 0;
@@ -8463,6 +8789,8 @@ ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS scratch_cards_available_co
 GRANT SELECT, UPDATE ON public.campaigns TO authenticated;
 GRANT SELECT ON public.campaigns TO anon;
 GRANT ALL ON public.campaigns TO service_role;
+;
+
 -- ===== 20260613114424_4f7bc93e-8ac9-4a08-b11f-f70202553108.sql =====
 ALTER TABLE public.mystery_box_wins REPLICA IDENTITY FULL;
 ALTER TABLE public.roulette_spins REPLICA IDENTITY FULL;
@@ -8471,8 +8799,12 @@ ALTER TABLE public.tickets REPLICA IDENTITY FULL;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.mystery_box_wins;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.roulette_spins;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.tickets;
+;
+
 -- ===== 20260614113819_310fe0f4-844d-4d8b-84b6-373eb8601b9b.sql =====
 INSERT INTO public.site_settings (key, value) VALUES ('layout_mode', 'default') ON CONFLICT (key) DO NOTHING;
+;
+
 -- ===== 20260615223837_7ff47a86-22e1-4774-a09a-75ed5cc01521.sql =====
 
 -- 1. ORDERS: remove broad public SELECT policy. Public ranking continues via orders_public_ranking view.
@@ -8516,11 +8848,15 @@ FOR SELECT
 TO authenticated
 USING (has_role(auth.uid(), 'admin'::app_role) OR has_role(auth.uid(), 'master'::app_role));
 
+;
+
 -- ===== 20260616122951_ab84db55-4e77-4f35-b049-86396ab60f66.sql =====
 ALTER PUBLICATION supabase_realtime ADD TABLE public.scratch_card_scratches;
 ALTER TABLE public.scratch_card_scratches REPLICA IDENTITY FULL;
 ALTER TABLE public.roulette_spins REPLICA IDENTITY FULL;
 ALTER TABLE public.mystery_box_wins REPLICA IDENTITY FULL;
+;
+
 -- ===== 20260616130806_91024a31-aa98-4772-9338-3669bb19a6bc.sql =====
 CREATE OR REPLACE FUNCTION public.process_roulette_spin(p_campaign_id uuid, p_multiplier integer)
 RETURNS jsonb
@@ -8680,6 +9016,8 @@ BEGIN
   );
 END;
 $function$;
+;
+
 -- ===== 20260616131228_4c86fbd7-3ede-41f4-86ec-4c47aa954db5.sql =====
 DROP FUNCTION IF EXISTS public.get_campaign_mystery_box_wins(uuid, integer);
 
@@ -8707,8 +9045,12 @@ AS $function$
 $function$;
 
 GRANT EXECUTE ON FUNCTION public.get_campaign_mystery_box_wins(uuid, integer) TO anon, authenticated, service_role;
+;
+
 -- ===== 20260616133551_aad53b48-83af-4e95-9053-30cbc9b9e503.sql =====
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS image_overlay_enabled boolean NOT NULL DEFAULT true;
+;
+
 -- ===== 20260616183922_d24906c3-d946-48ea-a223-e29479e1db29.sql =====
 CREATE UNIQUE INDEX IF NOT EXISTS scratch_card_unique_winning_prize
 ON public.scratch_card_scratches (prize_id)
@@ -8986,6 +9328,8 @@ BEGIN
     );
 END;
 $$;
+;
+
 -- ===== 20260617124401_public_winner_views.sql =====
 -- Remove publicly exposed user_id from winners tables by replacing
 -- broad public SELECT policies with privacy-preserving views.
@@ -9049,6 +9393,8 @@ WHERE s.is_winner = true;
 GRANT SELECT ON public.mystery_box_wins_public TO anon, authenticated;
 GRANT SELECT ON public.roulette_spins_public TO anon, authenticated;
 GRANT SELECT ON public.scratch_card_scratches_public TO anon, authenticated;
+
+;
 
 -- ===== 20260625195814_b28b5a9f-5a05-4f38-a429-ac4eb0049bec.sql =====
 -- Fix restrictive foreign keys that block admin deletions of campaigns, users, prizes, coupons, and affiliates.
@@ -9164,8 +9510,12 @@ ALTER TABLE public.orders
 ALTER TABLE public.orders
   ADD CONSTRAINT orders_affiliate_id_fkey
   FOREIGN KEY (affiliate_id) REFERENCES public.affiliates(id) ON DELETE SET NULL;
+;
+
 -- ===== 20260625201501_8799bf22-b060-4c7f-8815-aa8e4d0b2aa3.sql =====
 INSERT INTO public.site_settings (key, value) VALUES ('site_theme', 'dark') ON CONFLICT (key) DO NOTHING;
+;
+
 -- ===== 20260625201955_81b71764-4ff7-4251-8986-f0d3ec830565.sql =====
 
 CREATE EXTENSION IF NOT EXISTS unaccent;
@@ -9209,6 +9559,8 @@ FOR EACH ROW EXECUTE FUNCTION public.campaigns_set_slug();
 UPDATE public.campaigns SET slug = NULL WHERE slug IS NULL OR slug = '' OR slug ~ '^[0-9a-f]{8}-[0-9a-f]{4}-';
 UPDATE public.campaigns SET title = title WHERE slug IS NULL;
 
+;
+
 -- ===== 20260626162524_2141f8b1-d13a-437f-898b-117d2b906199.sql =====
 
 CREATE OR REPLACE FUNCTION public.protect_profile_fields()
@@ -9235,10 +9587,16 @@ BEGIN
 END;
 $function$;
 
+;
+
 -- ===== 20260626163648_37439518-b539-44c7-9f69-a990452aa029.sql =====
 INSERT INTO public.site_settings (key, value) VALUES ('home_show_games_combo', 'true') ON CONFLICT (key) DO NOTHING;
+;
+
 -- ===== 20260626165349_d60f5052-d1f2-4dff-b68a-42399542e5c0.sql =====
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS concurso TEXT;
+;
+
 -- ===== 20260626173113_087e8614-ecb9-422f-a984-06377c5ac660.sql =====
 
 DROP POLICY IF EXISTS "Admins can manage scratch_card_prizes" ON public.scratch_card_prizes;
@@ -9265,8 +9623,12 @@ FOR ALL USING (
   public.has_role(auth.uid(), 'admin') OR public.has_role(auth.uid(), 'master') OR public.has_role(auth.uid(), 'client_admin')
 );
 
+;
+
 -- ===== 20260626180343_1367c592-5925-4c1b-98c1-7e9d4116a03e.sql =====
 INSERT INTO public.site_settings (key, value) VALUES ('whatsapp_group_link', 'https://chat.whatsapp.com/EuxB0t6FQbZJCoWrlsk55X?mode=gi_t') ON CONFLICT (key) DO NOTHING; INSERT INTO public.site_settings (key, value) VALUES ('whatsapp_group_enabled', 'true') ON CONFLICT (key) DO NOTHING;
+;
+
 -- ===== 20260626181154_973b2df8-d241-4de5-b97e-bd45f2ca2025.sql =====
 
 INSERT INTO public.site_settings (key, value) VALUES
@@ -9278,12 +9640,18 @@ INSERT INTO public.site_settings (key, value) VALUES
   ('menu_minha_conta_enabled', 'true')
 ON CONFLICT (key) DO NOTHING;
 
+;
+
 -- ===== 20260630164525_8b5a674c-8b8d-411c-a960-f4fa8d7356eb.sql =====
 CREATE POLICY "Admins can manage settings" ON public.site_settings FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+;
+
 -- ===== 20260702004246_97d3b554-6f75-407b-9427-6bf4f733faa1.sql =====
 DROP POLICY IF EXISTS "Users can update their own profile" ON public.profiles;
 CREATE POLICY "Users can update their own profile" ON public.profiles
 FOR UPDATE USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+;
+
 -- ===== 20260702163238_bc406144-8cf3-437f-903d-8c6a2ce1cd6e.sql =====
 
 CREATE TABLE public.app_versions (
@@ -9324,6 +9692,8 @@ CREATE POLICY "Admins can delete app versions"
 INSERT INTO public.app_versions (version, type, notes) VALUES
   ('1.0.0', 'code', 'Versão inicial do sistema'),
   ('1.0.0', 'database', 'Estrutura inicial do banco de dados');
+
+;
 
 -- ===== 20260702200007_9dadaf90-df1c-4dc9-b6fd-9428248b8daa.sql =====
 CREATE OR REPLACE FUNCTION public.pay_with_balance(p_order_id uuid, p_user_id uuid)
@@ -9515,11 +9885,17 @@ FROM (
     GROUP BY campaign_id
 ) counts
 WHERE c.id = counts.campaign_id;
+;
+
 -- ===== 20260702201319_1403986f-2cde-431a-a3a5-c29b67e23700.sql =====
 ALTER TABLE public.profiles REPLICA IDENTITY FULL;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.profiles;
+;
+
 -- ===== 20260703023240_22fc6ec6-95d8-4aff-bd38-1497c7e1b488.sql =====
 -- Ver /tmp/mig_public.sql — arquivo grande (~460KB), aplicado via ferramenta.
+;
+
 -- ===== 20260703105837_926ac4e1-9dcb-4fab-953d-451df323d528.sql =====
 CREATE OR REPLACE FUNCTION public.check_data_integrity()
 RETURNS jsonb
@@ -9610,10 +9986,14 @@ $$;
 
 REVOKE ALL ON FUNCTION public.check_data_integrity() FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.check_data_integrity() TO authenticated;
+;
+
 -- ===== 20260703110711_03913c1f-d998-4bcd-afaa-4d41ba9055e2.sql =====
 INSERT INTO public.user_roles (user_id, role)
 VALUES ('4fafa2fe-b0f1-4e29-b71f-055308798366', 'master')
 ON CONFLICT (user_id, role) DO NOTHING;
+;
+
 -- ===== 20260703130004_0b81dc19-daeb-4c2d-8412-0fa70a5fb19f.sql =====
 DO $$
 BEGIN
@@ -9714,10 +10094,16 @@ USING (
     'app_download_link'::text
   ])
 );
+;
+
 -- ===== 20260703153716_500a68f2-53d2-450d-84b7-427e347b18e4.sql =====
 GRANT SELECT ON public.tickets_public TO anon, authenticated;
+;
+
 -- ===== 20260703154025_c61bca7b-7bbf-45f8-a754-2d4c35e7ebac.sql =====
 ALTER VIEW public.tickets_public SET (security_invoker = off);
+;
+
 -- ===== 20260703154123_3cf99eca-4f98-40ea-9e42-7c2727789630.sql =====
 CREATE OR REPLACE VIEW public.tickets_public AS
 SELECT id, number, status, campaign_id, created_at, is_lucky
@@ -9727,6 +10113,8 @@ WHERE status IN ('confirmed', 'paid')
 
 ALTER VIEW public.tickets_public SET (security_invoker = off);
 GRANT SELECT ON public.tickets_public TO anon, authenticated;
+;
+
 -- ===== 20260703161601_ae3247ea-0732-4b7c-a9bb-494d5e80b4f7.sql =====
 
 -- Seed default deposit bonus tiers if missing
@@ -9849,6 +10237,8 @@ BEGIN
 END;
 $$;
 
+;
+
 -- ===== 20260703162355_c35f7544-3e58-4a8c-9df2-71f99bd93a95.sql =====
 DROP POLICY IF EXISTS "Public can view whitelisted settings" ON public.site_settings;
 CREATE POLICY "Public can view whitelisted settings"
@@ -9865,8 +10255,12 @@ USING (key = ANY (ARRAY[
   'affiliate_commission_percent','cashback_percent','min_withdrawal_amount','deposit_bonus_tiers',
   'facebook_pixel_id','google_analytics_id','google_tag_manager_id','enable_download_app','app_download_link'
 ]));
+;
+
 -- ===== 20260703180317_b0d4d607-4ce0-4549-a683-b76389279b8d.sql =====
 ALTER TABLE public.campaigns ADD COLUMN IF NOT EXISTS hero_image_url text;
+;
+
 -- ===== 20260706135238_33aee7fe-9319-4ff2-ac08-14864d695ed2.sql =====
 
 CREATE TABLE public.tenants (
@@ -9942,6 +10336,8 @@ FROM new_tenant, (VALUES
   ('sortedomilhao.app', false)
 ) AS d(domain, is_primary);
 
+;
+
 -- ===== 20260706143749_20856187-85fb-418b-b77d-0b1b9e63f404.sql =====
 
 DO $mig$
@@ -9996,6 +10392,8 @@ BEGIN
   END LOOP;
 END
 $mig$;
+
+;
 
 -- ===== 20260706144512_ba86acb7-b3bf-4c62-a5bd-a3cae1d1c946.sql =====
 
@@ -10098,6 +10496,8 @@ BEGIN
 END
 $mig$;
 
+;
+
 -- ===== 20260706153419_c68e77bf-1f51-49d4-bdd4-9d70ff92a38e.sql =====
 -- Create dedicated tenant for sortedomilhao.app
 WITH new_tenant AS (
@@ -10125,6 +10525,8 @@ SELECT (SELECT id FROM new_tenant), k, v FROM (VALUES
   ('primary_color', '#22c55e')
 ) AS s(k, v)
 ON CONFLICT (tenant_id, key) DO UPDATE SET value = EXCLUDED.value;
+;
+
 -- ===== 20260706153645_392f7dd2-92ef-470b-b088-e3f141c01e83.sql =====
 WITH t AS (
   SELECT id FROM public.tenants WHERE slug = 'sortedomilhao'
@@ -10143,6 +10545,8 @@ SELECT (SELECT id FROM t), k, v FROM (VALUES
 ON CONFLICT (tenant_id, key) DO UPDATE SET value = EXCLUDED.value;
 
 UPDATE public.tenants SET name = 'Sorteio do Milhão' WHERE slug = 'sortedomilhao';
+;
+
 -- ===== 20260706170727_4556b13d-4c89-4416-bc1f-9f536f7709ad.sql =====
 
 -- 1) Remove x-tenant-id header fallback from current_tenant_id()
@@ -10193,6 +10597,8 @@ CREATE POLICY "Public can view active tickets"
     status IN ('confirmed', 'paid')
     OR (status = 'reserved' AND reservation_expires_at > now())
   );
+
+;
 
 -- ===== 20260707113009_fedc9698-137f-4c8c-824f-a9745a1b21c6.sql =====
 
@@ -10295,8 +10701,12 @@ BEGIN
 END;
 $$;
 
+;
+
 -- ===== 20260707113029_929c27bf-de9c-4d59-a88f-603d9afa8444.sql =====
 ALTER VIEW public.campaign_gift_prizes_public SET (security_invoker = true);
+;
+
 -- ===== 20260707113058_54c028a6-3f8a-427e-8a72-cfc90c6bce32.sql =====
 
 CREATE POLICY "Public read gift-prizes"
@@ -10314,6 +10724,8 @@ CREATE POLICY "Admins update gift-prizes"
 CREATE POLICY "Admins delete gift-prizes"
   ON storage.objects FOR DELETE
   USING (bucket_id = 'gift-prizes' AND (public.has_role(auth.uid(),'admin'::app_role) OR public.has_role(auth.uid(),'master'::app_role)));
+
+;
 
 -- ===== 20260707123000_luckskins_itskin_tenant_domains.sql =====
 -- Keep the Lovable Supabase tenant routing aligned with the production domains.
@@ -10419,9 +10831,13 @@ BEGIN
   END IF;
 END $$;
 
+;
+
 -- ===== 20260707175319_8ba9194c-0fcb-4be4-a6a9-18b1f0c1ac9f.sql =====
 ALTER TABLE public.campaigns DROP CONSTRAINT IF EXISTS campaigns_status_check;
 ALTER TABLE public.campaigns ADD CONSTRAINT campaigns_status_check CHECK (status = ANY (ARRAY['active','completed','upcoming','hidden','paused','audit','draft']));
+;
+
 -- ===== 20260708120000_fix_profiles_rls_multirole.sql =====
 -- Fix: profiles RLS policies fail with "more than one row" when a user has
 -- multiple roles (e.g. both admin and master). Replace scalar subqueries with
@@ -10458,6 +10874,8 @@ USING (
     AND NOT public.has_role(profiles.user_id, 'master')
   )
 );
+
+;
 
 -- ===== 20260708143220_ec9aa611-9d1f-4c50-a615-15637743ed8e.sql =====
 -- Fix admin users listing/editing after multi-role and explicit Data API grants rollout.
@@ -10518,7 +10936,12 @@ TO authenticated
 USING (public.has_role(auth.uid(), 'master'))
 WITH CHECK (public.has_role(auth.uid(), 'master'));
 
+;
+
 -- ===== 20260708164803_2ea1f8f3-a637-405c-b683-b3bde4678984.sql =====
 DELETE FROM public.tenant_settings WHERE key IN ('primary_color','title_shimmer_primary');
+;
+
 -- ===== 20260709114811_9170d6d1-d806-4464-85d6-a1ae2faea163.sql =====
 DELETE FROM public.tenant_settings WHERE key LIKE 'menu\_%\_enabled' OR key = 'header_register_button_enabled';
+;
