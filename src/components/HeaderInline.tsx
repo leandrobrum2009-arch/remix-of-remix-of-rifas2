@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSiteSettings } from "@/hooks/useData";
 import { toast } from "sonner";
 import { QuickRegisterDialog } from "./QuickRegisterDialog";
+import { resolveSiteLogo, resolveSiteName } from "@/lib/branding";
 
 const ALL_NAV_LINKS = [
   { key: "campanhas", label: "Campanhas", href: "/campanhas" },
@@ -62,13 +63,7 @@ const HeaderInline = () => {
           </button>
 
           <Link to="/" className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-            {siteSettings?.site_logo_url ? (
-              <img src={siteSettings.site_logo_url} alt={siteSettings?.site_name || "Logo"} className="h-9 w-auto max-w-[45vw] object-contain" />
-            ) : (
-              <span className="font-display text-base font-black uppercase tracking-tighter text-animate-gradient">
-                {siteSettings?.site_name || "Ação"}
-              </span>
-            )}
+            <img src={resolveSiteLogo(siteSettings?.site_logo_url)} alt={resolveSiteName(siteSettings?.site_name)} className="h-9 w-auto max-w-[45vw] object-contain" />
           </Link>
 
           {user ? (
@@ -143,11 +138,7 @@ const HeaderInline = () => {
             >
               <div className="flex items-center justify-between p-4 border-b border-border">
                 <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2">
-                  {siteSettings?.site_logo_url ? (
-                    <img src={siteSettings.site_logo_url} alt="Logo" className="h-8 w-auto" />
-                  ) : (
-                    <span className="font-display text-sm font-black uppercase tracking-tighter">{siteSettings?.site_name || "Ação"}</span>
-                  )}
+                  <img src={resolveSiteLogo(siteSettings?.site_logo_url)} alt={resolveSiteName(siteSettings?.site_name)} className="h-8 w-auto" />
                 </Link>
                 <button onClick={() => setOpen(false)} className="h-9 w-9 rounded-lg hover:bg-secondary flex items-center justify-center">
                   <X className="h-5 w-5" />

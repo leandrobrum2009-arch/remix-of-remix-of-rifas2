@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { useSiteSettings } from "@/hooks/useData";
 import HeaderInline from "./HeaderInline";
 import { QuickRegisterDialog } from "./QuickRegisterDialog";
+import { resolveSiteLogo, resolveSiteName } from "@/lib/branding";
 
 const ALL_NAV_LINKS = [
   { key: "campanhas", label: "Campanhas", href: "/campanhas" },
@@ -163,15 +164,15 @@ const Header = () => {
           <div className="container flex items-center justify-between gap-4">
             <div className="flex items-center gap-4 md:gap-8 min-w-0">
               <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-                {siteSettings?.site_logo_url && siteSettings.site_logo_url.trim() !== "" && !logoError ? (
+                {!logoError ? (
                   <img 
-                    src={siteSettings.site_logo_url} 
-                    alt={`${siteSettings?.site_name || "Plataforma de Ações"} - logotipo da página inicial`} 
+                    src={resolveSiteLogo(siteSettings?.site_logo_url)} 
+                    alt={`${resolveSiteName(siteSettings?.site_name)} - logotipo da página inicial`} 
                     className="h-[var(--logo-height-mobile,36px)] md:h-[var(--logo-height-desktop,44px)] w-auto object-contain site-logo-img" 
                     onError={() => setLogoError(true)}
                   />
                 ) : (
-                  <LogoFallback siteName={siteSettings?.site_name} />
+                  <LogoFallback siteName={resolveSiteName(siteSettings?.site_name)} />
                 )}
               </Link>
 

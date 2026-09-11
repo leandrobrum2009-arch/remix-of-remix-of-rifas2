@@ -1,6 +1,7 @@
 import { Ticket, Instagram, Youtube, MessageCircle, ShieldCheck, Mail, Phone, MapPin } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useSiteSettings } from "@/hooks/useData";
+import { resolveSiteLogo, resolveSiteName } from "@/lib/branding";
 
 
 const footerLinks = [
@@ -31,29 +32,11 @@ const Footer = () => {
           {/* Brand Info */}
           <div className="space-y-6">
             <a href="/" className="flex items-center gap-3">
-              {siteSettings?.site_logo_url ? (
-                <img 
-                  src={siteSettings.site_logo_url} 
-                  alt={siteSettings?.site_name || "Logo"} 
-                  className="h-10 w-auto object-contain" 
-                />
-              ) : (
-                <>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary shadow-lg shadow-primary/20">
-                    <Ticket className="h-5 w-5 text-primary-foreground" />
-                  </div>
-                  <span className="font-display text-2xl font-black italic uppercase tracking-tighter">
-                    {siteSettings?.site_name ? (
-                      <>
-                        {siteSettings.site_name.split(' ')[0]}
-                        <span className="text-primary neon-text-primary">{siteSettings.site_name.split(' ').slice(1).join(' ')}</span>
-                      </>
-                    ) : (
-                      <span className="opacity-0">Plataforma</span>
-                    )}
-                  </span>
-                </>
-              )}
+              <img 
+                src={resolveSiteLogo(siteSettings?.site_logo_url)} 
+                alt={resolveSiteName(siteSettings?.site_name)} 
+                className="h-10 w-auto object-contain" 
+              />
             </a>
             <p className="max-w-xs text-xs font-bold leading-relaxed text-foreground uppercase tracking-widest opacity-80">
               A maior e mais segura plataforma de ações online. Prêmios instantâneos e sorteios garantidos.
@@ -126,7 +109,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground">
-              © {new Date().getFullYear()} {siteSettings?.site_name || "Sua Empresa"}. Todos os direitos reservados.
+              © {new Date().getFullYear()} {resolveSiteName(siteSettings?.site_name)}. Todos os direitos reservados.
             </p>
             <p className="mt-2 text-[9px] font-black uppercase tracking-[0.2em]">
               <a href="https://ncbrasil.com.br/sistema-de-rifas" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
