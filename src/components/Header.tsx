@@ -101,9 +101,7 @@ const Header = () => {
       localStorage.setItem('referred_by', ref);
     }
     
-    if (siteSettings?.site_logo_url) {
-      localStorage.setItem('site_logo', siteSettings.site_logo_url);
-    }
+    localStorage.setItem('site_logo', resolveSiteLogo(siteSettings?.site_logo_url));
   }, [siteSettings]);
 
   useEffect(() => {
