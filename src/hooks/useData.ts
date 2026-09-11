@@ -285,7 +285,10 @@ export const useCampaigns = () =>
       const { data, error } = await scopeTenant(
         supabase.from("campaigns").select("*, winners(*)"),
       ).order("created_at", { ascending: false });
-      if (error) throw error;
+      if (error) {
+        console.warn("[useCampaigns] campaigns unavailable; rendering the public shell", error.message);
+        return [];
+      }
       return (data as any) as Campaign[];
     },
     staleTime: 60_000,
@@ -302,7 +305,10 @@ export const useActiveBanners = () => {
           .select("id, title, subtitle, image_url, link_url, order_index, is_active")
           .eq("is_active", true),
       ).order("order_index", { ascending: true });
-      if (error) throw error;
+      if (error) {
+        console.warn("[useActiveBanners] banners unavailable", error.message);
+        return [];
+      }
       return (data as any) as Banner[];
     },
     staleTime: 1000 * 60 * 5,
@@ -480,7 +486,10 @@ export const useWinners = () =>
       )
         .order("draw_date", { ascending: false })
         .limit(100);
-      if (error) throw error;
+      if (error) {
+        console.warn("[useWinners] winners unavailable", error.message);
+        return [];
+      }
       return data as Winner[];
     },
     staleTime: 5 * 60_000,
@@ -981,7 +990,10 @@ export const useSiteSettings = () =>
       const { data: baseRows, error: baseErr } = await supabase
         .from("site_settings")
         .select("key, value");
-      if (baseErr) throw baseErr;
+      if (baseErr) {
+        console.warn("[useSiteSettings] settings unavailable; using safe defaults", baseErr.message);
+        return {};
+      }
 
       const settingsMap: Record<string, string> = {};
       (baseRows ?? []).forEach((s: any) => {
