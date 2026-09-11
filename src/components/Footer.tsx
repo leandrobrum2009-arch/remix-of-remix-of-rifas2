@@ -109,7 +109,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground">
-              © {new Date().getFullYear()} {siteSettings?.site_name || "Sua Empresa"}. Todos os direitos reservados.
+              © {new Date().getFullYear()} {resolveSiteName(siteSettings?.site_name)}. Todos os direitos reservados.
             </p>
             <p className="mt-2 text-[9px] font-black uppercase tracking-[0.2em]">
               <a href="https://ncbrasil.com.br/sistema-de-rifas" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
