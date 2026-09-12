@@ -6375,7 +6375,6 @@ GRANT USAGE ON SCHEMA public TO postgres;
 GRANT USAGE ON SCHEMA public TO anon;
 GRANT USAGE ON SCHEMA public TO authenticated;
 GRANT USAGE ON SCHEMA public TO service_role;
-GRANT USAGE ON SCHEMA public TO sandbox_exec;
 
 
 --
@@ -6385,7 +6384,6 @@ GRANT USAGE ON SCHEMA public TO sandbox_exec;
 GRANT ALL ON FUNCTION public.audit_all_paid_orders() TO anon;
 GRANT ALL ON FUNCTION public.audit_all_paid_orders() TO authenticated;
 GRANT ALL ON FUNCTION public.audit_all_paid_orders() TO service_role;
-GRANT ALL ON FUNCTION public.audit_all_paid_orders() TO sandbox_exec;
 
 
 --
@@ -6395,7 +6393,6 @@ GRANT ALL ON FUNCTION public.audit_all_paid_orders() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.campaigns_set_slug() TO anon;
 GRANT ALL ON FUNCTION public.campaigns_set_slug() TO authenticated;
 GRANT ALL ON FUNCTION public.campaigns_set_slug() TO service_role;
-GRANT ALL ON FUNCTION public.campaigns_set_slug() TO sandbox_exec;
 
 
 --
@@ -6405,7 +6402,6 @@ GRANT ALL ON FUNCTION public.campaigns_set_slug() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.check_data_integrity() TO anon;
 GRANT ALL ON FUNCTION public.check_data_integrity() TO authenticated;
 GRANT ALL ON FUNCTION public.check_data_integrity() TO service_role;
-GRANT ALL ON FUNCTION public.check_data_integrity() TO sandbox_exec;
 
 
 --
@@ -6415,7 +6411,6 @@ GRANT ALL ON FUNCTION public.check_data_integrity() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.check_is_master(user_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.check_is_master(user_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.check_is_master(user_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.check_is_master(user_id uuid) TO sandbox_exec;
 
 
 --
@@ -6425,7 +6420,6 @@ GRANT ALL ON FUNCTION public.check_is_master(user_id uuid) TO sandbox_exec;
 GRANT ALL ON FUNCTION public.cleanup_expired_reservations() TO anon;
 GRANT ALL ON FUNCTION public.cleanup_expired_reservations() TO authenticated;
 GRANT ALL ON FUNCTION public.cleanup_expired_reservations() TO service_role;
-GRANT ALL ON FUNCTION public.cleanup_expired_reservations() TO sandbox_exec;
 
 
 --
@@ -6435,7 +6429,6 @@ GRANT ALL ON FUNCTION public.cleanup_expired_reservations() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.create_mystery_box_notification() TO anon;
 GRANT ALL ON FUNCTION public.create_mystery_box_notification() TO authenticated;
 GRANT ALL ON FUNCTION public.create_mystery_box_notification() TO service_role;
-GRANT ALL ON FUNCTION public.create_mystery_box_notification() TO sandbox_exec;
 
 
 --
@@ -6445,7 +6438,6 @@ GRANT ALL ON FUNCTION public.create_mystery_box_notification() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.create_roulette_notification() TO anon;
 GRANT ALL ON FUNCTION public.create_roulette_notification() TO authenticated;
 GRANT ALL ON FUNCTION public.create_roulette_notification() TO service_role;
-GRANT ALL ON FUNCTION public.create_roulette_notification() TO sandbox_exec;
 
 
 --
@@ -6455,7 +6447,6 @@ GRANT ALL ON FUNCTION public.create_roulette_notification() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.current_tenant_id() TO anon;
 GRANT ALL ON FUNCTION public.current_tenant_id() TO authenticated;
 GRANT ALL ON FUNCTION public.current_tenant_id() TO service_role;
-GRANT ALL ON FUNCTION public.current_tenant_id() TO sandbox_exec;
 
 
 --
@@ -6465,7 +6456,6 @@ GRANT ALL ON FUNCTION public.current_tenant_id() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.diagnose_table_permissions() TO anon;
 GRANT ALL ON FUNCTION public.diagnose_table_permissions() TO authenticated;
 GRANT ALL ON FUNCTION public.diagnose_table_permissions() TO service_role;
-GRANT ALL ON FUNCTION public.diagnose_table_permissions() TO sandbox_exec;
 
 
 --
@@ -6475,7 +6465,6 @@ GRANT ALL ON FUNCTION public.diagnose_table_permissions() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.duplicate_campaign(p_campaign_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.duplicate_campaign(p_campaign_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.duplicate_campaign(p_campaign_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.duplicate_campaign(p_campaign_id uuid) TO sandbox_exec;
 
 
 --
@@ -6485,7 +6474,6 @@ GRANT ALL ON FUNCTION public.duplicate_campaign(p_campaign_id uuid) TO sandbox_e
 GRANT ALL ON FUNCTION public.get_campaign_mystery_box_wins(p_campaign_id uuid, p_limit integer) TO anon;
 GRANT ALL ON FUNCTION public.get_campaign_mystery_box_wins(p_campaign_id uuid, p_limit integer) TO authenticated;
 GRANT ALL ON FUNCTION public.get_campaign_mystery_box_wins(p_campaign_id uuid, p_limit integer) TO service_role;
-GRANT ALL ON FUNCTION public.get_campaign_mystery_box_wins(p_campaign_id uuid, p_limit integer) TO sandbox_exec;
 
 
 --
@@ -6495,7 +6483,6 @@ GRANT ALL ON FUNCTION public.get_campaign_mystery_box_wins(p_campaign_id uuid, p
 GRANT ALL ON FUNCTION public.get_campaign_roulette_wins(p_campaign_id uuid, p_limit integer) TO anon;
 GRANT ALL ON FUNCTION public.get_campaign_roulette_wins(p_campaign_id uuid, p_limit integer) TO authenticated;
 GRANT ALL ON FUNCTION public.get_campaign_roulette_wins(p_campaign_id uuid, p_limit integer) TO service_role;
-GRANT ALL ON FUNCTION public.get_campaign_roulette_wins(p_campaign_id uuid, p_limit integer) TO sandbox_exec;
 
 
 --
@@ -6505,7 +6492,6 @@ GRANT ALL ON FUNCTION public.get_campaign_roulette_wins(p_campaign_id uuid, p_li
 GRANT ALL ON FUNCTION public.get_campaign_scratch_wins(p_campaign_id uuid, p_limit integer) TO anon;
 GRANT ALL ON FUNCTION public.get_campaign_scratch_wins(p_campaign_id uuid, p_limit integer) TO authenticated;
 GRANT ALL ON FUNCTION public.get_campaign_scratch_wins(p_campaign_id uuid, p_limit integer) TO service_role;
-GRANT ALL ON FUNCTION public.get_campaign_scratch_wins(p_campaign_id uuid, p_limit integer) TO sandbox_exec;
 
 
 --
@@ -6515,7 +6501,6 @@ GRANT ALL ON FUNCTION public.get_campaign_scratch_wins(p_campaign_id uuid, p_lim
 GRANT ALL ON FUNCTION public.get_order_inconsistencies() TO anon;
 GRANT ALL ON FUNCTION public.get_order_inconsistencies() TO authenticated;
 GRANT ALL ON FUNCTION public.get_order_inconsistencies() TO service_role;
-GRANT ALL ON FUNCTION public.get_order_inconsistencies() TO sandbox_exec;
 
 
 --
@@ -6525,7 +6510,6 @@ GRANT ALL ON FUNCTION public.get_order_inconsistencies() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.handle_affiliate_commission() TO anon;
 GRANT ALL ON FUNCTION public.handle_affiliate_commission() TO authenticated;
 GRANT ALL ON FUNCTION public.handle_affiliate_commission() TO service_role;
-GRANT ALL ON FUNCTION public.handle_affiliate_commission() TO sandbox_exec;
 
 
 --
@@ -6535,7 +6519,6 @@ GRANT ALL ON FUNCTION public.handle_affiliate_commission() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.handle_auth_user_update() TO anon;
 GRANT ALL ON FUNCTION public.handle_auth_user_update() TO authenticated;
 GRANT ALL ON FUNCTION public.handle_auth_user_update() TO service_role;
-GRANT ALL ON FUNCTION public.handle_auth_user_update() TO sandbox_exec;
 
 
 --
@@ -6545,7 +6528,6 @@ GRANT ALL ON FUNCTION public.handle_auth_user_update() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.handle_new_user() TO anon;
 GRANT ALL ON FUNCTION public.handle_new_user() TO authenticated;
 GRANT ALL ON FUNCTION public.handle_new_user() TO service_role;
-GRANT ALL ON FUNCTION public.handle_new_user() TO sandbox_exec;
 
 
 --
@@ -6555,7 +6537,6 @@ GRANT ALL ON FUNCTION public.handle_new_user() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.handle_order_payment(p_order_id uuid, p_payment_id text, p_payment_provider text) TO anon;
 GRANT ALL ON FUNCTION public.handle_order_payment(p_order_id uuid, p_payment_id text, p_payment_provider text) TO authenticated;
 GRANT ALL ON FUNCTION public.handle_order_payment(p_order_id uuid, p_payment_id text, p_payment_provider text) TO service_role;
-GRANT ALL ON FUNCTION public.handle_order_payment(p_order_id uuid, p_payment_id text, p_payment_provider text) TO sandbox_exec;
 
 
 --
@@ -6565,7 +6546,6 @@ GRANT ALL ON FUNCTION public.handle_order_payment(p_order_id uuid, p_payment_id 
 GRANT ALL ON FUNCTION public.has_role(_user_id uuid, _role public.app_role) TO anon;
 GRANT ALL ON FUNCTION public.has_role(_user_id uuid, _role public.app_role) TO authenticated;
 GRANT ALL ON FUNCTION public.has_role(_user_id uuid, _role public.app_role) TO service_role;
-GRANT ALL ON FUNCTION public.has_role(_user_id uuid, _role public.app_role) TO sandbox_exec;
 
 
 --
@@ -6575,7 +6555,6 @@ GRANT ALL ON FUNCTION public.has_role(_user_id uuid, _role public.app_role) TO s
 GRANT ALL ON FUNCTION public.increment_balance(amount numeric, user_uuid uuid) TO anon;
 GRANT ALL ON FUNCTION public.increment_balance(amount numeric, user_uuid uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.increment_balance(amount numeric, user_uuid uuid) TO service_role;
-GRANT ALL ON FUNCTION public.increment_balance(amount numeric, user_uuid uuid) TO sandbox_exec;
 
 
 --
@@ -6585,7 +6564,6 @@ GRANT ALL ON FUNCTION public.increment_balance(amount numeric, user_uuid uuid) T
 GRANT ALL ON FUNCTION public.is_admin(_user_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.is_admin(_user_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.is_admin(_user_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.is_admin(_user_id uuid) TO sandbox_exec;
 
 
 --
@@ -6595,7 +6573,6 @@ GRANT ALL ON FUNCTION public.is_admin(_user_id uuid) TO sandbox_exec;
 GRANT ALL ON FUNCTION public.log_order_creation() TO anon;
 GRANT ALL ON FUNCTION public.log_order_creation() TO authenticated;
 GRANT ALL ON FUNCTION public.log_order_creation() TO service_role;
-GRANT ALL ON FUNCTION public.log_order_creation() TO sandbox_exec;
 
 
 --
@@ -6605,7 +6582,6 @@ GRANT ALL ON FUNCTION public.log_order_creation() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.manual_perform_draw(p_campaign_id uuid, p_ticket_number text, p_prize_index integer) TO anon;
 GRANT ALL ON FUNCTION public.manual_perform_draw(p_campaign_id uuid, p_ticket_number text, p_prize_index integer) TO authenticated;
 GRANT ALL ON FUNCTION public.manual_perform_draw(p_campaign_id uuid, p_ticket_number text, p_prize_index integer) TO service_role;
-GRANT ALL ON FUNCTION public.manual_perform_draw(p_campaign_id uuid, p_ticket_number text, p_prize_index integer) TO sandbox_exec;
 
 
 --
@@ -6615,7 +6591,6 @@ GRANT ALL ON FUNCTION public.manual_perform_draw(p_campaign_id uuid, p_ticket_nu
 GRANT ALL ON FUNCTION public.notify_campaign_draw(p_campaign_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.notify_campaign_draw(p_campaign_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.notify_campaign_draw(p_campaign_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.notify_campaign_draw(p_campaign_id uuid) TO sandbox_exec;
 
 
 --
@@ -6625,7 +6600,6 @@ GRANT ALL ON FUNCTION public.notify_campaign_draw(p_campaign_id uuid) TO sandbox
 GRANT ALL ON FUNCTION public.on_order_paid_notification() TO anon;
 GRANT ALL ON FUNCTION public.on_order_paid_notification() TO authenticated;
 GRANT ALL ON FUNCTION public.on_order_paid_notification() TO service_role;
-GRANT ALL ON FUNCTION public.on_order_paid_notification() TO sandbox_exec;
 
 
 --
@@ -6635,7 +6609,6 @@ GRANT ALL ON FUNCTION public.on_order_paid_notification() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.on_profile_created_notification() TO anon;
 GRANT ALL ON FUNCTION public.on_profile_created_notification() TO authenticated;
 GRANT ALL ON FUNCTION public.on_profile_created_notification() TO service_role;
-GRANT ALL ON FUNCTION public.on_profile_created_notification() TO sandbox_exec;
 
 
 --
@@ -6645,7 +6618,6 @@ GRANT ALL ON FUNCTION public.on_profile_created_notification() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.pay_with_balance(p_order_id uuid, p_user_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.pay_with_balance(p_order_id uuid, p_user_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.pay_with_balance(p_order_id uuid, p_user_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.pay_with_balance(p_order_id uuid, p_user_id uuid) TO sandbox_exec;
 
 
 --
@@ -6655,7 +6627,6 @@ GRANT ALL ON FUNCTION public.pay_with_balance(p_order_id uuid, p_user_id uuid) T
 GRANT ALL ON FUNCTION public.perform_draw(p_campaign_id uuid, p_executed_by uuid, p_prize_index integer, p_allow_unassigned boolean) TO anon;
 GRANT ALL ON FUNCTION public.perform_draw(p_campaign_id uuid, p_executed_by uuid, p_prize_index integer, p_allow_unassigned boolean) TO authenticated;
 GRANT ALL ON FUNCTION public.perform_draw(p_campaign_id uuid, p_executed_by uuid, p_prize_index integer, p_allow_unassigned boolean) TO service_role;
-GRANT ALL ON FUNCTION public.perform_draw(p_campaign_id uuid, p_executed_by uuid, p_prize_index integer, p_allow_unassigned boolean) TO sandbox_exec;
 
 
 --
@@ -6665,7 +6636,6 @@ GRANT ALL ON FUNCTION public.perform_draw(p_campaign_id uuid, p_executed_by uuid
 GRANT ALL ON FUNCTION public.process_lottery_draw_auto() TO anon;
 GRANT ALL ON FUNCTION public.process_lottery_draw_auto() TO authenticated;
 GRANT ALL ON FUNCTION public.process_lottery_draw_auto() TO service_role;
-GRANT ALL ON FUNCTION public.process_lottery_draw_auto() TO sandbox_exec;
 
 
 --
@@ -6675,7 +6645,6 @@ GRANT ALL ON FUNCTION public.process_lottery_draw_auto() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.process_mystery_box_open(p_config_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.process_mystery_box_open(p_config_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.process_mystery_box_open(p_config_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.process_mystery_box_open(p_config_id uuid) TO sandbox_exec;
 
 
 --
@@ -6685,7 +6654,6 @@ GRANT ALL ON FUNCTION public.process_mystery_box_open(p_config_id uuid) TO sandb
 GRANT ALL ON FUNCTION public.process_overdue_lucky_hours() TO anon;
 GRANT ALL ON FUNCTION public.process_overdue_lucky_hours() TO authenticated;
 GRANT ALL ON FUNCTION public.process_overdue_lucky_hours() TO service_role;
-GRANT ALL ON FUNCTION public.process_overdue_lucky_hours() TO sandbox_exec;
 
 
 --
@@ -6695,7 +6663,6 @@ GRANT ALL ON FUNCTION public.process_overdue_lucky_hours() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.process_paid_order() TO anon;
 GRANT ALL ON FUNCTION public.process_paid_order() TO authenticated;
 GRANT ALL ON FUNCTION public.process_paid_order() TO service_role;
-GRANT ALL ON FUNCTION public.process_paid_order() TO sandbox_exec;
 
 
 --
@@ -6705,7 +6672,6 @@ GRANT ALL ON FUNCTION public.process_paid_order() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.process_roulette_spin(p_campaign_id uuid, p_multiplier integer) TO anon;
 GRANT ALL ON FUNCTION public.process_roulette_spin(p_campaign_id uuid, p_multiplier integer) TO authenticated;
 GRANT ALL ON FUNCTION public.process_roulette_spin(p_campaign_id uuid, p_multiplier integer) TO service_role;
-GRANT ALL ON FUNCTION public.process_roulette_spin(p_campaign_id uuid, p_multiplier integer) TO sandbox_exec;
 
 
 --
@@ -6715,7 +6681,6 @@ GRANT ALL ON FUNCTION public.process_roulette_spin(p_campaign_id uuid, p_multipl
 GRANT ALL ON FUNCTION public.process_scratch_card_play(p_campaign_id uuid, p_cost numeric) TO anon;
 GRANT ALL ON FUNCTION public.process_scratch_card_play(p_campaign_id uuid, p_cost numeric) TO authenticated;
 GRANT ALL ON FUNCTION public.process_scratch_card_play(p_campaign_id uuid, p_cost numeric) TO service_role;
-GRANT ALL ON FUNCTION public.process_scratch_card_play(p_campaign_id uuid, p_cost numeric) TO sandbox_exec;
 
 
 --
@@ -6725,7 +6690,6 @@ GRANT ALL ON FUNCTION public.process_scratch_card_play(p_campaign_id uuid, p_cos
 GRANT ALL ON FUNCTION public.protect_profile_fields() TO anon;
 GRANT ALL ON FUNCTION public.protect_profile_fields() TO authenticated;
 GRANT ALL ON FUNCTION public.protect_profile_fields() TO service_role;
-GRANT ALL ON FUNCTION public.protect_profile_fields() TO sandbox_exec;
 
 
 --
@@ -6735,7 +6699,6 @@ GRANT ALL ON FUNCTION public.protect_profile_fields() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.record_purchase_log(p_order_id uuid, p_event_type text, p_message text, p_metadata jsonb) TO anon;
 GRANT ALL ON FUNCTION public.record_purchase_log(p_order_id uuid, p_event_type text, p_message text, p_metadata jsonb) TO authenticated;
 GRANT ALL ON FUNCTION public.record_purchase_log(p_order_id uuid, p_event_type text, p_message text, p_metadata jsonb) TO service_role;
-GRANT ALL ON FUNCTION public.record_purchase_log(p_order_id uuid, p_event_type text, p_message text, p_metadata jsonb) TO sandbox_exec;
 
 
 --
@@ -6745,7 +6708,6 @@ GRANT ALL ON FUNCTION public.record_purchase_log(p_order_id uuid, p_event_type t
 GRANT ALL ON FUNCTION public.release_expired_tickets() TO anon;
 GRANT ALL ON FUNCTION public.release_expired_tickets() TO authenticated;
 GRANT ALL ON FUNCTION public.release_expired_tickets() TO service_role;
-GRANT ALL ON FUNCTION public.release_expired_tickets() TO sandbox_exec;
 
 
 --
@@ -6755,7 +6717,6 @@ GRANT ALL ON FUNCTION public.release_expired_tickets() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.repair_order(p_order_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.repair_order(p_order_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.repair_order(p_order_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.repair_order(p_order_id uuid) TO sandbox_exec;
 
 
 --
@@ -6765,7 +6726,6 @@ GRANT ALL ON FUNCTION public.repair_order(p_order_id uuid) TO sandbox_exec;
 GRANT ALL ON FUNCTION public.reprocess_order_prizes(p_order_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.reprocess_order_prizes(p_order_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.reprocess_order_prizes(p_order_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.reprocess_order_prizes(p_order_id uuid) TO sandbox_exec;
 
 
 --
@@ -6775,7 +6735,6 @@ GRANT ALL ON FUNCTION public.reprocess_order_prizes(p_order_id uuid) TO sandbox_
 GRANT ALL ON FUNCTION public.reserve_tickets(p_campaign_id uuid, p_user_id uuid, p_quantity integer, p_numbers text[], p_affiliate_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.reserve_tickets(p_campaign_id uuid, p_user_id uuid, p_quantity integer, p_numbers text[], p_affiliate_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.reserve_tickets(p_campaign_id uuid, p_user_id uuid, p_quantity integer, p_numbers text[], p_affiliate_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.reserve_tickets(p_campaign_id uuid, p_user_id uuid, p_quantity integer, p_numbers text[], p_affiliate_id uuid) TO sandbox_exec;
 
 
 --
@@ -6785,7 +6744,6 @@ GRANT ALL ON FUNCTION public.reserve_tickets(p_campaign_id uuid, p_user_id uuid,
 GRANT ALL ON FUNCTION public.reveal_gift_results(p_campaign_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.reveal_gift_results(p_campaign_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.reveal_gift_results(p_campaign_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.reveal_gift_results(p_campaign_id uuid) TO sandbox_exec;
 
 
 --
@@ -6795,7 +6753,6 @@ GRANT ALL ON FUNCTION public.reveal_gift_results(p_campaign_id uuid) TO sandbox_
 GRANT ALL ON FUNCTION public.run_lucky_hour_draw(p_lucky_hour_id uuid) TO anon;
 GRANT ALL ON FUNCTION public.run_lucky_hour_draw(p_lucky_hour_id uuid) TO authenticated;
 GRANT ALL ON FUNCTION public.run_lucky_hour_draw(p_lucky_hour_id uuid) TO service_role;
-GRANT ALL ON FUNCTION public.run_lucky_hour_draw(p_lucky_hour_id uuid) TO sandbox_exec;
 
 
 --
@@ -6805,7 +6762,6 @@ GRANT ALL ON FUNCTION public.run_lucky_hour_draw(p_lucky_hour_id uuid) TO sandbo
 GRANT ALL ON FUNCTION public.set_tenant_id_on_insert() TO anon;
 GRANT ALL ON FUNCTION public.set_tenant_id_on_insert() TO authenticated;
 GRANT ALL ON FUNCTION public.set_tenant_id_on_insert() TO service_role;
-GRANT ALL ON FUNCTION public.set_tenant_id_on_insert() TO sandbox_exec;
 
 
 --
@@ -6815,7 +6771,6 @@ GRANT ALL ON FUNCTION public.set_tenant_id_on_insert() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.slugify(input text) TO anon;
 GRANT ALL ON FUNCTION public.slugify(input text) TO authenticated;
 GRANT ALL ON FUNCTION public.slugify(input text) TO service_role;
-GRANT ALL ON FUNCTION public.slugify(input text) TO sandbox_exec;
 
 
 --
@@ -6825,7 +6780,6 @@ GRANT ALL ON FUNCTION public.slugify(input text) TO sandbox_exec;
 GRANT ALL ON FUNCTION public.sync_federal_lottery() TO anon;
 GRANT ALL ON FUNCTION public.sync_federal_lottery() TO authenticated;
 GRANT ALL ON FUNCTION public.sync_federal_lottery() TO service_role;
-GRANT ALL ON FUNCTION public.sync_federal_lottery() TO sandbox_exec;
 
 
 --
@@ -6835,7 +6789,6 @@ GRANT ALL ON FUNCTION public.sync_federal_lottery() TO sandbox_exec;
 GRANT ALL ON FUNCTION public.update_updated_at_column() TO anon;
 GRANT ALL ON FUNCTION public.update_updated_at_column() TO authenticated;
 GRANT ALL ON FUNCTION public.update_updated_at_column() TO service_role;
-GRANT ALL ON FUNCTION public.update_updated_at_column() TO sandbox_exec;
 
 
 --
@@ -6845,7 +6798,6 @@ GRANT ALL ON FUNCTION public.update_updated_at_column() TO sandbox_exec;
 GRANT ALL ON TABLE public.admin_features_config TO anon;
 GRANT ALL ON TABLE public.admin_features_config TO authenticated;
 GRANT ALL ON TABLE public.admin_features_config TO service_role;
-GRANT SELECT,INSERT ON TABLE public.admin_features_config TO sandbox_exec;
 
 
 --
@@ -6855,7 +6807,6 @@ GRANT SELECT,INSERT ON TABLE public.admin_features_config TO sandbox_exec;
 GRANT ALL ON TABLE public.affiliate_clicks TO anon;
 GRANT ALL ON TABLE public.affiliate_clicks TO authenticated;
 GRANT ALL ON TABLE public.affiliate_clicks TO service_role;
-GRANT SELECT,INSERT ON TABLE public.affiliate_clicks TO sandbox_exec;
 
 
 --
@@ -6865,7 +6816,6 @@ GRANT SELECT,INSERT ON TABLE public.affiliate_clicks TO sandbox_exec;
 GRANT ALL ON TABLE public.affiliate_commissions TO anon;
 GRANT ALL ON TABLE public.affiliate_commissions TO authenticated;
 GRANT ALL ON TABLE public.affiliate_commissions TO service_role;
-GRANT SELECT,INSERT ON TABLE public.affiliate_commissions TO sandbox_exec;
 
 
 --
@@ -6875,7 +6825,6 @@ GRANT SELECT,INSERT ON TABLE public.affiliate_commissions TO sandbox_exec;
 GRANT ALL ON TABLE public.affiliates TO anon;
 GRANT ALL ON TABLE public.affiliates TO authenticated;
 GRANT ALL ON TABLE public.affiliates TO service_role;
-GRANT SELECT,INSERT ON TABLE public.affiliates TO sandbox_exec;
 
 
 --
@@ -6885,7 +6834,6 @@ GRANT SELECT,INSERT ON TABLE public.affiliates TO sandbox_exec;
 GRANT ALL ON TABLE public.announcements TO anon;
 GRANT ALL ON TABLE public.announcements TO authenticated;
 GRANT ALL ON TABLE public.announcements TO service_role;
-GRANT SELECT,INSERT ON TABLE public.announcements TO sandbox_exec;
 
 
 --
@@ -6895,7 +6843,6 @@ GRANT SELECT,INSERT ON TABLE public.announcements TO sandbox_exec;
 GRANT ALL ON TABLE public.app_versions TO anon;
 GRANT ALL ON TABLE public.app_versions TO authenticated;
 GRANT ALL ON TABLE public.app_versions TO service_role;
-GRANT SELECT,INSERT ON TABLE public.app_versions TO sandbox_exec;
 
 
 --
@@ -6905,7 +6852,6 @@ GRANT SELECT,INSERT ON TABLE public.app_versions TO sandbox_exec;
 GRANT ALL ON TABLE public.auth_audit_logs TO anon;
 GRANT ALL ON TABLE public.auth_audit_logs TO authenticated;
 GRANT ALL ON TABLE public.auth_audit_logs TO service_role;
-GRANT SELECT,INSERT ON TABLE public.auth_audit_logs TO sandbox_exec;
 
 
 --
@@ -6915,7 +6861,6 @@ GRANT SELECT,INSERT ON TABLE public.auth_audit_logs TO sandbox_exec;
 GRANT ALL ON TABLE public.banners TO anon;
 GRANT ALL ON TABLE public.banners TO authenticated;
 GRANT ALL ON TABLE public.banners TO service_role;
-GRANT SELECT,INSERT ON TABLE public.banners TO sandbox_exec;
 
 
 --
@@ -6925,7 +6870,6 @@ GRANT SELECT,INSERT ON TABLE public.banners TO sandbox_exec;
 GRANT ALL ON TABLE public.campaign_gift_prizes TO anon;
 GRANT ALL ON TABLE public.campaign_gift_prizes TO authenticated;
 GRANT ALL ON TABLE public.campaign_gift_prizes TO service_role;
-GRANT SELECT,INSERT ON TABLE public.campaign_gift_prizes TO sandbox_exec;
 
 
 --
@@ -6935,7 +6879,6 @@ GRANT SELECT,INSERT ON TABLE public.campaign_gift_prizes TO sandbox_exec;
 GRANT ALL ON TABLE public.campaigns TO anon;
 GRANT ALL ON TABLE public.campaigns TO authenticated;
 GRANT ALL ON TABLE public.campaigns TO service_role;
-GRANT SELECT,INSERT ON TABLE public.campaigns TO sandbox_exec;
 
 
 --
@@ -6945,7 +6888,6 @@ GRANT SELECT,INSERT ON TABLE public.campaigns TO sandbox_exec;
 GRANT ALL ON TABLE public.orders TO anon;
 GRANT ALL ON TABLE public.orders TO authenticated;
 GRANT ALL ON TABLE public.orders TO service_role;
-GRANT SELECT,INSERT ON TABLE public.orders TO sandbox_exec;
 
 
 --
@@ -6955,7 +6897,6 @@ GRANT SELECT,INSERT ON TABLE public.orders TO sandbox_exec;
 GRANT ALL ON TABLE public.profiles TO anon;
 GRANT ALL ON TABLE public.profiles TO authenticated;
 GRANT ALL ON TABLE public.profiles TO service_role;
-GRANT SELECT,INSERT ON TABLE public.profiles TO sandbox_exec;
 
 
 --
@@ -6965,7 +6906,6 @@ GRANT SELECT,INSERT ON TABLE public.profiles TO sandbox_exec;
 GRANT ALL ON TABLE public.campaign_gift_prizes_public TO anon;
 GRANT ALL ON TABLE public.campaign_gift_prizes_public TO authenticated;
 GRANT ALL ON TABLE public.campaign_gift_prizes_public TO service_role;
-GRANT SELECT,INSERT ON TABLE public.campaign_gift_prizes_public TO sandbox_exec;
 
 
 --
@@ -6975,7 +6915,6 @@ GRANT SELECT,INSERT ON TABLE public.campaign_gift_prizes_public TO sandbox_exec;
 GRANT ALL ON TABLE public.coupons TO anon;
 GRANT ALL ON TABLE public.coupons TO authenticated;
 GRANT ALL ON TABLE public.coupons TO service_role;
-GRANT SELECT,INSERT ON TABLE public.coupons TO sandbox_exec;
 
 
 --
@@ -6985,7 +6924,6 @@ GRANT SELECT,INSERT ON TABLE public.coupons TO sandbox_exec;
 GRANT ALL ON TABLE public.custom_presets TO anon;
 GRANT ALL ON TABLE public.custom_presets TO authenticated;
 GRANT ALL ON TABLE public.custom_presets TO service_role;
-GRANT SELECT,INSERT ON TABLE public.custom_presets TO sandbox_exec;
 
 
 --
@@ -6995,7 +6933,6 @@ GRANT SELECT,INSERT ON TABLE public.custom_presets TO sandbox_exec;
 GRANT ALL ON TABLE public.draw_logs TO anon;
 GRANT ALL ON TABLE public.draw_logs TO authenticated;
 GRANT ALL ON TABLE public.draw_logs TO service_role;
-GRANT SELECT,INSERT ON TABLE public.draw_logs TO sandbox_exec;
 
 
 --
@@ -7005,7 +6942,6 @@ GRANT SELECT,INSERT ON TABLE public.draw_logs TO sandbox_exec;
 GRANT ALL ON TABLE public.federal_lottery_results TO anon;
 GRANT ALL ON TABLE public.federal_lottery_results TO authenticated;
 GRANT ALL ON TABLE public.federal_lottery_results TO service_role;
-GRANT SELECT,INSERT ON TABLE public.federal_lottery_results TO sandbox_exec;
 
 
 --
@@ -7015,7 +6951,6 @@ GRANT SELECT,INSERT ON TABLE public.federal_lottery_results TO sandbox_exec;
 GRANT ALL ON TABLE public.lucky_hours TO anon;
 GRANT ALL ON TABLE public.lucky_hours TO authenticated;
 GRANT ALL ON TABLE public.lucky_hours TO service_role;
-GRANT SELECT,INSERT ON TABLE public.lucky_hours TO sandbox_exec;
 
 
 --
@@ -7025,7 +6960,6 @@ GRANT SELECT,INSERT ON TABLE public.lucky_hours TO sandbox_exec;
 GRANT ALL ON TABLE public.lucky_hours_public TO anon;
 GRANT ALL ON TABLE public.lucky_hours_public TO authenticated;
 GRANT ALL ON TABLE public.lucky_hours_public TO service_role;
-GRANT SELECT,INSERT ON TABLE public.lucky_hours_public TO sandbox_exec;
 
 
 --
@@ -7035,7 +6969,6 @@ GRANT SELECT,INSERT ON TABLE public.lucky_hours_public TO sandbox_exec;
 GRANT ALL ON TABLE public.mystery_box_configs TO anon;
 GRANT ALL ON TABLE public.mystery_box_configs TO authenticated;
 GRANT ALL ON TABLE public.mystery_box_configs TO service_role;
-GRANT SELECT,INSERT ON TABLE public.mystery_box_configs TO sandbox_exec;
 
 
 --
@@ -7045,7 +6978,6 @@ GRANT SELECT,INSERT ON TABLE public.mystery_box_configs TO sandbox_exec;
 GRANT ALL ON TABLE public.mystery_box_prizes TO anon;
 GRANT ALL ON TABLE public.mystery_box_prizes TO authenticated;
 GRANT ALL ON TABLE public.mystery_box_prizes TO service_role;
-GRANT SELECT,INSERT ON TABLE public.mystery_box_prizes TO sandbox_exec;
 
 
 --
@@ -7055,7 +6987,6 @@ GRANT SELECT,INSERT ON TABLE public.mystery_box_prizes TO sandbox_exec;
 GRANT ALL ON TABLE public.mystery_box_wins TO anon;
 GRANT ALL ON TABLE public.mystery_box_wins TO authenticated;
 GRANT ALL ON TABLE public.mystery_box_wins TO service_role;
-GRANT SELECT,INSERT ON TABLE public.mystery_box_wins TO sandbox_exec;
 
 
 --
@@ -7065,7 +6996,6 @@ GRANT SELECT,INSERT ON TABLE public.mystery_box_wins TO sandbox_exec;
 GRANT ALL ON TABLE public.mystery_boxes TO anon;
 GRANT ALL ON TABLE public.mystery_boxes TO authenticated;
 GRANT ALL ON TABLE public.mystery_boxes TO service_role;
-GRANT SELECT,INSERT ON TABLE public.mystery_boxes TO sandbox_exec;
 
 
 --
@@ -7075,7 +7005,6 @@ GRANT SELECT,INSERT ON TABLE public.mystery_boxes TO sandbox_exec;
 GRANT ALL ON TABLE public.notifications TO anon;
 GRANT ALL ON TABLE public.notifications TO authenticated;
 GRANT ALL ON TABLE public.notifications TO service_role;
-GRANT SELECT,INSERT ON TABLE public.notifications TO sandbox_exec;
 
 
 --
@@ -7085,7 +7014,6 @@ GRANT SELECT,INSERT ON TABLE public.notifications TO sandbox_exec;
 GRANT ALL ON TABLE public.orders_public_ranking TO anon;
 GRANT ALL ON TABLE public.orders_public_ranking TO authenticated;
 GRANT ALL ON TABLE public.orders_public_ranking TO service_role;
-GRANT SELECT,INSERT ON TABLE public.orders_public_ranking TO sandbox_exec;
 
 
 --
@@ -7095,7 +7023,6 @@ GRANT SELECT,INSERT ON TABLE public.orders_public_ranking TO sandbox_exec;
 GRANT ALL ON TABLE public.payment_failures TO anon;
 GRANT ALL ON TABLE public.payment_failures TO authenticated;
 GRANT ALL ON TABLE public.payment_failures TO service_role;
-GRANT SELECT,INSERT ON TABLE public.payment_failures TO sandbox_exec;
 
 
 --
@@ -7105,7 +7032,6 @@ GRANT SELECT,INSERT ON TABLE public.payment_failures TO sandbox_exec;
 GRANT ALL ON TABLE public.processed_webhooks TO anon;
 GRANT ALL ON TABLE public.processed_webhooks TO authenticated;
 GRANT ALL ON TABLE public.processed_webhooks TO service_role;
-GRANT SELECT,INSERT ON TABLE public.processed_webhooks TO sandbox_exec;
 
 
 --
@@ -7115,7 +7041,6 @@ GRANT SELECT,INSERT ON TABLE public.processed_webhooks TO sandbox_exec;
 GRANT ALL ON TABLE public.purchase_logs TO anon;
 GRANT ALL ON TABLE public.purchase_logs TO authenticated;
 GRANT ALL ON TABLE public.purchase_logs TO service_role;
-GRANT SELECT,INSERT ON TABLE public.purchase_logs TO sandbox_exec;
 
 
 --
@@ -7125,7 +7050,6 @@ GRANT SELECT,INSERT ON TABLE public.purchase_logs TO sandbox_exec;
 GRANT ALL ON TABLE public.push_notifications TO anon;
 GRANT ALL ON TABLE public.push_notifications TO authenticated;
 GRANT ALL ON TABLE public.push_notifications TO service_role;
-GRANT SELECT,INSERT ON TABLE public.push_notifications TO sandbox_exec;
 
 
 --
@@ -7135,7 +7059,6 @@ GRANT SELECT,INSERT ON TABLE public.push_notifications TO sandbox_exec;
 GRANT ALL ON TABLE public.roulette_prizes TO anon;
 GRANT ALL ON TABLE public.roulette_prizes TO authenticated;
 GRANT ALL ON TABLE public.roulette_prizes TO service_role;
-GRANT SELECT,INSERT ON TABLE public.roulette_prizes TO sandbox_exec;
 
 
 --
@@ -7145,7 +7068,6 @@ GRANT SELECT,INSERT ON TABLE public.roulette_prizes TO sandbox_exec;
 GRANT ALL ON TABLE public.roulette_spins TO anon;
 GRANT ALL ON TABLE public.roulette_spins TO authenticated;
 GRANT ALL ON TABLE public.roulette_spins TO service_role;
-GRANT SELECT,INSERT ON TABLE public.roulette_spins TO sandbox_exec;
 
 
 --
@@ -7155,7 +7077,6 @@ GRANT SELECT,INSERT ON TABLE public.roulette_spins TO sandbox_exec;
 GRANT ALL ON TABLE public.scratch_card_prizes TO anon;
 GRANT ALL ON TABLE public.scratch_card_prizes TO authenticated;
 GRANT ALL ON TABLE public.scratch_card_prizes TO service_role;
-GRANT SELECT,INSERT ON TABLE public.scratch_card_prizes TO sandbox_exec;
 
 
 --
@@ -7165,7 +7086,6 @@ GRANT SELECT,INSERT ON TABLE public.scratch_card_prizes TO sandbox_exec;
 GRANT ALL ON TABLE public.scratch_card_scratches TO anon;
 GRANT ALL ON TABLE public.scratch_card_scratches TO authenticated;
 GRANT ALL ON TABLE public.scratch_card_scratches TO service_role;
-GRANT SELECT,INSERT ON TABLE public.scratch_card_scratches TO sandbox_exec;
 
 
 --
@@ -7175,7 +7095,6 @@ GRANT SELECT,INSERT ON TABLE public.scratch_card_scratches TO sandbox_exec;
 GRANT ALL ON TABLE public.site_settings TO anon;
 GRANT ALL ON TABLE public.site_settings TO authenticated;
 GRANT ALL ON TABLE public.site_settings TO service_role;
-GRANT SELECT,INSERT ON TABLE public.site_settings TO sandbox_exec;
 
 
 --
@@ -7185,7 +7104,6 @@ GRANT SELECT,INSERT ON TABLE public.site_settings TO sandbox_exec;
 GRANT ALL ON TABLE public.tenant_domains TO anon;
 GRANT ALL ON TABLE public.tenant_domains TO authenticated;
 GRANT ALL ON TABLE public.tenant_domains TO service_role;
-GRANT SELECT,INSERT ON TABLE public.tenant_domains TO sandbox_exec;
 
 
 --
@@ -7195,7 +7113,6 @@ GRANT SELECT,INSERT ON TABLE public.tenant_domains TO sandbox_exec;
 GRANT ALL ON TABLE public.tenant_settings TO anon;
 GRANT ALL ON TABLE public.tenant_settings TO authenticated;
 GRANT ALL ON TABLE public.tenant_settings TO service_role;
-GRANT SELECT,INSERT ON TABLE public.tenant_settings TO sandbox_exec;
 
 
 --
@@ -7205,7 +7122,6 @@ GRANT SELECT,INSERT ON TABLE public.tenant_settings TO sandbox_exec;
 GRANT ALL ON TABLE public.tenants TO anon;
 GRANT ALL ON TABLE public.tenants TO authenticated;
 GRANT ALL ON TABLE public.tenants TO service_role;
-GRANT SELECT,INSERT ON TABLE public.tenants TO sandbox_exec;
 
 
 --
@@ -7215,7 +7131,6 @@ GRANT SELECT,INSERT ON TABLE public.tenants TO sandbox_exec;
 GRANT ALL ON TABLE public.tickets TO anon;
 GRANT ALL ON TABLE public.tickets TO authenticated;
 GRANT ALL ON TABLE public.tickets TO service_role;
-GRANT SELECT,INSERT ON TABLE public.tickets TO sandbox_exec;
 
 
 --
@@ -7225,7 +7140,6 @@ GRANT SELECT,INSERT ON TABLE public.tickets TO sandbox_exec;
 GRANT ALL ON TABLE public.tickets_public TO anon;
 GRANT ALL ON TABLE public.tickets_public TO authenticated;
 GRANT ALL ON TABLE public.tickets_public TO service_role;
-GRANT SELECT,INSERT ON TABLE public.tickets_public TO sandbox_exec;
 
 
 --
@@ -7235,7 +7149,6 @@ GRANT SELECT,INSERT ON TABLE public.tickets_public TO sandbox_exec;
 GRANT ALL ON TABLE public.user_achievements TO anon;
 GRANT ALL ON TABLE public.user_achievements TO authenticated;
 GRANT ALL ON TABLE public.user_achievements TO service_role;
-GRANT SELECT,INSERT ON TABLE public.user_achievements TO sandbox_exec;
 
 
 --
@@ -7245,7 +7158,6 @@ GRANT SELECT,INSERT ON TABLE public.user_achievements TO sandbox_exec;
 GRANT ALL ON TABLE public.user_rewards TO anon;
 GRANT ALL ON TABLE public.user_rewards TO authenticated;
 GRANT ALL ON TABLE public.user_rewards TO service_role;
-GRANT SELECT,INSERT ON TABLE public.user_rewards TO sandbox_exec;
 
 
 --
@@ -7255,7 +7167,6 @@ GRANT SELECT,INSERT ON TABLE public.user_rewards TO sandbox_exec;
 GRANT ALL ON TABLE public.user_roles TO anon;
 GRANT ALL ON TABLE public.user_roles TO authenticated;
 GRANT ALL ON TABLE public.user_roles TO service_role;
-GRANT SELECT,INSERT ON TABLE public.user_roles TO sandbox_exec;
 
 
 --
@@ -7265,7 +7176,6 @@ GRANT SELECT,INSERT ON TABLE public.user_roles TO sandbox_exec;
 GRANT ALL ON TABLE public.wallet_transactions TO anon;
 GRANT ALL ON TABLE public.wallet_transactions TO authenticated;
 GRANT ALL ON TABLE public.wallet_transactions TO service_role;
-GRANT SELECT,INSERT ON TABLE public.wallet_transactions TO sandbox_exec;
 
 
 --
@@ -7275,7 +7185,6 @@ GRANT SELECT,INSERT ON TABLE public.wallet_transactions TO sandbox_exec;
 GRANT ALL ON TABLE public.webhook_events TO anon;
 GRANT ALL ON TABLE public.webhook_events TO authenticated;
 GRANT ALL ON TABLE public.webhook_events TO service_role;
-GRANT SELECT,INSERT ON TABLE public.webhook_events TO sandbox_exec;
 
 
 --
@@ -7285,7 +7194,6 @@ GRANT SELECT,INSERT ON TABLE public.webhook_events TO sandbox_exec;
 GRANT ALL ON TABLE public.winners TO anon;
 GRANT ALL ON TABLE public.winners TO authenticated;
 GRANT ALL ON TABLE public.winners TO service_role;
-GRANT SELECT,INSERT ON TABLE public.winners TO sandbox_exec;
 
 
 --
@@ -7296,7 +7204,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON SEQUENC
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON SEQUENCES TO anon;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON SEQUENCES TO authenticated;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON SEQUENCES TO service_role;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT SELECT,USAGE ON SEQUENCES TO sandbox_exec;
 
 
 --
@@ -7317,7 +7224,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON FUNCTIO
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON FUNCTIONS TO anon;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON FUNCTIONS TO authenticated;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON FUNCTIONS TO service_role;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON FUNCTIONS TO sandbox_exec;
 
 
 --
@@ -7338,7 +7244,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON TABLES 
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON TABLES TO anon;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON TABLES TO authenticated;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON TABLES TO service_role;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT SELECT,INSERT ON TABLES TO sandbox_exec;
 
 
 --
