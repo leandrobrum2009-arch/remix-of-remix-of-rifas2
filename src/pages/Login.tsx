@@ -18,9 +18,32 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
   const { signIn } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const target = resetEmail.trim();
+    if (!target) return;
+    setResetLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(target, {
+      redirectTo: `${window.location.origin}/redefinir-senha`,
+    });
+    setResetLoading(false);
+    if (error) {
+      toast({ title: "Não foi possível enviar", description: error.message, variant: "destructive" });
+      return;
+    }
+    setResetOpen(false);
+    toast({
+      title: "E-mail enviado",
+      description: "Verifique sua caixa de entrada (e o spam) para criar uma nova senha.",
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
