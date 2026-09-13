@@ -119,6 +119,36 @@ const Login = () => {
           </p>
         </motion.div>
       </div>
+
+      <Dialog open={resetOpen} onOpenChange={setResetOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Recuperar senha</DialogTitle>
+            <DialogDescription>
+              Informe o e-mail da sua conta e enviaremos um link para criar uma nova senha.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleResetPassword} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="reset-email">E-mail</Label>
+              <Input
+                id="reset-email"
+                type="email"
+                value={resetEmail}
+                onChange={(e) => setResetEmail(e.target.value)}
+                placeholder="seu@email.com"
+                required
+              />
+            </div>
+            <DialogFooter>
+              <Button type="submit" className="w-full font-semibold" disabled={resetLoading}>
+                {resetLoading ? "Enviando..." : "Enviar link"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
