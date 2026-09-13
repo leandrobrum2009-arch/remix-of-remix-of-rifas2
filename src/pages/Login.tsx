@@ -11,6 +11,15 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useSiteSettings } from "@/hooks/useData";
 import { SEO } from "@/components/SEO";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Login = () => {
   const { data: siteSettings } = useSiteSettings();
@@ -18,9 +27,32 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
   const { signIn } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const target = resetEmail.trim();
+    if (!target) return;
+    setResetLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(target, {
+      redirectTo: `${window.location.origin}/redefinir-senha`,
+    });
+    setResetLoading(false);
+    if (error) {
+      toast({ title: "Não foi possível enviar", description: error.message, variant: "destructive" });
+      return;
+    }
+    setResetOpen(false);
+    toast({
+      title: "E-mail enviado",
+      description: "Verifique sua caixa de entrada (e o spam) para criar uma nova senha.",
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,7 +90,16 @@ const Login = () => {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Senha</Label>
-                <a href="#" className="text-xs text-primary hover:underline">Esqueceu a senha?</a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setResetEmail(email);
+                    setResetOpen(true);
+                  }}
+                  className="text-xs text-primary hover:underline"
+                >
+                  Esqueceu a senha?
+                </button>
               </div>
               <div className="relative">
                 <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Sua senha" required />
@@ -78,6 +119,36 @@ const Login = () => {
           </p>
         </motion.div>
       </div>
+
+      <Dialog open={resetOpen} onOpenChange={setResetOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Recuperar senha</DialogTitle>
+            <DialogDescription>
+              Informe o e-mail da sua conta e enviaremos um link para criar uma nova senha.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleResetPassword} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="reset-email">E-mail</Label>
+              <Input
+                id="reset-email"
+                type="email"
+                value={resetEmail}
+                onChange={(e) => setResetEmail(e.target.value)}
+                placeholder="seu@email.com"
+                required
+              />
+            </div>
+            <DialogFooter>
+              <Button type="submit" className="w-full font-semibold" disabled={resetLoading}>
+                {resetLoading ? "Enviando..." : "Enviar link"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );

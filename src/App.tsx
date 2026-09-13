@@ -52,6 +52,7 @@ import SalesPage from "./pages/SalesPage";
 import CampaignDetail from "./pages/CampaignDetail";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
 import Winners from "./pages/Winners";
 import Preview from "./pages/Preview";
 import Announcements from "./pages/Announcements";
@@ -179,6 +180,7 @@ const AppContent = () => {
           <Route path="/ações/:id" element={<CampaignRedirect />} />
           <Route path="/cadastrar" element={<Register />} />
           <Route path="/entrar" element={<Login />} />
+          <Route path="/redefinir-senha" element={<ResetPassword />} />
           <Route path="/ganhadores" element={<Winners />} />
           <Route path="/resultado-federal" element={<FederalResults />} />
           <Route path="/federal" element={<Navigate to="/resultado-federal" replace />} />
