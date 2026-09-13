@@ -8,7 +8,7 @@ import raylaLogo from "@/assets/raylla-logo.png.asset.json";
 export const DEFAULT_SITE_NAME = "Raylla Premiações";
 export const DEFAULT_SITE_LOGO_URL = raylaLogo.url;
 
-export const FORCE_CODE_BRANDING = true;
+export const FORCE_CODE_BRANDING = false;
 
 export const resolveSiteName = (value?: string | null) => {
   if (FORCE_CODE_BRANDING) return DEFAULT_SITE_NAME;
