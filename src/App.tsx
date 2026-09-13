@@ -180,6 +180,7 @@ const AppContent = () => {
           <Route path="/ações/:id" element={<CampaignRedirect />} />
           <Route path="/cadastrar" element={<Register />} />
           <Route path="/entrar" element={<Login />} />
+          <Route path="/redefinir-senha" element={<ResetPassword />} />
           <Route path="/ganhadores" element={<Winners />} />
           <Route path="/resultado-federal" element={<FederalResults />} />
           <Route path="/federal" element={<Navigate to="/resultado-federal" replace />} />
