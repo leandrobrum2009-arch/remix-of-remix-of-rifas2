@@ -11,6 +11,15 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useSiteSettings } from "@/hooks/useData";
 import { SEO } from "@/components/SEO";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Login = () => {
   const { data: siteSettings } = useSiteSettings();
