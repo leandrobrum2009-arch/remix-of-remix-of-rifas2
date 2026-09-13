@@ -52,6 +52,7 @@ import SalesPage from "./pages/SalesPage";
 import CampaignDetail from "./pages/CampaignDetail";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
 import Winners from "./pages/Winners";
 import Preview from "./pages/Preview";
 import Announcements from "./pages/Announcements";
